@@ -1,0 +1,24 @@
+# Visual Studio:
+**/Debug/
+**/Release/
+*.user
+*.suo
+*.VC.db
+*.VC.opendb
+
+# Build outputs
+*.exe
+*.obj
+*.o
+*.dll
+
+# CMake builds
+CMakeFiles/
+CMakeCache.txt
+build/
+
+# Mac/VSCode
+.vscode/
+
+# Visual Studio workspace files
+.vs/
