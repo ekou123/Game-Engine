@@ -65,7 +65,7 @@ void TileMap::render(SDL_Renderer* renderer,
     SDL_Texture* tileTexture,
     const Camera& camera)
 {
-    std::cout << "Chunk Manager: " << chunkManager << " wx: " << camera.x << " wy: " << camera.y << std::endl;
+    //std::cout << "Chunk Manager: " << chunkManager << " wx: " << camera.x << " wy: " << camera.y << std::endl;
     // 1) compute which tiles the camera actually covers
     int startTileX = camera.x / TILE_SIZE;
     int startTileY = camera.y / TILE_SIZE;

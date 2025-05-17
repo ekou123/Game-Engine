@@ -146,6 +146,12 @@
     <ClInclude Include="ChunkManager.h">
       <Filter>Source Files\Engine\Chunks</Filter>
     </ClInclude>
+    <ClInclude Include="FastNoiseLite.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PerlinNoise.h">
+      <Filter>Source Files\Engine\Chunks</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="tileset2.bmp">
