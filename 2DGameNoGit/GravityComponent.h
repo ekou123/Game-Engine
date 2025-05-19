@@ -5,6 +5,7 @@
 #include "Constants.h"
 #include "MapComponent.h"
 #include "TileMap.h"
+#include "Player.h"
 #include <iostream>
 
 class GravityComponent : public Component {
@@ -35,19 +36,31 @@ public:
         vy = std::min(vy + g * dt, vmax);
         float newY = pos->y + vy * dt;
 
-        // 4) simple ground check: bottom‐left and bottom‐right corners
-        bool onGround =
-            map->isSolidWorldPos(pos->x, newY + PLAYER_HEIGHT) ||
-            map->isSolidWorldPos(pos->x + PLAYER_WIDTH, newY + PLAYER_HEIGHT);
+        // assume we already computed newY = pos->y + vy*dt
 
-        if (onGround) {
-            // snap to top of the tile we hit
-            int tileY = int((newY + PLAYER_HEIGHT) / TILE_SIZE);
-            pos->y = tileY * TILE_SIZE - PLAYER_HEIGHT;
+// 1) figure out which tile‐row your feet would land in
+        float feetY = newY + PLAYER_HEIGHT;
+        int tileRow = int(feetY) / TILE_SIZE;
+
+        // 2) sample two points *just inside* the dirt tile, not on the boundary
+        int leftX = int(pos->x + 1);                     // +1 so you’re > the left edge
+        int rightX = int(pos->x + PLAYER_WIDTH - 1);      // -1 so you’re < right edge
+        float sampleY = tileRow * TILE_SIZE + 1;          // +1 so you’re inside that row
+
+        bool hitLeft = map->isSolidWorldPos(leftX, sampleY);
+        bool hitRight = map->isSolidWorldPos(rightX, sampleY);
+
+        if (vy > 0 && (hitLeft || hitRight)) {
+            // you’re falling into dirt
+            // snap your feet to sit on top of that tile
+            pos->y = tileRow * TILE_SIZE - PLAYER_HEIGHT;
             vy = 0;
+            onGround = true;
         }
         else {
+            // no collision, commit the fall
             pos->y = newY;
+            onGround = false;
         }
     }
 
@@ -66,4 +79,5 @@ private:
     float g = 9.8;
     float vmax;
     float vy;
+    bool onGround = false;
 };

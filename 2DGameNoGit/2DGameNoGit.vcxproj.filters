@@ -25,11 +25,14 @@
     <Filter Include="Source Files\Engine\Chunks">
       <UniqueIdentifier>{ebce9da9-3893-4080-8b6d-da570c110740}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Engine\Modules">
+      <UniqueIdentifier>{81220629-a43e-4edd-afb3-4b4ac61cdd50}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Blocks">
+      <UniqueIdentifier>{9ef7562c-1284-4d52-a54c-8f9cef173899}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="BlockRegistry.h">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Camera.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -44,15 +47,6 @@
     </ClCompile>
     <ClCompile Include="TilesetLoader.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine.cpp">
-      <Filter>Source Files\Engine</Filter>
-    </ClCompile>
-    <ClCompile Include="RenderModule.cpp">
-      <Filter>Source Files\Engine</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerModule.cpp">
-      <Filter>Source Files\Engine</Filter>
     </ClCompile>
     <ClCompile Include="Actor.cpp">
       <Filter>Source Files</Filter>
@@ -75,6 +69,21 @@
     <ClCompile Include="ChunkManager.cpp">
       <Filter>Source Files\Engine\Chunks</Filter>
     </ClCompile>
+    <ClCompile Include="BlockRegistryModule.h">
+      <Filter>Source Files\Engine\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine.cpp">
+      <Filter>Source Files\Engine\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerModule.cpp">
+      <Filter>Source Files\Engine\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderModule.cpp">
+      <Filter>Source Files\Engine\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="BlockRegistryModule.cpp">
+      <Filter>Source Files\Engine\Modules</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BlockType.h">
@@ -94,24 +103,6 @@
     </ClInclude>
     <ClInclude Include="TilesetLoader.h">
       <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Module.h">
-      <Filter>Source Files\Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine.h">
-      <Filter>Source Files\Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="WorldModule.h">
-      <Filter>Source Files\Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerModule.h">
-      <Filter>Source Files\Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="CameraModule.h">
-      <Filter>Source Files\Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="RenderModule.h">
-      <Filter>Source Files\Engine</Filter>
     </ClInclude>
     <ClInclude Include="Component.h">
       <Filter>Source Files\Components</Filter>
@@ -151,6 +142,39 @@
     </ClInclude>
     <ClInclude Include="PerlinNoise.h">
       <Filter>Source Files\Engine\Chunks</Filter>
+    </ClInclude>
+    <ClInclude Include="CameraModule.h">
+      <Filter>Source Files\Engine\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine.h">
+      <Filter>Source Files\Engine\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Module.h">
+      <Filter>Source Files\Engine\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerModule.h">
+      <Filter>Source Files\Engine\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderModule.h">
+      <Filter>Source Files\Engine\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="WorldModule.h">
+      <Filter>Source Files\Engine\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Block.h">
+      <Filter>Source Files\Blocks</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject.h">
+      <Filter>Source Files\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="BlockComponent.h">
+      <Filter>Source Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="SpriteComponent.h">
+      <Filter>Source Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="DirtBlock.h">
+      <Filter>Source Files\Blocks</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

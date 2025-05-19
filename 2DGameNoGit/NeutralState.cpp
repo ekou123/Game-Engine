@@ -9,6 +9,11 @@
 const float PLAYER_SPEED = 300.0f; // pixels per second
 
 void NeutralState::handleInput(const bool* keystate, float dt) {
+	if (!keystate) {
+		std::cout << "keystate is null in NeutralState::handleInput\n";
+		return;
+	}
+
 	if (keystate[SDL_SCANCODE_SPACE]) {
 		std::cout << "Space key pressed in Neutral State\n";
 		stateMachine->changeState(activePlayer->jumpingState);

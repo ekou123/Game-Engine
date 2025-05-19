@@ -1,12 +1,11 @@
 #pragma once
 #include <memory>
-
-class Actor;
+#include "GameObject.h"
 
 class Component {
 public:
 	virtual ~Component() = default;
-	void setOwner(Actor* actor) { this->owner = actor; }
+	void setOwner(GameObject* gameObject) { this->owner = gameObject; }
 	virtual void init() {}
 	virtual void update(float dt) {
 		if (!enabled) {
@@ -23,5 +22,5 @@ public:
 
 protected:
 	bool enabled = true;
-	Actor* owner = nullptr;
+	GameObject* owner = nullptr;
 };

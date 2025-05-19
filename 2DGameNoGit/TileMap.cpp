@@ -1,6 +1,6 @@
 ﻿#include <iostream>
 #include "TileMap.h"
-#include "BlockRegistry.h"
+#include "BlockRegistryModule.h"
 #include "SDL3/SDL.h"
 #include "ChunkManager.h"
 #include "Constants.h"
@@ -117,5 +117,5 @@ bool TileMap::isSolidWorldPos(float worldX, float worldY) const {
     }
 
     int id = map[tileY][tileX];
-    return BlockRegistry::getInstance().get(id).isSolid;
+    return BlockRegistryModule::getInstance().get(id).isSolid;
 }

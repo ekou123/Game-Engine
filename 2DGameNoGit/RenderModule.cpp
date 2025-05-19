@@ -16,6 +16,8 @@ void RenderModule::update(Engine&, float) {
     float playerY = player->getComponent<PositionComponent>()->y;
     if (!playerX || !playerY) {
 		std::cerr << "[RenderModule] Player position component not found.\n";
+        std::cerr << "playerX:" << playerX << std::endl;
+		std::cerr << "playerY:" << playerY << std::endl;
 		return;
 	}
 

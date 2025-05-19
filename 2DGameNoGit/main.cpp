@@ -6,7 +6,6 @@
 #include "Camera.h"
 #include"Constants.h"
 #include "Player.h"
-#include "BlockRegistry.h"
 #include "Engine.h"
 #include "WorldModule.h"
 #include "PlayerModule.h"
@@ -14,8 +13,11 @@
 #include "GravityComponent.h"
 #include "MapComponent.h"
 #include "RenderModule.h"
+#include "PlayerModule.h"
+#include "BlockRegistryModule.h"
 
 // main.cpp (Game)
+
 int main() {
     Engine engine;
 
@@ -23,6 +25,7 @@ int main() {
     auto playerMod = std::make_unique<PlayerModule>();
     auto cameraMod = std::make_unique<CameraModule>();
     auto renderMod = std::make_unique<RenderModule>();
+	auto blockRegistryMod = std::make_unique<BlockRegistryModule>();
 
     //Player player(WINDOW_W / 2.0f, WINDOW_H / 2.0f, worldMod->tileSet);
     Player player(0,0, worldMod->tileSet);

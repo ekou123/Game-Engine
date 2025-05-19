@@ -28,6 +28,7 @@ Player::Player(float startX, float startY, TileMap* tileMap) : x(startX), y(star
 	}
 
     addComponent <PositionComponent>();
+	getComponent<PositionComponent>()->setOwner(this);
     addComponent<GravityComponent>(9.8f);
     addComponent<MapComponent>(getCurrentMap());
     getComponent<GravityComponent>()->setOwner(this);
