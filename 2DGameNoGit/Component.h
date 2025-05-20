@@ -1,6 +1,7 @@
 #pragma once
 #include <memory>
-#include "GameObject.h"
+
+struct GameObject;
 
 class Component {
 public:

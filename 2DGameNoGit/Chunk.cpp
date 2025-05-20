@@ -35,8 +35,9 @@ void Chunk::generate() {
             else if (h < 0.70f) tile = TILE_GRASS;
             else                tile = TILE_DIRT;*/
             if (h <=  0.40) {
-                tile = TILE_DIRT;
-                tiles[y * CHUNK_SIZE + x] = tile;
+                /*tile = TILE_DIRT;
+                tiles[y * CHUNK_SIZE + x] = tile;*/
+
             }
             else {
                 continue;

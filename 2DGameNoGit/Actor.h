@@ -1,20 +1,6 @@
-#pragma once
-#include <vector>
-#include <memory>
-#include <typeindex>
-#include <unordered_map>
-#include <iostream>
-#include "Component.h"
+﻿#pragma once
 #include "GameObject.h"
 
-class Actor : public GameObject {
-public:
-    
-
-    void setY(float y) {
-		
-	}
-
-private:
-    
+struct Actor : GameObject {
+    // your actor‐specific methods here
 };

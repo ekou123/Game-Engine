@@ -1,4 +1,5 @@
 #include "PlayerModule.h"
+#include "Player.h"
 #include "Engine.h"         // now we have Engine’s full definition
 #include <SDL3/SDL.h>
 #include <iostream>

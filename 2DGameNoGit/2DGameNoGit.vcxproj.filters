@@ -84,6 +84,9 @@
     <ClCompile Include="BlockRegistryModule.cpp">
       <Filter>Source Files\Engine\Modules</Filter>
     </ClCompile>
+    <ClCompile Include="GameObject.cpp">
+      <Filter>Source Files\Engine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BlockType.h">

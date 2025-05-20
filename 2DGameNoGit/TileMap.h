@@ -4,6 +4,7 @@
 #include <string>
 #include <iostream>
 #include "Camera.h"
+#include "Engine.h"
 
 //const int TILE_SIZE = 32;
 //const int MAP_WIDTH = 800;
@@ -15,9 +16,10 @@ class TileMap {
 public:
 	TileMap();
 
+
 	std::string name;
 
-	void render(SDL_Renderer* renderer, SDL_Texture* tileSet, const Camera& camera);
+	void render(Engine* engine, SDL_Renderer* renderer, SDL_Texture* tileSet, const Camera& camera);
 
 	void update(float playerX, float playerY);
 

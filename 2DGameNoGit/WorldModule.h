@@ -43,7 +43,7 @@ struct WorldModule : Module {
 		}
 
         
-        tileSet->render(E.renderer, /*tileset*/nullptr, *camera);
+        tileSet->render(&E,E.renderer, /*tileset*/nullptr, *camera);
     }
     void shutdown(Engine&) override {}
 };

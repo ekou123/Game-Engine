@@ -1,6 +1,12 @@
 ﻿#pragma once
+
+#include <unordered_map>
+#include <vector>
+#include <memory>
+#include <typeindex>
 #include "Engine.h"
 #include "PositionComponent.h"
+#include "Component.h"
 
 class Component;
 
@@ -44,16 +50,11 @@ public:
         return nullptr;
     }
 
-    void update(float dt) {
-        for (auto& c : components)
-            c->update(dt);
-    }
+    void update(float dt);
 
-    bool init(Engine* engine, int posX, int posY)
-    {
-        addComponent<PositionComponent>();
-		getComponent<PositionComponent>()->setPosition(posX, posY);
-    }
+    virtual void render();
+
+    bool init(Engine* engine, int posX, int posY);
 
 private:
     std::vector<std::unique_ptr<Component>>          components;

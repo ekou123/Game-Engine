@@ -5,6 +5,6 @@
 
 bool BlockRegistryModule::init(Engine* engine) {
 	// Register blocks
-	registerBlock({ 1, "Dirt", true, {0,0,32,32}});
+	//registerBlock({ 1, "Dirt", true, {0,0,32,32}});
 	return true; // Initialization successful
 }

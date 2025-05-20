@@ -2,7 +2,7 @@
 #include "BlockType.h"  
 #include "Module.h"  
 #include <unordered_map>  
-#include <vector>  
+#include <vector>
 
 class BlockRegistryModule : public Module {  
 public:  
@@ -13,7 +13,8 @@ public:
 
     void registerBlock(const BlockType& block) {  
         blockTypes[block.id] = block;  
-        order.push_back(block.id);  
+        order.push_back(block.id);
+
     }  
 
     const BlockType& get(int id) const { return blockTypes.at(id); }  

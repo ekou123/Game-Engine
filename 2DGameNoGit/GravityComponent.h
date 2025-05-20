@@ -64,11 +64,11 @@ public:
         }
     }
 
-    void setOwner(Actor* actor) {
-		owner = actor;
+    void setOwner(GameObject* gameObject) {
+		owner = gameObject;
 	}
 
-    Actor* getOwner() {
+    GameObject* getOwner() {
         return owner;
     }
 

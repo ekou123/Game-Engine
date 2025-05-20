@@ -5,12 +5,17 @@
 #include "Constants.h"
 #include "TileMap.h"
 #include <unordered_map>
-
-
+#include <unordered_set>
 
 
 class ChunkManager {
     std::unordered_map<ChunkKey, Chunk, ChunkKeyHasher> chunks;
+    Engine* engine;   // set in constructor
+    // track which keys are currently “loaded”
+    std::unordered_set<ChunkKey, ChunkKeyHasher>         loadedKeys;
+    // for each chunk key, the list of spawned block actors
+    std::unordered_map<ChunkKey, std::vector<GameObject*>, ChunkKeyHasher>
+        chunkActors;
 
 public:
     // get or create a chunk at (cx,cy)

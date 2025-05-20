@@ -61,7 +61,7 @@ TileMap::TileMap() : chunkManager(new ChunkManager())
 //    }
 //}
 
-void TileMap::render(SDL_Renderer* renderer,
+void TileMap::render(Engine* engine, SDL_Renderer* renderer,
     SDL_Texture* tileTexture,
     const Camera& camera)
 {
@@ -90,9 +90,7 @@ void TileMap::render(SDL_Renderer* renderer,
 
             destRect.x = wx - camera.x;
             destRect.y = wy - camera.y;
-
-            
-            SDL_RenderTexture(renderer, tileTexture, &srcRect, &destRect);
+            //SDL_RenderTexture(renderer, tileTexture, &srcRect, &destRect);
         }
     }
 }

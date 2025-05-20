@@ -2,23 +2,39 @@
 #include <vector>
 #include <memory>
 #include <SDL3/SDL.h>
-#include "Module.h"
-#include "PlayerModule.h"
+
+class GameObject; // Forward declaration
+class Player;
+struct Module;
 
 class Engine {
 public:
-	Engine() : window(nullptr), renderer(nullptr), running(false) {}
+	Engine() = default;
+	~Engine() = default;
+
+	// non-copyable
+	Engine(const Engine&) = delete;
+	Engine& operator=(const Engine&) = delete;
+
+	// move allowed if you really need it
+	Engine(Engine&&) = default;
+	Engine& operator=(Engine&&) = default;
+
+	//Engine() : window(nullptr), renderer(nullptr), running(false) {}
 	bool init(const char* title, int w, int h);
 	void registerModule(std::unique_ptr<Module> module);
 	void registerPlayer(Player* player) { currentPlayer = player; }
 	void run();
 	void shutdown();
+	void addGameObject(GameObject* gameObject);
+	void removeGameObject(GameObject* gameObject);
 
 	SDL_Window* window;
 	SDL_Renderer* renderer;
 
 private:
 	std::vector<std::unique_ptr<Module>> modules;
+	std::vector<std::unique_ptr<GameObject>> gameObjects;
 	Player* currentPlayer = nullptr;
 	bool running;
 	float deltaTime;

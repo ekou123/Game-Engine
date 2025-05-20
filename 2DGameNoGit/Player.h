@@ -1,12 +1,12 @@
 #pragma once
 #include <SDL3/SDL.h>
 #include "Camera.h"
-#include "TileMap.h"
 #include "StateMachine.h"
 #include "Actor.h"
 
 class State;
 class StateMachine;
+class TileMap;
 
 class Player : public Actor {
 public:

@@ -1,13 +1,13 @@
 #pragma once
 #include "Module.h"
 #include <iostream>
-#include "Player.h"
 #include "TileMap.h"
 #include "Constants.h"
 
 
 // forward declare Engine so we can use Engine& in signatures
 class Engine;
+class Player;
 
 struct PlayerModule : Module {
     Player* player = nullptr;
