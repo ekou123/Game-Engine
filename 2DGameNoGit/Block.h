@@ -10,7 +10,7 @@ public:
 		init(engine, worldX, worldY);
 
 		auto& type = BlockRegistryModule::getInstance().get(blockID);
-		//addComponent<SpriteComponent>(engine->renderer, type.srcRect, "dirt.bmp");
+		//addComponent<SpriteComponent>(engine->renderer, type->srcRect);
 	}
 
 	void render(SDL_Renderer* ren, const Camera& cam)
@@ -30,7 +30,7 @@ public:
 
 		if (pos && sprite)
 		{
-			sprite->render(ren, cam);
+			//sprite->render(ren, cam);
 		}
 
 		

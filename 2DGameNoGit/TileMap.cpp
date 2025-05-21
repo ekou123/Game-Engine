@@ -115,5 +115,5 @@ bool TileMap::isSolidWorldPos(float worldX, float worldY) const {
     }
 
     int id = map[tileY][tileX];
-    return BlockRegistryModule::getInstance().get(id).isSolid;
+	return std::move(BlockRegistryModule::getInstance().get(id))->isSolid();
 }

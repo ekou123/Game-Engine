@@ -3,6 +3,7 @@
 #include <unordered_map>
 #include <vector>
 #include <memory>
+#include <string>
 #include <typeindex>
 #include "Engine.h"
 #include "PositionComponent.h"
@@ -54,10 +55,21 @@ public:
 
     virtual void render();
 
+	virtual bool isSolid() { return isSolid; }
+
     bool init(Engine* engine, int posX, int posY);
+
+    int getID() const { return id; }
+
+    // Add srcRect member
+    SDL_Rect srcRect;
 
 private:
     std::vector<std::unique_ptr<Component>>          components;
     std::unordered_map<std::type_index, Component*>  lookup;
     int height, width;
+    int id;
+    Engine* engine = nullptr;
+    std::string filePath;
+    bool isSolid = false;
 };

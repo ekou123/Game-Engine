@@ -18,8 +18,8 @@ struct WorldModule : Module {
     bool init(Engine* engine) override {
         // register blocks once
         auto& R = BlockRegistryModule::getInstance();
-        R.registerBlock({ 0,"empty",false,{0,0,TILE_SIZE,TILE_SIZE} });
-        R.registerBlock({ 1,"dirt", true,{1 * TILE_SIZE,0,TILE_SIZE,TILE_SIZE} });
+        /*R.registerBlock({ 0,"empty",false,{0,0,TILE_SIZE,TILE_SIZE} });
+        R.registerBlock({ 1,"dirt", true,{1 * TILE_SIZE,0,TILE_SIZE,TILE_SIZE} });*/
 
         if (!tileSet) {
             tileSet = new TileMap();

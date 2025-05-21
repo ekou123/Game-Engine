@@ -17,7 +17,7 @@ public:
 		std::cout << "Entering Neutral State\n";
 	}
 
-	void handleInput(const bool* keystate, float dt) override;
+	virtual void handleInput(const bool* keystate, float dt) override;
 
 	void update(float deltaTime) override {
 		std::cout << "Updating Neutral State\n";

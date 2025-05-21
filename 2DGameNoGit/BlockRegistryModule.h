@@ -1,8 +1,12 @@
 #pragma once  
+#include <iostream>
+
 #include "BlockType.h"  
 #include "Module.h"  
 #include <unordered_map>  
 #include <vector>
+
+#include "GameObject.h"
 
 class BlockRegistryModule : public Module {  
 public:  
@@ -11,13 +15,20 @@ public:
         return instance;  
     };  
 
-    void registerBlock(const BlockType& block) {  
-        blockTypes[block.id] = block;  
-        order.push_back(block.id);
+    void registerBlock(std::unique_ptr<GameObject> gameObject) {
+        int id = gameObject->getID();
+        if (gameObjects.count(id)) {
+            std::cerr << "GameObject with ID " << id
+                << " already exists. Overwriting.\n";
+        }
+        // move the unique_ptr into the map
+        gameObjects[id] = std::move(gameObject);
+        order.push_back(id);
+    }
 
-    }  
+    const std::unique_ptr<GameObject> & get(int id) const { return gameObjects.at(id); }
 
-    const BlockType& get(int id) const { return blockTypes.at(id); }  
+	const std::unordered_map<int, std::unique_ptr<GameObject>>& getAll() { return gameObjects; }
 
     const std::vector<int>& allIDs() const { return order; }  
 
@@ -28,6 +39,6 @@ public:
     void shutdown(Engine& engine) override {}  
 
 private:  
-    std::unordered_map<int, BlockType> blockTypes;  
+    std::unordered_map<int, std::unique_ptr<GameObject>> gameObjects;
     std::vector<int> order;  
 };
