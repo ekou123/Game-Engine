@@ -55,9 +55,9 @@ public:
 
     virtual void render();
 
-	virtual bool isSolid() { return isSolid; }
+	bool isSolid() const { return isSolid_; }
 
-    bool init(Engine* engine, int posX, int posY);
+    bool init(Engine* engine, int posX, int posY, int id);
 
     int getID() const { return id; }
 
@@ -71,5 +71,5 @@ private:
     int id;
     Engine* engine = nullptr;
     std::string filePath;
-    bool isSolid = false;
+    bool isSolid_ = false;
 };

@@ -1,19 +1,11 @@
-#include <SDL3/SDL.h>
-#include <iostream>
 #include <algorithm>
-#include "TileMap.h"
-#include "TilesetLoader.h"
-#include "Camera.h"
 #include"Constants.h"
 #include "Player.h"
 #include "Engine.h"
 #include "WorldModule.h"
 #include "PlayerModule.h"
 #include "CameraModule.h"
-#include "GravityComponent.h"
-#include "MapComponent.h"
 #include "RenderModule.h"
-#include "PlayerModule.h"
 #include "BlockRegistryModule.h"
 
 // main.cpp (Game)

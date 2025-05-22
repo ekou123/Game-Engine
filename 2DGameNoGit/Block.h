@@ -7,9 +7,9 @@ class Block : public GameObject {
 public:
 	Block(Engine* engine, int worldX, int worldY, int blockID)
 	{
-		init(engine, worldX, worldY);
+		init(engine, worldX, worldY, blockID);
 
-		auto& type = BlockRegistryModule::getInstance().get(blockID);
+		//auto& type = BlockRegistryModule::getInstance().get(blockID);
 		//addComponent<SpriteComponent>(engine->renderer, type->srcRect);
 	}
 

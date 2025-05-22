@@ -13,8 +13,10 @@ void GameObject::update(float dt)
     render();
 }
 
-bool GameObject::init(Engine* engine, int posX, int posY)
+bool GameObject::init(Engine* engine, int posX, int posY, int thisID)
 {
+    id = thisID;
+
 	this->engine = engine;
     if (!engine)
     {
@@ -25,13 +27,15 @@ bool GameObject::init(Engine* engine, int posX, int posY)
     addComponent<PositionComponent>();
     getComponent<PositionComponent>()->setPosition(posX, posY);
 
-    //auto& type = BlockRegistryModule::getInstance().get(id);
-    std::unordered_map<int, std::unique_ptr<GameObject>> gameObjects = BlockRegistryModule::getInstance().getAll();
+    /*//auto& type = BlockRegistryModule::getInstance().get(id);
+    GameObject& gameObject = BlockRegistryModule::getInstance().get(id);
 
     // or, if you prefer to get a reference:
     GameObject& obj = *gameObjects[id];
-    SDL_Rect r = obj.srcRect;
-    addComponent<SpriteComponent>(engine->renderer, r, filePath);
+    SDL_Rect r = obj.srcRect;*/
+
+
+    //addComponent<SpriteComponent>(engine->renderer, r, filePath);
     return true;
 }
 
@@ -44,5 +48,4 @@ void GameObject::render()
         return;
     }
 }
-
 

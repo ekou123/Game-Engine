@@ -1,9 +1,9 @@
 #pragma once
-#include "State.h"
-#include "Player.h"
-#include "StateMachine.h"
-#include <SDL3/SDL.h>
 #include <iostream>
+#include "State.h"
+#include "StateMachine.h"
+
+
 
 class NeutralState : public State {
 public:
@@ -17,7 +17,7 @@ public:
 		std::cout << "Entering Neutral State\n";
 	}
 
-	virtual void handleInput(const bool* keystate, float dt) override;
+	void handleInput(const bool* keystate, float dt) override;
 
 	void update(float deltaTime) override {
 		std::cout << "Updating Neutral State\n";

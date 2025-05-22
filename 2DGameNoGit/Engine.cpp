@@ -47,7 +47,8 @@ void Engine::run() {
 
 void Engine::addGameObject(GameObject* gameObject)
 {
-    gameObjects.emplace_back(gameObject);
+
+	//gameObjects.emplace_back(gameObject);
 }
 
 /*void Engine::removeGameObject(size_t idx)

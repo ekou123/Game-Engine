@@ -93,12 +93,15 @@ void ChunkManager::updateAroundPlayer(float playerX,
                     float worldX = (key.cx * CHUNK_SIZE + x) * TILE_SIZE;
                     float worldY = (key.cy * CHUNK_SIZE + y) * TILE_SIZE;
                     // create a block object at that position
-                    Block* b = new Block(engine,
+
+                    auto blockPtr = std::make_unique<Block>(engine,
                         int(worldX),
                         int(worldY),
-                        tileID);
-                    engine->addGameObject(b);
-                    actors.push_back(b);
+						tileID);
+
+					Block* rawBlock = blockPtr.get();
+                    engine->addGameObject(rawBlock);
+                    actors.push_back(rawBlock);
                 }
             }
 
