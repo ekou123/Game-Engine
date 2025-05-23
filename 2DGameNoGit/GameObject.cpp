@@ -15,7 +15,7 @@ void GameObject::update(float dt)
 
 bool GameObject::init(Engine* engine, int posX, int posY, int thisID)
 {
-    id = thisID;
+    //id = thisID;
 
 	this->engine = engine;
     if (!engine)

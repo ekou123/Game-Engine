@@ -3,11 +3,10 @@
 #include <iostream>
 #include "TileMap.h"
 #include "BlockRegistryModule.h"
-#include "Constants.h"
 #include "Engine.h"
 
 struct WorldModule : Module {
-    TileMap* tileSet = new TileMap();
+    TileMap* tileSet = nullptr;
 
     Camera* camera = nullptr;
 
@@ -22,7 +21,7 @@ struct WorldModule : Module {
         R.registerBlock({ 1,"dirt", true,{1 * TILE_SIZE,0,TILE_SIZE,TILE_SIZE} });*/
 
         if (!tileSet) {
-            tileSet = new TileMap();
+            tileSet = new TileMap(engine, 0,0);
         }
 
         return true;

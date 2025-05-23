@@ -51,13 +51,25 @@ void Engine::addGameObject(GameObject* gameObject)
 	//gameObjects.emplace_back(gameObject);
 }
 
-/*void Engine::removeGameObject(size_t idx)
+/*
+void Engine::removeGameObject(size_t idx)
 {
 	if (idx < gameObjects.size())
 	{
 		gameObjects.erase(gameObjects.begin() + idx);
 	}
 }*/
+
+void Engine::removeGameObject(GameObject* gameObject)
+{
+	
+}
+
+void Engine::addBlock(Block* block)
+{
+    gameObjects.emplace_back(block);
+}
+
 
 
 

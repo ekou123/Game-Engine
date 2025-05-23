@@ -2,25 +2,45 @@
 #include "TileMap.h"
 #include "BlockRegistryModule.h"
 #include "SDL3/SDL.h"
-#include "ChunkManager.h"
 #include "Constants.h"
+#include "Block.h"
+#include "Engine.h"
+#include "Camera.h"
 
 
-TileMap::TileMap() : chunkManager(new ChunkManager())
+TileMap::TileMap(Engine* engine, float spawnX, float spawnY)
 {
-    // allocate exactly MAP_TILES_Y rows of MAP_TILES_X columns
-    name = "TileMap";
-
-    chunkManager->updateAroundPlayer(0, 0, 2);
-
-    
-    map.resize(MAP_TILES_Y,
+    // 1) initialize the ID grid
+    map.assign(MAP_TILES_Y,
         std::vector<int>(MAP_TILES_X, TILE_EMPTY));
 
-    // fill with dirt below row 10
-    for (int y = 0; y < MAP_TILES_Y; ++y) {
-        for (int x = 0; x < MAP_TILES_X; ++x) {
-            if (y > 10) map[y][x] = TILE_DIRT;
+    // 2) compute the spawn tile coordinates
+    int centerX = int(spawnX) / TILE_SIZE;
+    int centerY = int(spawnY) / TILE_SIZE;
+
+    const int radius = 10; // how many tiles in each direction
+    for (int dy = -radius; dy <= radius; ++dy) {
+        for (int dx = -radius; dx <= radius; ++dx) {
+            int tx = centerX + dx;
+            int ty = centerY + dy;
+            if (tx < 0 || tx >= MAP_TILES_X ||
+                ty < 0 || ty >= MAP_TILES_Y)
+                continue;
+
+            // set dirt in your map
+            map[ty][tx] = TILE_DIRT;
+
+            // convert tile coords back to world pos
+            float wx = tx * TILE_SIZE;
+            float wy = ty * TILE_SIZE;
+
+            // spawn a Block GameObject for this tile:
+            auto dirtBlock = std::make_unique<DirtBlock>(
+                engine, int(wx), int(wy), TILE_DIRT
+            );
+            DirtBlock* raw = dirtBlock.get();
+            engine->addGameObject(raw);
+            //tileActors.push_back(raw);
         }
     }
 }
@@ -82,7 +102,7 @@ void TileMap::render(Engine* engine, SDL_Renderer* renderer,
             float wx = tx * TILE_SIZE;
             float wy = ty * TILE_SIZE;
 
-            int tileID = chunkManager->getTileAt(wx, wy);
+            int tileID = 0;
             if (tileID == TILE_EMPTY) continue;
 
             srcRect.x = tileID * TILE_SIZE;
@@ -96,7 +116,6 @@ void TileMap::render(Engine* engine, SDL_Renderer* renderer,
 }
 
 void TileMap::update(float playerX, float playerY) {
-    chunkManager->updateAroundPlayer(playerX, playerY, 2);
 }
 
 bool TileMap::isSolidWorldPos(float worldX, float worldY) const {
@@ -115,5 +134,12 @@ bool TileMap::isSolidWorldPos(float worldX, float worldY) const {
     }
 
     int id = map[tileY][tileX];
-	return std::move(BlockRegistryModule::getInstance().get(id))->isSolid();
+    if (std::move(BlockRegistryModule::getInstance().get(id))->isSolid())
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
 }

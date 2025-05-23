@@ -1,7 +1,7 @@
 #pragma once
 #include <memory>
 
-struct GameObject;
+class GameObject;
 
 class Component {
 public:

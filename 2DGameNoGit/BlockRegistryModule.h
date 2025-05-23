@@ -16,9 +16,9 @@ public:
         return instance;  
     };  
 
-    void registerBlock(std::unique_ptr<GameObject> gameObject) {
+    void registerBlock(int id, std::unique_ptr<GameObject> gameObject) {
         std::cerr << " Registering Block.\n";
-        int id = nextID++;
+        
 
         if (gameObjects.count(id)) {
             std::cerr << "GameObject with ID " << id
@@ -30,9 +30,24 @@ public:
         order.push_back(id);
     }
 
-    const std::unique_ptr<GameObject> & get(int id) const { return gameObjects.at(id); }
+    void addBlock(std::unique_ptr<GameObject> gameObject)
+    {
+        std::cerr << "Adding block to world\n";
+    	int id = nextID++;
 
-	const std::unordered_map<int, std::unique_ptr<GameObject>>& getAll() { return gameObjects; }
+        if (worldObjects.count(id))
+        {
+			std::cerr << "GameObject with ID " << id << " already exists. Overwriting.\n";
+        }
+
+		worldObjects.emplace(id, std::move(gameObject));
+		worldOrder.push_back(id);
+
+    }
+
+    const std::unique_ptr<GameObject> & get(int id) const { return worldObjects.at(id); }
+
+	const std::unordered_map<int, std::unique_ptr<GameObject>>& getAll() { return worldObjects; }
 
     const std::vector<int>& allIDs() const { return order; }  
 
@@ -40,8 +55,8 @@ public:
     bool init(Engine* engine) override
     {
         // Register blocks
-        auto dirt = std::make_unique<DirtBlock>(engine, 0, 0);
-        registerBlock(std::move(dirt));
+        auto dirt = std::make_unique<DirtBlock>(engine, 0, 0, nextID);
+        registerBlock(0, std::move(dirt));
         return true; // Initialization successful
     }
     void update(Engine& engine, float dt) override {}  
@@ -51,5 +66,7 @@ public:
 private:
     int nextID = 0;;
     std::unordered_map<int, std::unique_ptr<GameObject>> gameObjects;
-    std::vector<int> order;  
+    std::unordered_map<int, std::unique_ptr<GameObject>> worldObjects;
+    std::vector<int> order;
+    std::vector<int> worldOrder;
 };

@@ -5,13 +5,13 @@
 #include <memory>
 #include <string>
 #include <typeindex>
+#include "SDl3/SDL.h"
 #include "Engine.h"
-#include "PositionComponent.h"
-#include "Component.h"
+#include "Block.h"
 
 class Component;
 
-struct GameObject
+class GameObject
 {
 public:
     GameObject() = default;
@@ -58,6 +58,8 @@ public:
 	bool isSolid() const { return isSolid_; }
 
     bool init(Engine* engine, int posX, int posY, int id);
+
+	void setID(int newID) { id = newID; }
 
     int getID() const { return id; }
 

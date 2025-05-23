@@ -14,7 +14,7 @@ class ChunkManager;
 
 class TileMap {
 public:
-	TileMap();
+	TileMap(Engine* engine, float spawnX, float spawnY);
 
 
 	std::string name;

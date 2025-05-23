@@ -13,4 +13,6 @@ struct Module {
 	virtual void render(Engine& engine) = 0;
 	// Called on Shutdown
 	virtual void shutdown(Engine& engine) = 0;
+
+public:
 };

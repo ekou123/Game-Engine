@@ -1,6 +1,6 @@
 ﻿#pragma once
 #include "GameObject.h"
 
-struct Actor : GameObject {
+class Actor : public GameObject {
     // your actor‐specific methods here
 };

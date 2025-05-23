@@ -22,9 +22,6 @@
     <Filter Include="Source Files\Engine\States">
       <UniqueIdentifier>{328506d0-152d-43e0-8b68-52542b9b4f53}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Engine\Chunks">
-      <UniqueIdentifier>{ebce9da9-3893-4080-8b6d-da570c110740}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\Engine\Modules">
       <UniqueIdentifier>{81220629-a43e-4edd-afb3-4b4ac61cdd50}</UniqueIdentifier>
     </Filter>
@@ -63,12 +60,6 @@
     <ClCompile Include="JumpingState.cpp">
       <Filter>Source Files\Engine\States</Filter>
     </ClCompile>
-    <ClCompile Include="Chunk.cpp">
-      <Filter>Source Files\Engine\Chunks</Filter>
-    </ClCompile>
-    <ClCompile Include="ChunkManager.cpp">
-      <Filter>Source Files\Engine\Chunks</Filter>
-    </ClCompile>
     <ClCompile Include="BlockRegistryModule.h">
       <Filter>Source Files\Engine\Modules</Filter>
     </ClCompile>
@@ -86,6 +77,12 @@
     </ClCompile>
     <ClCompile Include="GameObject.cpp">
       <Filter>Source Files\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Block.cpp">
+      <Filter>Source Files\Blocks</Filter>
+    </ClCompile>
+    <ClCompile Include="DirtBlock.cpp">
+      <Filter>Source Files\Blocks</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -131,20 +128,8 @@
     <ClInclude Include="JumpingState.h">
       <Filter>Source Files\Engine\States</Filter>
     </ClInclude>
-    <ClInclude Include="Chunk.h">
-      <Filter>Source Files\Engine\Chunks</Filter>
-    </ClInclude>
-    <ClInclude Include="ChunkKey.h">
-      <Filter>Source Files\Engine\Chunks</Filter>
-    </ClInclude>
-    <ClInclude Include="ChunkManager.h">
-      <Filter>Source Files\Engine\Chunks</Filter>
-    </ClInclude>
     <ClInclude Include="FastNoiseLite.h">
       <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="PerlinNoise.h">
-      <Filter>Source Files\Engine\Chunks</Filter>
     </ClInclude>
     <ClInclude Include="CameraModule.h">
       <Filter>Source Files\Engine\Modules</Filter>

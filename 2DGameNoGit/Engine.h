@@ -3,10 +3,15 @@
 #include <memory>
 #include <SDL3/SDL.h>
 
+
+class Block;
 class GameObject; // Forward declaration
 class Player;
 struct Module;
+class Engine;
 
+// Guild name: Benison. Means a blessing. So you could call someone a Benison of Light or something like that.
+ 
 class Engine {
 public:
 	Engine() = default;
@@ -28,6 +33,7 @@ public:
 	void shutdown();
 	void addGameObject(GameObject* gameObject);
 	void removeGameObject(GameObject* gameObject);
+	void addBlock(Block* block);
 
 	SDL_Window* window;
 	SDL_Renderer* renderer;
