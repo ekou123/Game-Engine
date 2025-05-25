@@ -1,15 +1,14 @@
 ﻿#pragma once
-
 #include <unordered_map>
 #include <vector>
 #include <memory>
 #include <string>
 #include <typeindex>
-#include "SDl3/SDL.h"
+#include "SDL3/SDL.h"
 #include "Engine.h"
-#include "Block.h"
+#include "Component.h"
 
-class Component;
+class Block;
 
 class GameObject
 {

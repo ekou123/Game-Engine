@@ -40,7 +40,6 @@ public:
 
 private:
 	std::vector<std::unique_ptr<Module>> modules;
-	std::vector<std::unique_ptr<GameObject>> gameObjects;
 	Player* currentPlayer = nullptr;
 	bool running;
 	float deltaTime;

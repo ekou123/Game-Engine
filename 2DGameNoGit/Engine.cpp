@@ -38,7 +38,7 @@ void Engine::run() {
         SDL_SetRenderDrawColor(renderer, 20, 20, 40, 255);
         SDL_RenderClear(renderer);
         for (auto& m : modules) m->render(*this);
-		for (auto& g : gameObjects) g->update(dt);
+		//for (auto& g : gameObjects) g->update(dt);
 		//for (auto& g : gameObjects) g->render(*this);
 
         SDL_RenderPresent(renderer);
@@ -60,15 +60,6 @@ void Engine::removeGameObject(size_t idx)
 	}
 }*/
 
-void Engine::removeGameObject(GameObject* gameObject)
-{
-	
-}
-
-void Engine::addBlock(Block* block)
-{
-    gameObjects.emplace_back(block);
-}
 
 
 
