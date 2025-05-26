@@ -8,6 +8,14 @@
 
 bool PlayerModule::init(Engine* E) {
     // nothing special yet
+
+
+    if (!player)
+    {
+		player = new Player();
+    }
+
+    player->setUp(0, 0, tileMap);
     return true;
 }
 

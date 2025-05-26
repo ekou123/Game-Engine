@@ -39,7 +39,7 @@ bool GameObject::init(Engine* engine, int posX, int posY, int thisID)
     return true;
 }
 
-void GameObject::render()
+void GameObject::render(SDL_Renderer* renderer, const Camera& camera) 
 {
     SpriteComponent* spriteComponent = getComponent<SpriteComponent>();
     if (!spriteComponent)

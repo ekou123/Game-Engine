@@ -12,34 +12,34 @@
 
 const float PLAYER_SPEED = 300.0f; // Speed in pixels per second
 
-Player::Player(float startX, float startY, TileMap* tileMap) : x(startX), y(startY) {
-    	// Constructor implementation
-	// Initialize player position or other attributes if needed
+void Player::setUp(float startX, float startY, TileMap* tileMap)
+{
+    // Constructor implementation
+    // Initialize player position or other attributes if needed
     startX = startX;
     startY = startY;
-    
+
     currentMap = tileMap;
-    
-    
+
+
 
     if (!getCurrentMap()) {
-		std::cerr << "Player: No map found!" << std::endl;
-		return;
-	}
+        std::cerr << "Player: No map found!" << std::endl;
+        return;
+    }
 
     addComponent <PositionComponent>();
-	getComponent<PositionComponent>()->setOwner(this);
+    getComponent<PositionComponent>()->setOwner(this);
     addComponent<GravityComponent>(9.8f);
     addComponent<MapComponent>(getCurrentMap());
     getComponent<GravityComponent>()->setOwner(this);
 
-    stateMachine = new StateMachine();
+    /*stateMachine = new StateMachine();
 
     neutralState = new NeutralState(this, stateMachine);
     jumpingState = new JumpingState(this, stateMachine);
 
-    stateMachine->changeState(neutralState);
-    
+    stateMachine->changeState(neutralState);*/
 }
 
 void Player::update(const bool* ks, float dt, const TileMap& map) {

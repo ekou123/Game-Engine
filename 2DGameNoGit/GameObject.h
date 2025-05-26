@@ -9,6 +9,7 @@
 #include "Component.h"
 
 class Block;
+class DirtBlock;
 
 class GameObject
 {
@@ -52,7 +53,7 @@ public:
 
     void update(float dt);
 
-    virtual void render();
+    virtual void render(SDL_Renderer* renderer, const Camera& camera);
 
 	bool isSolid() const { return isSolid_; }
 

@@ -10,10 +10,6 @@ struct SpriteComponent : public Component
 	SDL_Texture* texture;
 	SDL_FRect srcRect;
 
-	SpriteComponent(SDL_Texture* tex, SDL_FRect& src)
-		: texture(tex), srcRect(src)
-	{}
-
 	SpriteComponent(SDL_Renderer* r,
 		const SDL_FRect& src,
 		const std::string& assetPath)
@@ -35,6 +31,10 @@ struct SpriteComponent : public Component
 		int y = pos->y;
 
 		SDL_FRect dst{ x - cam.x, y - cam.y, float(srcRect.w), float(srcRect.h) };
-		//SDL_RenderTexture(r, texture, &srcRect, &dst);
+		if (texture == nullptr) {
+			SDL_Log("Texture is null, cannot render sprite.");
+			return;
+		}
+		SDL_RenderTexture(r, texture, &srcRect, &dst);
 	}
 };

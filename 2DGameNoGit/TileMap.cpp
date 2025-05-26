@@ -39,7 +39,7 @@ TileMap::TileMap(Engine* engine, float spawnX, float spawnY)
                 engine, int(wx), int(wy), TILE_DIRT
             );
             DirtBlock* raw = dirtBlock.get();
-            engine->addGameObject(raw);
+            BlockRegistryModule::getInstance().addBlock(std::move(dirtBlock));
             //tileActors.push_back(raw);
         }
     }
@@ -81,7 +81,7 @@ TileMap::TileMap(Engine* engine, float spawnX, float spawnY)
 //    }
 //}
 
-void TileMap::render(Engine* engine, SDL_Renderer* renderer,
+/*void TileMap::render(Engine* engine, SDL_Renderer* renderer,
     SDL_Texture* tileTexture,
     const Camera& camera)
 {
@@ -113,6 +113,13 @@ void TileMap::render(Engine* engine, SDL_Renderer* renderer,
             //SDL_RenderTexture(renderer, tileTexture, &srcRect, &destRect);
         }
     }
+}*/
+
+void TileMap::render(SDL_Renderer* renderer, const Camera& cam)
+{
+    for (auto& [id, ptr] : BlockRegistryModule::getInstance().getAll()) {
+		ptr->render(renderer, cam);
+	}
 }
 
 void TileMap::update(float playerX, float playerY) {

@@ -3,6 +3,8 @@
 #include <memory>
 #include <SDL3/SDL.h>
 
+#include "TileMap.h"
+
 
 class Block;
 class GameObject; // Forward declaration
@@ -28,6 +30,8 @@ public:
 	//Engine() : window(nullptr), renderer(nullptr), running(false) {}
 	bool init(const char* title, int w, int h);
 	void registerModule(std::unique_ptr<Module> module);
+	void setTileMap(TileMap* tileMap) { currentTileMap = tileMap; }
+	TileMap* getTileMap() const { return currentTileMap; }
 	void registerPlayer(Player* player) { currentPlayer = player; }
 	void run();
 	void shutdown();
@@ -40,7 +44,9 @@ public:
 
 private:
 	std::vector<std::unique_ptr<Module>> modules;
+	TileMap* currentTileMap = nullptr;
 	Player* currentPlayer = nullptr;
+	Camera* camera = nullptr;
 	bool running;
 	float deltaTime;
 	SDL_Event event;
