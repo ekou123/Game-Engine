@@ -1,14 +1,22 @@
 #pragma once  
 #include <iostream>
-#include <map>
-#include "Module.h"  
+#include <utility> // for std::pair
+#include <functional> // for std::hash
 #include <unordered_map>  
 #include <vector>
+#include <memory>
+#include "Module.h"  
 
 #include "DirtBlock.h"
 #include "GameObject.h"
 #include "PositionComponent.h"
 #include "RenderModule.h"
+#include "Engine.h"
+#include "Block.h"
+
+
+
+struct PairHash;
 
 class BlockRegistryModule : public Module {  
 public:  
@@ -31,63 +39,48 @@ public:
         order.push_back(id);
     }
 
-    void addBlock(std::unique_ptr<Block> gameObject)
-    {
-        std::cerr << "Adding block to world\n";
+    void addBlock(std::unique_ptr<Block> gameObject);
 
-		Block* gameObjectPtr = gameObject.get();
-		PositionComponent* posComp = gameObjectPtr->getComponent<PositionComponent>();
-        if (posComp == nullptr)
+    const std::unique_ptr<GameObject> & getAt(int tileX, int tileY) const
+    {
+        auto key = -std::make_pair(tileX, tileY);
+		auto it = worldObjects.find(key);
+
+        if (it == worldObjects.end())
         {
-	        std::cerr << "GameObject with ID " << id << " has no PositionComponent. Cannot add to world.\n";
-			return;
-        }
-
-        std::vector<std::vector<int>> id = 
-
-		worldObjects.emplace(id, std::move(gameObject));
-		worldOrder.push_back(id);
-        //map[tileY][tileX];
-    }
-
-    const std::unique_ptr<GameObject> & get(int id) const
-    {
-        auto it = worldObjects.find(id);
-        if (it != worldObjects.end()) {
-            return it->second;
-        }
-
-        std::cerr << "GameObject with ID " << id << " not found.\n";
-        return nullptr;
+           std::cerr << "GameObject at position (" << tileX << ", " << tileY
+                << ") not found.\n";
+		   return nullptr;
+		}
+		return it->second;
 	    //return worldObjects.find(id);
     }
 
-	const std::unordered_map<std::vector<std::vector<int>>, std::unique_ptr<GameObject>>& getAll() { return worldObjects; }
+	const std::unordered_map<std::pair<int, int>, std::unique_ptr<GameObject>, PairHash> getAll() { return worldObjects; }
 
     const std::vector<int>& allIDs() const { return order; }  
 
     // Implementing pure virtual methods from Module  
-    bool init(Engine* engine)
-    {
-        // Register blocks
-        auto dirt = std::make_unique<DirtBlock>(engine, 0, 0, nextID);
-        registerBlock(0, std::move(dirt));
-        return true; // Initialization successful
-    }
-    void update(Engine& engine, float dt)
-    {
-	    
-    }  
-    void render(Engine& engine)
-    {
-    }
+    bool init(Engine* engine);
+    void update(Engine& engine, float dt);
+    void render(Engine& engine);
 
-    void shutdown(Engine& engine) {}  
+    void shutdown(Engine& engine);
 
 private:
     int nextID = 0;;
     std::unordered_map<int, std::unique_ptr<GameObject>> gameObjects;
-    std::unordered_map<std::vector<std::vector<int>>, std::unique_ptr<GameObject>> worldObjects;
+    std::unordered_map<std::pair<int, int>, std::unique_ptr<GameObject>, PairHash> worldObjects;
     std::vector<int> order;
     std::vector<int> worldOrder;
+};
+
+struct PairHash
+{
+	size_t operator()(std::pair<int, int> const& pair) const noexcept
+	{
+        return std::hash<long long>()(
+            (static_cast<long long>(pair.first) << 32) | static_cast<unsigned long long>(pair.second)
+            );
+	}
 };

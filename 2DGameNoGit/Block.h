@@ -4,6 +4,8 @@
 #include "GameObject.h" // for GameObject
 #include <iostream>    // for std::cout, std::endl
 
+class DirtBlock;
+
 class Block : public GameObject {
 public:
 	Block(Engine* engine, int worldX, int worldY, int blockID);

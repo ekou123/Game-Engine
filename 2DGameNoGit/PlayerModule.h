@@ -15,10 +15,10 @@ struct PlayerModule : Module {
     Camera* camera = nullptr;
 
     // **Declare** but do *not* define these in the header:
-    bool   init(Engine* E)            override;
-    void   update(Engine& E, float dt)override;
-    void   render(Engine& E)          override;
-    void   shutdown(Engine& E)        override;
+    bool   init(Engine* E);
+    void   update(Engine& E, float dt);
+    void   render(Engine& E);
+    void   shutdown(Engine& E);
 
     // Wiring
     void setPlayer(Player* p) { player = p; }

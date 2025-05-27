@@ -7,6 +7,7 @@
 #include "SDL3/SDL.h"
 #include "Engine.h"
 #include "Component.h"
+#include "Camera.h"
 
 class Block;
 class DirtBlock;

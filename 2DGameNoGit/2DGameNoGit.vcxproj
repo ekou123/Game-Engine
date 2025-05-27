@@ -24,6 +24,7 @@
     <ClCompile Include="BlockRegistryModule.cpp" />
     <ClCompile Include="BlockRegistryModule.h" />
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="CameraModule.cpp" />
     <ClCompile Include="DirtBlock.cpp" />
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="GameObject.cpp" />
@@ -37,6 +38,7 @@
     <ClCompile Include="StateMachine.cpp" />
     <ClCompile Include="TileMap.cpp" />
     <ClCompile Include="TilesetLoader.cpp" />
+    <ClCompile Include="WorldModule.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Actor.h" />
