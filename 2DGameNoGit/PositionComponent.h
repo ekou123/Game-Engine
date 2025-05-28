@@ -7,6 +7,7 @@ public:
 
     void setPosition (float newX, float newY)
     {
+		std::cerr << "PositionComponent::setPosition called with x: " << newX << ", y: " << newY << std::endl;
 		x = newX;
 		y = newY;
     }

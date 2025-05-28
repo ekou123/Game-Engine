@@ -11,7 +11,7 @@ static constexpr int PIXELS_PER_CHUNK = CHUNK_SIZE * TILE_SIZE;
 // World size in pixels
 
 static constexpr int WORLD_TILES_X = 50 * TILE_SIZE;
-static constexpr int WORLD_TILES_Y = 38 * TILE_SIZE; 
+static constexpr int WORLD_TILES_Y = 50 * TILE_SIZE; // 38 * TILE_SIZE
 // How many blocks fit on the screen +1 for partial
 static constexpr int MAP_TILES_X = 25; // 25
 static constexpr int MAP_TILES_Y = 19; // 19

@@ -10,6 +10,8 @@ class TileMap;
 
 class Player : public Actor {
 public:
+
+	Player(TileMap* tileMap);
 	void setUp(float startX, float startY, TileMap* currentTileMap);
 	void update(const bool* keystate, float deltaTime, const TileMap& map);
 	void render(SDL_Renderer* renderer, const Camera& camera);

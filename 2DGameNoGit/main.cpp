@@ -28,11 +28,10 @@ int main() {
     tileMap->setRegistry(blockRegistryMod.get());
 
     //Player player(WINDOW_W / 2.0f, WINDOW_H / 2.0f, worldMod->tileSet);
-    Player* player = new Player();
+    Player* player = new Player(tileMap);
 
     // 1) Register the player with the PlayerModule
     playerMod->setPlayer(player);
-    player->setCurrentMap(tileMap);
 
     /*player.addComponent<PositionComponent>();
     player.addComponent<GravityComponent>(9.8f);
@@ -47,7 +46,7 @@ int main() {
 
     // 2) **This is the critical line**: give RenderModule the WorldModule's map
     renderMod->setWorld(tileMap);
-    renderMod->setPlayer(playerMod->getPlayer());
+    renderMod->setPlayer(player);
     renderMod->setCamera(&cameraMod->cam); 
     playerMod->setCamera(&cameraMod->cam); 
 

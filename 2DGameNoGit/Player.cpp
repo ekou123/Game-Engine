@@ -12,6 +12,10 @@
 
 const float PLAYER_SPEED = 300.0f; // Speed in pixels per second
 
+Player::Player(TileMap* initialTileMap) {
+    currentMap = initialTileMap;
+}
+
 void Player::setUp(float startX, float startY, TileMap* tileMap)
 {
     // Constructor implementation
@@ -30,6 +34,7 @@ void Player::setUp(float startX, float startY, TileMap* tileMap)
 
     addComponent <PositionComponent>();
     getComponent<PositionComponent>()->setOwner(this);
+	getComponent<PositionComponent>()->setPosition(startX, startY);
     addComponent<GravityComponent>(9.8f);
     addComponent<MapComponent>(getCurrentMap());
     getComponent<GravityComponent>()->setOwner(this);
