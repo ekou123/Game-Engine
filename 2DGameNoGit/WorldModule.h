@@ -18,11 +18,11 @@ struct WorldModule : Module {
 		camera = cam;
 	}
 
-    bool init(Engine*);
-    void update(Engine&, float);
+    bool init(Engine*) override;
+    void update(Engine&, float) override;
 
-    void render(Engine& E);
+    void render(Engine& E) override;
         
     
-    void shutdown(Engine&);
+    void shutdown(Engine&) override;
 };

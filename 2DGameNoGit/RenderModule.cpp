@@ -35,7 +35,7 @@ void RenderModule::render(Engine& E) {
 		return;
 	}
 
-    worldMap->render(&E, E.renderer, tileset, *camera);
+    worldMap->render(E.renderer, *camera);
     player->render(E.renderer, *camera);
 }
 

@@ -4,9 +4,9 @@
 #include "SDL3/SDL.h"
 #include "Constants.h"
 #include "Block.h"
-#include "Engine.h"
 #include "Camera.h"
-
+#include "DirtBlock.h"
+#include "BlockType.h"
 
 TileMap::TileMap(Engine* engine, float spawnX, float spawnY)
 {
@@ -140,13 +140,13 @@ bool TileMap::isSolidWorldPos(float worldX, float worldY) const {
         return false;
     }
 
-    int id = map[tileY][tileX];
-    if (std::move(BlockRegistryModule::getInstance().get(id))->isSolid())
+    /*//int id = map[tileY][tileX];
+    if (std::move(BlockRegistryModule::getInstance().getAt(tileX, tileY))->isSolid())
     {
         return true;
     }
     else
     {
         return false;
-    }
+    }*/
 }

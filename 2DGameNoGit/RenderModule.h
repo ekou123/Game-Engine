@@ -11,10 +11,10 @@
 #include <iostream>
 struct RenderModule : Module {
 public:
-    bool init(Engine*);
-    void update(Engine&, float);
-    void render(Engine& E);
-    void shutdown(Engine&);
+    bool init(Engine*) override;
+    void update(Engine&, float) override;
+    void render(Engine& E) override;
+    void shutdown(Engine&) override;
 
     void setWorld(TileMap* mapPtr) { worldMap = mapPtr; }
     void setPlayer(Player* p) { player = p; }

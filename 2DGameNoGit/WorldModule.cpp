@@ -1,4 +1,6 @@
+#include "WorldModule.h"
 #include "Engine.h"
+#include <iostream>
 
 bool WorldModule::init(Engine* engine)
 {
@@ -32,3 +34,13 @@ void WorldModule::render(Engine& E)
 
     tileSet->render(E.renderer, *camera);
 }
+
+void WorldModule::update(Engine& E, float dt)
+{
+}
+
+void WorldModule::shutdown(Engine&)
+{
+	
+}
+

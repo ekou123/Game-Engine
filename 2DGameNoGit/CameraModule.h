@@ -16,8 +16,8 @@ struct CameraModule : Module {
 
     void update(Engine&, float);
 
-    void render(Engine&);
-    void shutdown(Engine&);
+    void render(Engine&) override;
+    void shutdown(Engine&) override;
 
     void setPlayerModule(PlayerModule* p) { playerModule = p; }
 

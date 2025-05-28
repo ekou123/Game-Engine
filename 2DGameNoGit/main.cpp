@@ -22,14 +22,17 @@ int main() {
     auto renderMod = std::make_unique<RenderModule>();
 	auto blockRegistryMod = std::make_unique<BlockRegistryModule>();
 
+    std::cerr << &cameraMod->cam;
+
+    
     tileMap->setRegistry(blockRegistryMod.get());
 
     //Player player(WINDOW_W / 2.0f, WINDOW_H / 2.0f, worldMod->tileSet);
-    Player player;
+    Player* player = new Player();
 
     // 1) Register the player with the PlayerModule
-    playerMod->setPlayer(&player);
-    player.setCurrentMap(tileMap);
+    playerMod->setPlayer(player);
+    player->setCurrentMap(tileMap);
 
     /*player.addComponent<PositionComponent>();
     player.addComponent<GravityComponent>(9.8f);
@@ -53,13 +56,15 @@ int main() {
     engine->registerPlayer(playerMod->getPlayer());
     
     
-
+    engine->setCamera(&cameraMod->cam);
+    player->setEngine(engine);
 
     // 3) Register in order
     engine->registerModule(std::move(worldMod));
     engine->registerModule(std::move(playerMod));
     engine->registerModule(std::move(cameraMod));
     engine->registerModule(std::move(renderMod));
+    engine->registerModule(std::move(blockRegistryMod));
 
     if (!engine->init("TerrariaEngine", WINDOW_W, WINDOW_H)) return 1;
     engine->run();

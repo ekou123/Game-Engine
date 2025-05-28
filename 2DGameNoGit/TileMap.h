@@ -2,25 +2,20 @@
 #include <SDL3/SDL.h>
 #include <vector>
 #include <string>
-#include <iostream>
-
-#include "BlockRegistryModule.h"
 #include "Camera.h"
+
+class Engine;
+class BlockRegistryModule;
 
 //const int TILE_SIZE = 32;
 //const int MAP_WIDTH = 800;
 //const int MAP_HEIGHT = 608;
 
-class ChunkManager;
-class Engine;
-
 class TileMap {
 public:
-	
-	TileMap(Engine* engine, float spawnX, float spawnY);
-
-
 	std::string name;
+
+	TileMap(Engine* engine, float spawnX, float spawnY);
 
 	void render(SDL_Renderer* renderer, const Camera& camera);
 

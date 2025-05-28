@@ -1,4 +1,10 @@
 #include "CameraModule.h"
+#include "Engine.h"
+#include "PlayerModule.h"
+#include "Player.h"
+#include "PositionComponent.h"
+#include "Camera.h"
+#include <iostream>
 
 bool CameraModule::init(Engine* E) {
     Camera& camera = cam;
@@ -26,7 +32,7 @@ bool CameraModule::init(Engine* E) {
     return true;
 }
 
-void CameraModule::update(Engine* E) {
+void CameraModule::update(Engine&, float) {
     Camera& camera = cam;
     // center on player
 
@@ -47,4 +53,12 @@ void CameraModule::update(Engine* E) {
     camera.x = playerX + Player::WIDTH / 2.0f - WINDOW_W / 2.0f;
     camera.y = playerY + Player::HEIGHT / 2.0f - WINDOW_H / 2.0f;
     // clamp...
+}
+
+void CameraModule::render(Engine& E) {
+}
+
+void CameraModule::shutdown(Engine&)
+{
+	
 }

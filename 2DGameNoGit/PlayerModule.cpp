@@ -20,12 +20,14 @@ bool PlayerModule::init(Engine* E) {
 }
 
 void PlayerModule::update(Engine& E, float dt) {
+    std::cerr << "Running PlayerModule\n";
     if (!player || !tileMap) return;
     const bool* ks = SDL_GetKeyboardState(NULL);
     player->update(ks, dt, *tileMap);
 }
 
 void PlayerModule::render(Engine& E) {
+    std::cerr << "Running PlayerModule\n";
     if (!camera) {
         std::cerr << "[PlayerModule] Cannot render: missing camera\n";
         return;
@@ -36,6 +38,7 @@ void PlayerModule::render(Engine& E) {
     }
     player->render(E.renderer, *camera);
 }
+
 
 void PlayerModule::shutdown(Engine& E) {
     // nothing to clean up

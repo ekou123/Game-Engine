@@ -3,6 +3,7 @@
 #include <memory>
 #include <SDL3/SDL.h>
 
+#include "Camera.h"
 #include "TileMap.h"
 
 
@@ -32,6 +33,8 @@ public:
 	void registerModule(std::unique_ptr<Module> module);
 	void setTileMap(TileMap* tileMap) { currentTileMap = tileMap; }
 	TileMap* getTileMap() const { return currentTileMap; }
+	void setCamera(Camera* newCamera) { camera = newCamera; }
+	Camera* getCamera() const { return camera; }
 	void registerPlayer(Player* player) { currentPlayer = player; }
 	void run();
 	void shutdown();

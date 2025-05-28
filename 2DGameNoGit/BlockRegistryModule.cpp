@@ -1,14 +1,13 @@
 #include "BlockRegistryModule.h"
-#include "BlockType.h"
 #include "Constants.h"
 #include "DirtBlock.h"
-#include "Engine.h"
+#include "PositionComponent.h"
 
-void BlockRegistryModule::addBlock(std::unique_ptr<Block> gameObject)
+void BlockRegistryModule::addBlock(std::unique_ptr<GameObject> gameObject)
 {
-	std::cerr << "Adding block to world\n";
+	//std::cerr << "Adding block to world\n";
 
-	Block* gameObjectPtr = gameObject.get();
+	GameObject* gameObjectPtr = gameObject.get();
 	PositionComponent* posComp = gameObjectPtr->getComponent<PositionComponent>();
 	if (posComp == nullptr)
 	{
@@ -29,11 +28,40 @@ void BlockRegistryModule::addBlock(std::unique_ptr<Block> gameObject)
 	worldOrder.push_back(tileY * MAP_TILES_X + tileX);
 }
 
+void BlockRegistryModule::registerBlock(int id, std::unique_ptr<GameObject> gameObject)
+{
+	//std::cerr << " Registering Block.\n";
+
+
+	if (gameObjects.count(id)) {
+		std::cerr << "GameObject with ID " << id
+			<< " already exists. Overwriting.\n";
+	}
+	// move the unique_ptr into the map
+
+	gameObjects.emplace(id, std::move(gameObject));
+	order.push_back(id);
+}
+
 
 bool BlockRegistryModule::init(Engine* engine)
 {
+	std::cerr << "Initializing BlockRegistryModule\n";
 	// Register blocks
 	auto dirt = std::make_unique<DirtBlock>(engine, 0, 0, nextID);
 	registerBlock(0, std::move(dirt));
 	return true; // Initialization successful
+}
+
+void BlockRegistryModule::update(Engine& engine, float dt)
+{
+	
+}
+
+void BlockRegistryModule::render(Engine& engine)
+{
+}
+
+void BlockRegistryModule::shutdown(Engine& engine)
+{
 }

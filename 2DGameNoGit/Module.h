@@ -1,4 +1,6 @@
 #pragma once
+#include <iostream>
+
 #include "TileMap.h"
 
 class Engine;
@@ -12,11 +14,11 @@ struct Module {
 	};
 
 	//Called once after SDL is up but before run()
-	bool init(Engine* engine);
+	virtual bool init(Engine* engine) { return true; }
 	// Called each frame before render()
-	void update(Engine& engine, float dt);
+	virtual void update(Engine& engine, float dt) {}
 	// Called each frame after update()
-	void render(Engine& engine);
+	virtual void render(Engine& engine) {}
 	// Called on Shutdown
-	void shutdown(Engine& engine);
+	virtual void shutdown(Engine& engine) {}
 };

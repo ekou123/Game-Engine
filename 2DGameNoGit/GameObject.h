@@ -64,6 +64,8 @@ public:
 
     int getID() const { return id; }
 
+	void setEngine(Engine* engine) { this->engine = engine; }
+
     // Add srcRect member
     SDL_Rect srcRect;
 
