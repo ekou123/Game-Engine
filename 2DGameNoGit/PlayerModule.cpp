@@ -4,18 +4,18 @@
 #include <SDL3/SDL.h>
 #include <iostream>
 
+
 // Define each member — note the “PlayerModule::” prefix!
 
 bool PlayerModule::init(Engine* E) {
     // nothing special yet
-
-
     if (!player)
     {
-		player = new Player(tileMap);
+	    std::cerr << "[PlayerModule] Player is not initialized.\n";
+		return false;
     }
 
-    player->setUp(0, 0, tileMap);
+    player->setUp(5, 5, tileMap);
     return true;
 }
 

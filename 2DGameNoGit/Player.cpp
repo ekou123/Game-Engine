@@ -20,8 +20,6 @@ void Player::setUp(float startX, float startY, TileMap* tileMap)
 {
     // Constructor implementation
     // Initialize player position or other attributes if needed
-    startX = startX;
-    startY = startY;
 
     currentMap = tileMap;
 
@@ -35,7 +33,7 @@ void Player::setUp(float startX, float startY, TileMap* tileMap)
     addComponent <PositionComponent>();
     getComponent<PositionComponent>()->setOwner(this);
 	getComponent<PositionComponent>()->setPosition(startX, startY);
-    addComponent<GravityComponent>(9.8f);
+    addComponent<GravityComponent>(9.8f, 500.0f);
     addComponent<MapComponent>(getCurrentMap());
     getComponent<GravityComponent>()->setOwner(this);
 

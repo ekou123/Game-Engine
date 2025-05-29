@@ -16,9 +16,18 @@ public:
 		// Initialize the component
 		std::cout << "GravityComponent initialized with g: " << g << " and vmax: " << vmax << std::endl;
         vy = 0.0f;
+        enabled = true;
 	}
-    void update(float dt) override {
-        if (!enabled) return;
+    /*void update(float dt) override {
+        if (!enabled) {
+            std::cerr << "Not Enabled\n";
+            return;
+        }
+        if (onGround) {
+            std::cerr << "On Ground";
+            return;
+        }
+        std::cerr << "GravityComponent: Updating with dtssss = " << dt << std::endl;
 
         auto* pos = owner->getComponent<PositionComponent>();
         // 2) get map
@@ -62,6 +71,22 @@ public:
             pos->y = newY;
             onGround = false;
         }
+    }*/
+
+	void update(float dt) override
+    {
+        auto* pos = owner->getComponent<PositionComponent>();
+        if (!pos) {
+            std::cerr << "GravityComponent: no PositionComponent on owner\n";
+            return;
+        }
+        // accelerate downward
+        vy += g * dt;
+        // clamp to terminal velocity
+        vy = std::min(vy, vmax);
+
+        // move the position
+        pos->y += vy * dt;
     }
 
     void setOwner(GameObject* gameObject) {
@@ -78,6 +103,6 @@ public:
 private:
     float g = 9.8;
     float vmax;
-    float vy;
+    float vy = 0;
     bool onGround = false;
 };
