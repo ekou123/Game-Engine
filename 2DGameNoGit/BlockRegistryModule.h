@@ -24,29 +24,12 @@ class PositionComponent;
 
 class BlockRegistryModule : public Module {  
 public:  
-    static BlockRegistryModule& getInstance() {  
-        static BlockRegistryModule instance;  
-        return instance;  
-    };  
 
-    void registerBlock(int id, std::unique_ptr<GameObject> gameObject);
+    void registerBlock(std::unique_ptr<GameObject> gameObject);
 
-    void addBlock(std::unique_ptr<GameObject> gameObject);
+    void addBlock(GameObject* gameObject);
 
-    const std::unique_ptr<GameObject>& getAt(int tileX, int tileY) const
-    {
-        auto key = std::make_pair(tileX, tileY);
-		auto it = worldObjects.find(key);
-
-        if (it == worldObjects.end())
-        {
-           std::cerr << "GameObject at position (" << tileX << ", " << tileY
-                << ") not found.\n";
-		   return nullptr;
-		}
-		return it->second;
-	    //return worldObjects.find(id);
-    }
+    const GameObject* getAt(int tileX, int tileY) const;
 
     const auto& getAll() { return worldObjects; }
 
@@ -62,7 +45,7 @@ public:
 private:
     int nextID = 0;;
     std::unordered_map<int, std::unique_ptr<GameObject>> gameObjects;
-    std::unordered_map<std::pair<int, int>, std::unique_ptr<GameObject>, PairHash> worldObjects;
+    std::unordered_map<std::pair<int, int>, GameObject*, PairHash> worldObjects;
     std::vector<int> order;
     std::vector<int> worldOrder;
 };

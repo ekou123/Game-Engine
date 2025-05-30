@@ -17,6 +17,8 @@ public:
 
 	TileMap(Engine* engine, float spawnX, float spawnY);
 
+	bool init(Engine* engine, float spawnX, float spawnY);
+
 	void render(SDL_Renderer* renderer, const Camera& camera);
 
 	void update(float playerX, float playerY);

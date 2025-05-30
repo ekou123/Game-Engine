@@ -7,8 +7,13 @@
 #include "Camera.h"
 #include "DirtBlock.h"
 #include "BlockType.h"
+#include "PositionComponent.h"
 
 TileMap::TileMap(Engine* engine, float spawnX, float spawnY)
+{
+}
+
+bool TileMap::init(Engine* engine, float spawnX, float spawnY)
 {
     // 1) initialize the ID grid
     map.assign(MAP_TILES_Y,
@@ -39,10 +44,13 @@ TileMap::TileMap(Engine* engine, float spawnX, float spawnY)
                 engine, int(wx), int(wy), TILE_DIRT
             );
             DirtBlock* raw = dirtBlock.get();
-            BlockRegistryModule::getInstance().addBlock(std::move(dirtBlock));
+            std::cerr << "Adding block at: " << raw->getComponent<PositionComponent>()->x << ", " << raw->getComponent<PositionComponent>()->y;
+            blockRegistry->addBlock(raw);
             //tileActors.push_back(raw);
         }
     }
+
+    return true;
 }
 
 //void TileMap::render(SDL_Renderer* renderer,
@@ -117,9 +125,9 @@ TileMap::TileMap(Engine* engine, float spawnX, float spawnY)
 
 void TileMap::render(SDL_Renderer* renderer, const Camera& cam)
 {
-    for (auto& [id, ptr] : BlockRegistryModule::getInstance().getAll()) {
+    /*for (auto& [id, ptr] : BlockRegistryModule::getInstance().getAll()) {
 		ptr->render(renderer, cam);
-	}
+	}*/
 }
 
 void TileMap::update(float playerX, float playerY) {

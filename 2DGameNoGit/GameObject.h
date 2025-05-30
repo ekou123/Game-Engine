@@ -68,8 +68,10 @@ public:
 
     // Add srcRect member
     SDL_Rect srcRect;
+    std::string name = "";
 
 private:
+    
     std::vector<std::unique_ptr<Component>>          components;
     std::unordered_map<std::type_index, Component*>  lookup;
     int height, width;

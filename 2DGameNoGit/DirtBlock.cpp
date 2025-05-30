@@ -5,6 +5,8 @@
 DirtBlock::DirtBlock(Engine* engine, int worldX, int worldY, int blockID)
 	: Block(engine, worldX, worldY, blockID)
 {
+	name = "DirtBlock";
+
 	init(engine, worldX, worldY, blockID);
 
 	SDL_FRect srcRect{ 0.0f, 0.0f, 32.0f, 32.0f }; // Assuming the blockID corresponds to a texture in the registry

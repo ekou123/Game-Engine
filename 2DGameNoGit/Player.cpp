@@ -43,6 +43,8 @@ void Player::setUp(float startX, float startY, TileMap* tileMap)
     jumpingState = new JumpingState(this, stateMachine);
 
     stateMachine->changeState(neutralState);*/
+
+
 }
 
 void Player::update(const bool* ks, float dt, const TileMap& map) {

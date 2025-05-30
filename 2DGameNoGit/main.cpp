@@ -22,7 +22,12 @@ int main() {
     auto renderMod = std::make_unique<RenderModule>();
 	auto blockRegistryMod = std::make_unique<BlockRegistryModule>();
 
-    std::cerr << &cameraMod->cam;
+
+    if (!tileMap->init(engine, 0, 0))
+    {
+		std::cerr << "Failed to initialize TileMap!" << std::endl;
+        return 0;
+    }
 
     
     tileMap->setRegistry(blockRegistryMod.get());

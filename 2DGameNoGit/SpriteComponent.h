@@ -26,6 +26,7 @@ struct SpriteComponent : public Component
 	{}
 
 	void render(SDL_Renderer* r, const Camera& cam) {
+		std::cerr << "Running render in SpriteComponent" << std::endl;
 		PositionComponent* pos = owner->getComponent<PositionComponent>();
 		int x = pos->x;
 		int y = pos->y;
