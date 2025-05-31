@@ -6,6 +6,11 @@
 
 void BlockRegistryModule::addBlock(GameObject* blk)
 {
+	if (!blk)
+	{
+		std::cerr << "Block is null ptr in BlockRegistryModule::addBlock";
+		return;
+	}
 	
 	auto* pos = blk->getComponent<PositionComponent>();
 	if (!pos) {
@@ -13,12 +18,12 @@ void BlockRegistryModule::addBlock(GameObject* blk)
 		return;
 	}
 
-	auto key = std::make_pair(int(pos->x / TILE_SIZE), int(pos->y / TILE_SIZE));
-	worldObjects[key] = blk;
-	worldOrder.push_back(key.second * MAP_TILES_X + key.first);
+	int tileX = int(pos->x / TILE_SIZE);
+	int tileY = int(pos->y / TILE_SIZE);
+	worldObjects.emplace(std::pair<int,int>(tileX,tileY), blk);
+	//worldOrder.push_back(key.second * MAP_TILES_X + key.first);
 
-	std::cerr << "Added block at (" << key.first
-		<< "," << key.second << ") to worldObjects | " << blk->name << std::endl;
+	std::cerr << worldObjects.size() << " blocks in worldObjects\n";
 }
 
 void BlockRegistryModule::registerBlock(std::unique_ptr<GameObject> gameObject)
@@ -55,7 +60,8 @@ void BlockRegistryModule::render(Engine& engine)
 {
 	std::cerr << "worldObjects contains " << worldObjects.size() << " entries\n";
 
-	std::cerr << "Deez Nuts: " << worldObjects.find({ 5, 5 })->second << "\n";
+
+	std::cerr << getAt(5,5) << "\n";
 
 	/*for (auto& [coord, obj] : worldObjects) {
 		int tileX = coord.first;
@@ -64,13 +70,18 @@ void BlockRegistryModule::render(Engine& engine)
 		obj->render(engine.renderer, *engine.getCamera());
 	}*/
 
-	for (auto it = worldObjects.begin(); it != worldObjects.end(); ++it) {
-		auto coord = it->first;       // std::pair<int,int>
-		GameObject* obj = it->second; // raw pointer
-		int tileX = coord.first;
-		int tileY = coord.second;
+	for (auto& kv : worldObjects) {
+		int tileX = kv.first.first;
+		int tileY = kv.first.second;
+		GameObject* obj = kv.second;
+
 		std::cerr << "Rendering block at " << tileX << "," << tileY << "\n";
-		obj->render(engine.renderer, *engine.getCamera());
+		if (obj) {
+			obj->render(engine.renderer, *engine.getCamera());
+		} else {
+			std::cerr << "Warning: GameObject at (" << tileX << ", " << tileY
+				<< ") is null.\n";
+		}
 	}
 }
 

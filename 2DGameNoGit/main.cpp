@@ -63,6 +63,8 @@ int main() {
     engine->setCamera(&cameraMod->cam);
     player->setEngine(engine);
 
+
+
     // 3) Register in order
     engine->registerModule(std::move(worldMod));
     engine->registerModule(std::move(playerMod));

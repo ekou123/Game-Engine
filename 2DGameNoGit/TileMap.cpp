@@ -45,7 +45,7 @@ bool TileMap::init(Engine* engine, float spawnX, float spawnY)
             );
             DirtBlock* raw = dirtBlock.get();
             std::cerr << "Adding block at: " << raw->getComponent<PositionComponent>()->x << ", " << raw->getComponent<PositionComponent>()->y;
-            blockRegistry->addBlock(raw);
+            BlockRegistryModule::getInstance().addBlock(raw);
             //tileActors.push_back(raw);
         }
     }

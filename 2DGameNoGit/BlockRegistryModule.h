@@ -23,7 +23,12 @@ class Block;
 class PositionComponent;
 
 class BlockRegistryModule : public Module {  
-public:  
+public:
+    static BlockRegistryModule& getInstance()
+    {
+        static BlockRegistryModule instance;
+		return instance;
+    }
 
     void registerBlock(std::unique_ptr<GameObject> gameObject);
 
