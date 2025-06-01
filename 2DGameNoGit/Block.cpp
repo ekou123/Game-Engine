@@ -17,6 +17,7 @@ Block::Block(Engine* engine, int worldX, int worldY, int blockID)
 
 void Block::render(SDL_Renderer* ren, const Camera& cam)
 {
+	//std::cerr << "Rendering Block Object" << std::endl;
 	auto pos = getComponent<PositionComponent>();
 	if (!pos)
 	{
@@ -32,7 +33,7 @@ void Block::render(SDL_Renderer* ren, const Camera& cam)
 
 	if (pos && sprite)
 	{
-		//sprite->render(ren, cam);
+		sprite->render(ren, cam);
 	}
 
 

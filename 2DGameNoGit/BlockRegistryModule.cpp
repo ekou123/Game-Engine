@@ -104,7 +104,7 @@ void BlockRegistryModule::render(Engine& engine)
 	for (auto& [coord, obj] : worldObjects) {
 		int tileX = coord.first;
 		int tileY = coord.second;
-		std::cerr << "Rendering block at " << tileX << "," << tileY << "\n";
+		//std::cerr << "Rendering block at " << tileX << "," << tileY << "\n";
 		obj->render(engine.renderer, *engine.getCamera());
 	}
 
