@@ -32,9 +32,9 @@ public:
 
     void registerBlock(std::unique_ptr<GameObject> gameObject);
 
-    void addBlock(GameObject* gameObject);
+    void addBlock(std::unique_ptr<GameObject> gameObject);
 
-    const GameObject* getAt(int tileX, int tileY) const;
+    std::unique_ptr<GameObject> getAt(int tileX, int tileY);
 
     const auto& getAll() { return worldObjects; }
 
@@ -50,7 +50,8 @@ public:
 private:
     int nextID = 0;;
     std::unordered_map<int, std::unique_ptr<GameObject>> gameObjects;
-    std::unordered_map<std::pair<int, int>, GameObject*, PairHash> worldObjects;
+    std::vector<std::vector<int>> map;
+    std::unordered_map<std::pair<int, int>, std::unique_ptr<GameObject>, PairHash> worldObjects;
     std::vector<int> order;
     std::vector<int> worldOrder;
 };

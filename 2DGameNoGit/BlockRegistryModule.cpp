@@ -4,26 +4,20 @@
 #include "PositionComponent.h"
 #include <iostream>
 
-void BlockRegistryModule::addBlock(GameObject* blk)
+void BlockRegistryModule::addBlock(std::unique_ptr<GameObject> blkPtr)
 {
-	if (!blk)
-	{
-		std::cerr << "Block is null ptr in BlockRegistryModule::addBlock";
-		return;
-	}
-	
+	GameObject* blk = blkPtr.get();
+	std::cerr << "[addBlock] called with blk=" << blk << "\n";
 	auto* pos = blk->getComponent<PositionComponent>();
 	if (!pos) {
-		std::cerr << "Cannot add block without PositionComponent\n";
+		std::cerr << "[addBlock] pos is null—no PositionComponent attached.\n";
 		return;
 	}
-
 	int tileX = int(pos->x / TILE_SIZE);
 	int tileY = int(pos->y / TILE_SIZE);
-	worldObjects.emplace(std::pair<int,int>(tileX,tileY), blk);
-	//worldOrder.push_back(key.second * MAP_TILES_X + key.first);
-
-	std::cerr << worldObjects.size() << " blocks in worldObjects\n";
+	auto key = std::make_pair(tileX, tileY);
+	worldObjects.emplace(key, std::move(blkPtr));
+	std::cerr << "[addBlock] now worldObjects.size() = " << worldObjects.size() << "\n";
 }
 
 void BlockRegistryModule::registerBlock(std::unique_ptr<GameObject> gameObject)
@@ -46,10 +40,49 @@ void BlockRegistryModule::registerBlock(std::unique_ptr<GameObject> gameObject)
 
 bool BlockRegistryModule::init(Engine* engine)
 {
-	std::cerr << "Initializing BlockRegistryModule\n";
-	// Register blocks
-	//auto dirt = std::make_unique<DirtBlock>(engine, 0, 0, nextID);
-	return true; // Initialization successful
+	int spawnX = 0;
+	int spawnY = 0;
+	// 1) initialize the ID grid
+	map.assign(MAP_TILES_Y,
+		std::vector<int>(MAP_TILES_X, TILE_EMPTY));
+
+	// 2) compute the spawn tile coordinates
+	int centerX = int(spawnX) / TILE_SIZE;
+	int centerY = int(spawnY) / TILE_SIZE;
+
+	const int radius = 10; // how many tiles in each direction
+	for (int dy = -radius; dy <= radius; ++dy) {
+		for (int dx = -radius; dx <= radius; ++dx) {
+			int tx = centerX + dx;
+			int ty = centerY + dy;
+			if (tx < 0 || tx >= MAP_TILES_X ||
+				ty < 0 || ty >= MAP_TILES_Y)
+				continue;
+
+			// set dirt in your map
+			map[ty][tx] = TILE_DIRT;
+
+			// convert tile coords back to world pos
+			float wx = tx * TILE_SIZE;
+			float wy = ty * TILE_SIZE;
+
+			// spawn a Block GameObject for this tile:
+			auto dirtBlock = std::make_unique<DirtBlock>(
+				engine, int(wx), int(wy), TILE_DIRT
+			);
+			DirtBlock* raw = dirtBlock.get();
+			if (!raw->getComponent<PositionComponent>())
+			{
+				std::cerr << "DirtBlock has no PositionComponent";
+			}
+
+			std::cerr << "Adding block at: " << raw->getComponent<PositionComponent>()->x << ", " << raw->getComponent<PositionComponent>()->y;
+			addBlock(std::move(dirtBlock));
+			//tileActors.push_back(raw);
+		}
+	}
+
+	return true;
 }
 
 void BlockRegistryModule::update(Engine& engine, float dt)
@@ -58,19 +91,24 @@ void BlockRegistryModule::update(Engine& engine, float dt)
 
 void BlockRegistryModule::render(Engine& engine)
 {
-	std::cerr << "worldObjects contains " << worldObjects.size() << " entries\n";
+	//std::cerr << "worldObjects contains " << worldObjects.size() << " entries\n";
+	if (worldObjects.size() <= 0)
+	{
+		std::cerr << "WorldObjects contains no entries";
+		return;
+	}
 
 
-	std::cerr << getAt(5,5) << "\n";
+	//std::cerr << getAt(5,5) << "\n";
 
-	/*for (auto& [coord, obj] : worldObjects) {
+	for (auto& [coord, obj] : worldObjects) {
 		int tileX = coord.first;
 		int tileY = coord.second;
 		std::cerr << "Rendering block at " << tileX << "," << tileY << "\n";
 		obj->render(engine.renderer, *engine.getCamera());
-	}*/
+	}
 
-	for (auto& kv : worldObjects) {
+	/*for (auto& kv : worldObjects) {
 		int tileX = kv.first.first;
 		int tileY = kv.first.second;
 		GameObject* obj = kv.second;
@@ -82,22 +120,20 @@ void BlockRegistryModule::render(Engine& engine)
 			std::cerr << "Warning: GameObject at (" << tileX << ", " << tileY
 				<< ") is null.\n";
 		}
-	}
+	}*/
 }
 
-const GameObject* BlockRegistryModule::getAt(int tileX, int tileY) const
+std::unique_ptr<GameObject> BlockRegistryModule::getAt(int tileX, int tileY)
 {
 	auto key = std::make_pair(tileX, tileY);
 	auto it = worldObjects.find(key);
-
-	if (it == worldObjects.end())
-	{
-		std::cerr << "GameObject at position (" << tileX << ", " << tileY
-			<< ") not found.\n";
+	if (it == worldObjects.end()) {
+		std::cerr << "GameObject at (" << tileX << ", " << tileY << ") not found.\n";
 		return nullptr;
 	}
-	return it->second;
-	//return worldObjects.find(id)
+	// “Move” the unique_ptr out of the map:
+	std::unique_ptr<GameObject> result = std::move(it->second);
+	return result;  // moved, not copied
 }
 
 

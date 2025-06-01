@@ -15,7 +15,7 @@ TileMap::TileMap(Engine* engine, float spawnX, float spawnY)
 
 bool TileMap::init(Engine* engine, float spawnX, float spawnY)
 {
-    // 1) initialize the ID grid
+    /*// 1) initialize the ID grid
     map.assign(MAP_TILES_Y,
         std::vector<int>(MAP_TILES_X, TILE_EMPTY));
 
@@ -44,12 +44,17 @@ bool TileMap::init(Engine* engine, float spawnX, float spawnY)
                 engine, int(wx), int(wy), TILE_DIRT
             );
             DirtBlock* raw = dirtBlock.get();
+            if (!raw->getComponent<PositionComponent>())
+            {
+                std::cerr << "DirtBlock has no PositionComponent";
+            }
+
             std::cerr << "Adding block at: " << raw->getComponent<PositionComponent>()->x << ", " << raw->getComponent<PositionComponent>()->y;
-            BlockRegistryModule::getInstance().addBlock(raw);
+            BlockRegistryModule::getInstance().addBlock(std::move(dirtBlock));
             //tileActors.push_back(raw);
         }
     }
-
+	*/
     return true;
 }
 
