@@ -64,11 +64,13 @@ public:
 
     int getID() const { return id; }
 
+	void setIsSolid(bool isSolid) { isSolid_ = isSolid; }
+
 	void setEngine(Engine* engine) { this->engine = engine; }
 
     // Add srcRect member
     SDL_Rect srcRect;
-    std::string name = "";
+    std::string name = "deez";
 
 private:
     

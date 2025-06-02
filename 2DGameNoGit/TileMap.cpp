@@ -139,27 +139,23 @@ void TileMap::update(float playerX, float playerY) {
 }
 
 bool TileMap::isSolidWorldPos(float worldX, float worldY) const {
-    int tileX = int(worldX) / TILE_SIZE;
+	
+    /*int tileX = int(worldX) / TILE_SIZE;
     int tileY = int(worldY) / TILE_SIZE;
 
     //std::cout << "TileMap::isSolidWorldPos: tileX: " << tileX << " tileY: " << tileY << std::endl;
 
-    // TRUE guard against *this* map’s dimensions:
-    if (tileY < 0 ||
-        tileY >= int(map.size()) ||      // no such row
-        tileX < 0 ||
-        tileX >= int(map[tileY].size()))  // no such column
-    {
-        return false;
-    }
+    
 
-    /*//int id = map[tileY][tileX];
+    //int id = map[tileY][tileX];
     if (std::move(BlockRegistryModule::getInstance().getAt(tileX, tileY))->isSolid())
     {
+        std::cerr << "Solid" << std::endl;
         return true;
     }
     else
     {
         return false;
     }*/
+    return true;
 }

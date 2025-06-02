@@ -6,6 +6,7 @@
 #include <vector>
 #include <memory>
 #include "Module.h"
+#include "Constants.h" 
 #include "GameObject.h"
 
 struct PairHash
@@ -34,7 +35,7 @@ public:
 
     void addBlock(std::unique_ptr<GameObject> gameObject);
 
-    std::unique_ptr<GameObject> getAt(int tileX, int tileY);
+    GameObject* getAt(int tileX, int tileY);
 
     const auto& getAll() { return worldObjects; }
 
@@ -44,6 +45,8 @@ public:
     bool init(Engine* engine) override;
     void update(Engine& engine, float dt) override;
     void render(Engine& engine) override;
+
+    bool isSolidAt(float worldX, float worldY);
 
     void shutdown(Engine& engine) override;
 
