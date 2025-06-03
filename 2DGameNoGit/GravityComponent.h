@@ -66,7 +66,7 @@ public:
         bool hitLeft = BlockRegistryModule::getInstance().isSolidAt(float(leftX), sampleY);
         bool hitRight = BlockRegistryModule::getInstance().isSolidAt(float(rightX), sampleY);
 
-		std::cerr << "hitLeft: " << hitLeft << ", hitRight: " << hitRight << "\n";
+		//std::cerr << "hitLeft: " << hitLeft << ", hitRight: " << hitRight << "\n";
 
         // (5) If we’re falling (vy>0) and either left or right collides, snap to ground:
         if (vy > 0 && (hitLeft || hitRight)) {

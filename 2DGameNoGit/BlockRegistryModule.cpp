@@ -32,6 +32,7 @@ bool BlockRegistryModule::init(Engine* engine)
 			float wx = tx * TILE_SIZE;
 			float wy = ty * TILE_SIZE;
 
+
 			// spawn a Block GameObject for this tile:
 			auto dirtBlock = std::make_unique<DirtBlock>(
 				engine, int(wx), int(wy), TILE_DIRT
@@ -108,18 +109,26 @@ void BlockRegistryModule::render(Engine& engine)
 
 bool BlockRegistryModule::isSolidAt(float worldX, float worldY)
 {
+	if (worldObjects.empty()) {
+		std::cerr << "[BlockRegistryModule] World Objects empty in isSolidAt\n";
+		//return false;
+	}
 	// 1) Convert the pixel‐space (worldX, worldY) to tile indices:
 	int tileX = int(worldX) / TILE_SIZE;
 	int tileY = int(worldY) / TILE_SIZE;
 
 	// 2) Look up that tile in our worldObjects (we never move it out):
-	GameObject* obj = getAt(tileX, tileY);
+	std::unique_ptr<GameObject> objPtr = getAt(tileX, tileY);
+
+	GameObject* obj = objPtr.get();
 	if (!obj) {
 		// No block here, so it’s not solid:
 		std::cerr << "No object at (" << tileX << ", " << tileY << ")\n";
 		std::cerr << "No Object at (" << worldX << ", " << worldY << " world | World Objects Size: " << worldObjects.size() << std::endl;
 		return false;
 	}
+
+	std::cerr << "Object Name: " << obj->name << "\n";
 
 	// 3) If we found a block, ask if it’s solid:
 	if (obj->isSolid()) {
@@ -131,17 +140,17 @@ bool BlockRegistryModule::isSolidAt(float worldX, float worldY)
 	}
 }
 
-GameObject* BlockRegistryModule::getAt(int tileX, int tileY)
+std::unique_ptr<GameObject> BlockRegistryModule::getAt(int tileX, int tileY)
 {
 	auto key = std::make_pair(tileX, tileY);
 	auto it = worldObjects.find(key);
 	if (it == worldObjects.end()) {
 		// Not found:
-		//std::cerr << "Object not found at (" << tileX << ", " << tileY << " | World Objects Size: " << worldObjects.size() << std::endl;
+		std::cerr << "Object not found at (" << tileX << ", " << tileY << " | World Objects Size: " << worldObjects.size() << std::endl;
 		return nullptr;
 	}
 	// Return the raw pointer; do NOT move it out.
-	return it->second.get();
+	return std::move(it->second);
 }
 
 

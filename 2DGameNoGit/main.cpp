@@ -67,10 +67,11 @@ int main() {
 
     // 3) Register in order
     engine->registerModule(std::move(worldMod));
+    engine->registerModule(std::move(blockRegistryMod));
     engine->registerModule(std::move(playerMod));
     engine->registerModule(std::move(cameraMod));
     engine->registerModule(std::move(renderMod));
-    engine->registerModule(std::move(blockRegistryMod));
+    
 
     if (!engine->init("TerrariaEngine", WINDOW_W, WINDOW_H)) return 1;
     engine->run();

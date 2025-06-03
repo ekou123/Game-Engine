@@ -35,7 +35,7 @@ public:
 
     void addBlock(std::unique_ptr<GameObject> gameObject);
 
-    GameObject* getAt(int tileX, int tileY);
+    std::unique_ptr<GameObject> getAt(int tileX, int tileY);
 
     const auto& getAll() { return worldObjects; }
 
