@@ -14,9 +14,10 @@ class GravityComponent : public Component {
 public:
     GravityComponent(float strength, float terminalVel = 1000.0f) : g(strength), vmax(terminalVel), vy(0.0f) {}
 
-    void init() override {
+    void init(Engine* E) override {
 		// Initialize the component
 		std::cout << "GravityComponent initialized with g: " << g << " and vmax: " << vmax << std::endl;
+		this->engine = E;
         vy = 0.0f;
         enabled = true;
 	}
@@ -63,8 +64,9 @@ public:
             << ", tileRow=" << tileRow
             << "\n";
 
-        bool hitLeft = BlockRegistryModule::getInstance().isSolidAt(float(leftX), sampleY);
-        bool hitRight = BlockRegistryModule::getInstance().isSolidAt(float(rightX), sampleY);
+        BlockRegistryModule* blockRegistry = engine->getModule<BlockRegistryModule>();
+        bool hitLeft = blockRegistry->isSolidAt(float(leftX), sampleY);
+        bool hitRight = blockRegistry->isSolidAt(float(rightX), sampleY);
 
 		//std::cerr << "hitLeft: " << hitLeft << ", hitRight: " << hitRight << "\n";
 
@@ -114,4 +116,5 @@ private:
     float vmax;
     float vy = 0;
     bool onGround = false;
+	Engine* engine = nullptr;
 };

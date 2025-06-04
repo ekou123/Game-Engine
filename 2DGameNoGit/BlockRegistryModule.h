@@ -25,17 +25,26 @@ class PositionComponent;
 
 class BlockRegistryModule : public Module {  
 public:
+    BlockRegistryModule() = default;
+    ~BlockRegistryModule() = default;
+    BlockRegistryModule(const BlockRegistryModule&) = delete;
+    BlockRegistryModule& operator=(const BlockRegistryModule&) = delete;
+
     static BlockRegistryModule& getInstance()
     {
         static BlockRegistryModule instance;
 		return instance;
     }
 
+    static BlockRegistryModule* getInstancePtr() {
+        return &getInstance();
+    }
+
     void registerBlock(std::unique_ptr<GameObject> gameObject);
 
     void addBlock(std::unique_ptr<GameObject> gameObject);
 
-    std::unique_ptr<GameObject> getAt(int tileX, int tileY);
+    GameObject* getAt(int tileX, int tileY);
 
     const auto& getAll() { return worldObjects; }
 
@@ -51,6 +60,8 @@ public:
     void shutdown(Engine& engine) override;
 
 private:
+    
+
     int nextID = 0;;
     std::unordered_map<int, std::unique_ptr<GameObject>> gameObjects;
     std::vector<std::vector<int>> map;

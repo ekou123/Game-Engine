@@ -40,7 +40,7 @@ struct SpriteComponent : public Component
         srcRect = src;
     }
 
-	void init() override {}
+	void init(Engine* engine) override {}
 
 	void update(float) override
 	{}

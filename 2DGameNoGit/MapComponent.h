@@ -11,7 +11,7 @@ public:
     {}
 
     /// No special init/update needed here
-    void init() override {}
+    void init(Engine* engine) override {}
     void update(float) override {}
 
     /// Expose the map to whoever needs it

@@ -4,6 +4,7 @@
 #include <memory>
 #include <string>
 #include <typeindex>
+#include <iostream>
 #include "SDL3/SDL.h"
 #include "Engine.h"
 #include "Component.h"
@@ -39,8 +40,14 @@ public:
         // 3) put pointer in lookup
         lookup[typeid(T)] = ptr;
 
+        if (!engine)
+        {
+			std::cerr << "Error: Engine is not set for GameObject when adding component of type " << typeid(T).name() << std::endl;
+			return nullptr;
+        }
+
         // 4) initialize
-        ptr->init();
+        ptr->init(engine);
         return ptr;
     }
 

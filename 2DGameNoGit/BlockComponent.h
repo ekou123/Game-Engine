@@ -12,7 +12,7 @@ struct BlockComponent : public Component
 		isSolid(BlockRegistryModule::getInstance().get(id).isSolid)
 	{}
 
-	void init() override
+	void init(Engine* engine) override
 	{}
 
 	void update(float dt) override

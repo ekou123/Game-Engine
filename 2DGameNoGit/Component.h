@@ -7,7 +7,7 @@ class Component {
 public:
 	virtual ~Component() = default;
 	void setOwner(GameObject* gameObject) { this->owner = gameObject; }
-	virtual void init() {}
+	virtual void init(Engine* engine) {}
 	virtual void update(float dt) {
 		if (!enabled) {
 			return;

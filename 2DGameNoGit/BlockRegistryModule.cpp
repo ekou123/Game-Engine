@@ -111,16 +111,16 @@ bool BlockRegistryModule::isSolidAt(float worldX, float worldY)
 {
 	if (worldObjects.empty()) {
 		std::cerr << "[BlockRegistryModule] World Objects empty in isSolidAt\n";
-		//return false;
+		return false;
 	}
+
 	// 1) Convert the pixel‐space (worldX, worldY) to tile indices:
 	int tileX = int(worldX) / TILE_SIZE;
 	int tileY = int(worldY) / TILE_SIZE;
 
 	// 2) Look up that tile in our worldObjects (we never move it out):
-	std::unique_ptr<GameObject> objPtr = getAt(tileX, tileY);
 
-	GameObject* obj = objPtr.get();
+	GameObject* obj = getAt(tileX, tileY);
 	if (!obj) {
 		// No block here, so it’s not solid:
 		std::cerr << "No object at (" << tileX << ", " << tileY << ")\n";
@@ -140,8 +140,9 @@ bool BlockRegistryModule::isSolidAt(float worldX, float worldY)
 	}
 }
 
-std::unique_ptr<GameObject> BlockRegistryModule::getAt(int tileX, int tileY)
+GameObject* BlockRegistryModule::getAt(int tileX, int tileY)
 {
+	std::cerr << "World Objects Size: " << worldObjects.size() << std::endl;
 	auto key = std::make_pair(tileX, tileY);
 	auto it = worldObjects.find(key);
 	if (it == worldObjects.end()) {
@@ -150,7 +151,7 @@ std::unique_ptr<GameObject> BlockRegistryModule::getAt(int tileX, int tileY)
 		return nullptr;
 	}
 	// Return the raw pointer; do NOT move it out.
-	return std::move(it->second);
+	return it->second.get();
 }
 
 
