@@ -11,7 +11,7 @@ void MoveLeftAction::execute(Player* player)
 		return;
 	}
 
-	pos->x -= 1; // Move left by 1 unit
+	pos->x -= player->speed;
 	
 }
 

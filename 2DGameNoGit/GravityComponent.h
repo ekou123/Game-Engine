@@ -22,63 +22,54 @@ public:
         enabled = true;
 	}
     void update(float dt) override {
-        if (!enabled) {
-            return;
-        }
-        if (onGround) {
-            // If you’re already on the ground, do nothing.
-            return;
-        }
+        if (!enabled) return;
 
-        // (1) Grab owner’s position and map:
+        // 1) Get position + map
         auto* pos = owner->getComponent<PositionComponent>();
         auto* mapComp = owner->getComponent<MapComponent>();
         if (!pos || !mapComp) return;
-
         TileMap* map = mapComp->getMap();
         if (!map) {
             std::cerr << "GravityComponent: No map found!\n";
             return;
         }
 
-        // (2) integrate vertical velocity
+        // 2) Integrate velocity
         vy = std::min(vy + g * dt, vmax);
-        float newY = pos->y + vy * dt;
+        float fallDist = vy * dt;
+        float newY = pos->y + fallDist;
 
-        //   newY is the candidate y‐position in pixel‐space.
+        // 3) Compute which tile‐row the feet would land in
+        float feetY = newY + PLAYER_HEIGHT;
+        int   tileRow = int(feetY) / TILE_SIZE;
 
-        // (3) figure out which tile‐row the feet will land in:
-        float feetY = newY + PLAYER_HEIGHT;       // pixel coordinate of bottom of player
-        int tileRow = int(feetY) / TILE_SIZE;     // integer tile‐row index
+        // 4) Compute clamp position (exact contact Y)
+        float groundY = tileRow * TILE_SIZE;           // world‐Y of tile top
+        float maxY = groundY - PLAYER_HEIGHT;       // highest pos->y before overlap
 
-        // (4) sample “just inside” the left/right edges of the player’s feet:
-        //     — pos->x is pixel‐space; +1 px moves you inside the left edge,
-        //       -1 on width keeps you inside right edge
-        int leftX = int(pos->x) + 1;
-        int rightX = int(pos->x + PLAYER_WIDTH) - 1;
-        float sampleY = float(tileRow * TILE_SIZE + 1);  // one pixel inside the top of that tile
+        // 5) Sample left/right feet to see if that tile is solid
+        int   leftX = int(pos->x) + 1;
+        int   rightX = int(pos->x + PLAYER_WIDTH) - 1;
+        float sampleY = groundY + 1.0f;                // one pixel into that tile
 
-        std::cerr << "leftX=" << leftX
-            << ", rightX=" << rightX
-            << ", sampleY=" << sampleY
-            << ", tileRow=" << tileRow
-            << "\n";
+        auto* brm = engine->getModule<BlockRegistryModule>();
+        bool hitLeft = brm->isSolidAt(float(leftX), sampleY);
+        bool hitRight = brm->isSolidAt(float(rightX), sampleY);
 
-        BlockRegistryModule* blockRegistry = engine->getModule<BlockRegistryModule>();
-        bool hitLeft = blockRegistry->isSolidAt(float(leftX), sampleY);
-        bool hitRight = blockRegistry->isSolidAt(float(rightX), sampleY);
+        std::cerr << "GravityComponent: feetY: " << feetY << ", tileRow: " << tileRow
+                  << ", groundY: " << groundY << ", maxY: " << maxY
+                  << ", leftX: " << leftX << ", rightX: " << rightX
+			<< ", hitLeft: " << hitLeft << ", hitRight: " << hitRight << std::endl;
 
-		//std::cerr << "hitLeft: " << hitLeft << ", hitRight: " << hitRight << "\n";
-
-        // (5) If we’re falling (vy>0) and either left or right collides, snap to ground:
-        if (vy > 0 && (hitLeft || hitRight)) {
-            // snap y so bottom of player = top of that tileRow:
-            pos->y = float(tileRow * TILE_SIZE) - PLAYER_HEIGHT;
+        // 6) Clamp or fall
+        if (vy > 0 && newY > maxY && (hitLeft || hitRight)) {
+            // collision this frame: land exactly on ground
+            pos->y = maxY;
             vy = 0;
             onGround = true;
         }
         else {
-            // no collision → commit the fall
+            // no collision: free‐fall
             pos->y = newY;
             onGround = false;
         }
