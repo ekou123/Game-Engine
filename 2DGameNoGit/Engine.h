@@ -64,13 +64,14 @@ public:
 
 	SDL_Window* window;
 	SDL_Renderer* renderer;
+	bool running;
 
 private:
 	std::vector<std::unique_ptr<Module>> modules;
 	TileMap* currentTileMap = nullptr;
 	Player* currentPlayer = nullptr;
 	Camera* camera = nullptr;
-	bool running;
+	
 	float deltaTime;
 	SDL_Event event;
 

@@ -7,6 +7,7 @@
 #include "CameraModule.h"
 #include "RenderModule.h"
 #include "BlockRegistryModule.h"
+#include "InputModule.h"
 
 // main.cpp (Game)
 
@@ -21,6 +22,7 @@ int main() {
     auto cameraMod = std::make_unique<CameraModule>();
     auto renderMod = std::make_unique<RenderModule>();
 	auto blockRegistryMod = std::make_unique<BlockRegistryModule>();
+	auto inputMod = std::make_unique<InputModule>();
 
 
     if (!tileMap->init(engine, 0, 0))
@@ -71,6 +73,7 @@ int main() {
     engine->registerModule(std::move(playerMod));
     engine->registerModule(std::move(cameraMod));
     engine->registerModule(std::move(renderMod));
+	engine->registerModule(std::move(inputMod));
     
 
     if (!engine->init("TerrariaEngine", WINDOW_W, WINDOW_H)) return 1;
