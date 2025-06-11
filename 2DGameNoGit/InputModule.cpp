@@ -7,7 +7,7 @@
 bool InputModule::init(Engine* engine) {
 	auto moveLeft = std::make_shared<MoveLeftAction>();
 
-	bindKey(SDL_SCANCODE_A, moveLeft);
+	bindKey(moveLeft);
 	return true; // Initialization logic can be added here if needed
 }
 
@@ -23,19 +23,13 @@ void InputModule::update(Engine& engine, float dt)
 	int numKeys;
 	const bool* keys = SDL_GetKeyboardState(&numKeys);
 
-	for (auto& [sc, actions] : keyBindings) {
-		bool down = sc < numKeys && keys[sc];
-		std::cerr << "Down: " << down << " for scancode: " << sc << std::endl;
-		for (auto& act : actions)
-		{
-			if (down)
-			{
-				PlayerModule* pm = engine.getModule<PlayerModule>();
-				act->execute(pm->getPlayer());
-			} else if (!down && !act->isComplete())
-			{
-				act->reset();
-			}
+	for (auto& action : keyBindings) {
+		if (action->isTriggering(keys)) {
+			std::cout << "Action triggered." << std::endl;
+			PlayerModule* pm = engine.getModule<PlayerModule>();
+			action->execute(keys, pm->getPlayer());
+		} else if (!action->isComplete()) {
+			action->reset();
 		}
 	}
 		
@@ -52,7 +46,7 @@ void InputModule::shutdown(Engine& engine)
 }
 
 
-void InputModule::bindKey(SDL_Scancode sc, std::shared_ptr<Action> action) {
-	keyBindings[sc].push_back(action);
+void InputModule::bindKey(std::shared_ptr<Action> action) {
+	keyBindings.push_back(action);
 	allActions.push_back(action);
 }
