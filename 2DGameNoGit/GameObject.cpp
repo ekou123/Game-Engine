@@ -48,5 +48,7 @@ void GameObject::render(SDL_Renderer* renderer, const Camera& camera)
         std::cerr << "Cannot find sprite component on object.";
         return;
     }
+
+	spriteComponent->render(renderer, camera);
 }
 

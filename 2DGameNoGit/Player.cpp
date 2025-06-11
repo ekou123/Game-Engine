@@ -43,6 +43,8 @@ void Player::setUp(float startX, float startY, TileMap* tileMap)
     jumpingState = new JumpingState(this, stateMachine);
 
     stateMachine->changeState(neutralState);*/
+
+
 }
 
 void Player::update(const bool* ks, float dt, const TileMap& map) {
@@ -52,7 +54,9 @@ void Player::update(const bool* ks, float dt, const TileMap& map) {
     // 1) Gravity (via components)
     Actor::update(dt);
 
-    //stateMachine->handleInput(ks, dt);
+    //stateMachine->handleInput(ks, dt);'
+
+	std::cerr << "Player X: " << pos->x << "Player Y: " << pos->y << std::endl;
 
     
 

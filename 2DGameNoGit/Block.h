@@ -16,5 +16,5 @@ public:
 
 
 private:
-	std::string name = "";
+	
 };

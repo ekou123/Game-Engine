@@ -6,6 +6,7 @@
 #include <vector>
 #include <memory>
 #include "Module.h"
+#include "Constants.h" 
 #include "GameObject.h"
 
 struct PairHash
@@ -23,30 +24,27 @@ class Block;
 class PositionComponent;
 
 class BlockRegistryModule : public Module {  
-public:  
-    static BlockRegistryModule& getInstance() {  
-        static BlockRegistryModule instance;  
-        return instance;  
-    };  
+public:
+    BlockRegistryModule() = default;
+    ~BlockRegistryModule() = default;
+    BlockRegistryModule(const BlockRegistryModule&) = delete;
+    BlockRegistryModule& operator=(const BlockRegistryModule&) = delete;
 
-    void registerBlock(int id, std::unique_ptr<GameObject> gameObject);
+    static BlockRegistryModule& getInstance()
+    {
+        static BlockRegistryModule instance;
+		return instance;
+    }
+
+    static BlockRegistryModule* getInstancePtr() {
+        return &getInstance();
+    }
+
+    void registerBlock(std::unique_ptr<GameObject> gameObject);
 
     void addBlock(std::unique_ptr<GameObject> gameObject);
 
-    const std::unique_ptr<GameObject>& getAt(int tileX, int tileY) const
-    {
-        auto key = std::make_pair(tileX, tileY);
-		auto it = worldObjects.find(key);
-
-        if (it == worldObjects.end())
-        {
-           std::cerr << "GameObject at position (" << tileX << ", " << tileY
-                << ") not found.\n";
-		   return nullptr;
-		}
-		return it->second;
-	    //return worldObjects.find(id);
-    }
+    GameObject* getAt(int tileX, int tileY);
 
     const auto& getAll() { return worldObjects; }
 
@@ -57,11 +55,16 @@ public:
     void update(Engine& engine, float dt) override;
     void render(Engine& engine) override;
 
+    bool isSolidAt(float worldX, float worldY);
+
     void shutdown(Engine& engine) override;
 
 private:
+    
+
     int nextID = 0;;
     std::unordered_map<int, std::unique_ptr<GameObject>> gameObjects;
+    std::vector<std::vector<int>> map;
     std::unordered_map<std::pair<int, int>, std::unique_ptr<GameObject>, PairHash> worldObjects;
     std::vector<int> order;
     std::vector<int> worldOrder;

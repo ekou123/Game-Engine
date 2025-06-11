@@ -28,6 +28,26 @@ public:
 	Engine(Engine&&) = default;
 	Engine& operator=(Engine&&) = default;
 
+	template<typename T>
+	T* getModule() {
+		for (auto& m : modules) {
+			if (auto ptr = dynamic_cast<T*>(m.get())) {
+				return ptr;
+			}
+		}
+		return nullptr;
+	}
+
+	template<typename T>
+	const T* getModule() const {
+		for (auto& m : modules) {
+			if (auto ptr = dynamic_cast<const T*>(m.get())) {
+				return ptr;
+			}
+		}
+		return nullptr;
+	}
+
 	//Engine() : window(nullptr), renderer(nullptr), running(false) {}
 	bool init(const char* title, int w, int h);
 	void registerModule(std::unique_ptr<Module> module);
@@ -44,13 +64,14 @@ public:
 
 	SDL_Window* window;
 	SDL_Renderer* renderer;
+	bool running;
 
 private:
 	std::vector<std::unique_ptr<Module>> modules;
 	TileMap* currentTileMap = nullptr;
 	Player* currentPlayer = nullptr;
 	Camera* camera = nullptr;
-	bool running;
+	
 	float deltaTime;
 	SDL_Event event;
 

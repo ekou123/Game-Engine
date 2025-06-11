@@ -8,72 +8,74 @@
 #include "Player.h"
 #include <iostream>
 
+#include "BlockRegistryModule.h"
+
 class GravityComponent : public Component {
 public:
     GravityComponent(float strength, float terminalVel = 1000.0f) : g(strength), vmax(terminalVel), vy(0.0f) {}
 
-    void init() override {
+    void init(Engine* E) override {
 		// Initialize the component
 		std::cout << "GravityComponent initialized with g: " << g << " and vmax: " << vmax << std::endl;
+		this->engine = E;
         vy = 0.0f;
         enabled = true;
 	}
-    /*void update(float dt) override {
-        if (!enabled) {
-            std::cerr << "Not Enabled\n";
-            return;
-        }
-        if (onGround) {
-            std::cerr << "On Ground";
-            return;
-        }
-        std::cerr << "GravityComponent: Updating with dtssss = " << dt << std::endl;
+    void update(float dt) override {
+        if (!enabled) return;
 
+        // 1) Get position + map
         auto* pos = owner->getComponent<PositionComponent>();
-        // 2) get map
         auto* mapComp = owner->getComponent<MapComponent>();
         if (!pos || !mapComp) return;
-
         TileMap* map = mapComp->getMap();
         if (!map) {
-            std::cerr << "GravityComponent: No map found!" << std::endl;
+            std::cerr << "GravityComponent: No map found!\n";
             return;
         }
 
-
-        // 3) integrate velocity
+        // 2) Integrate velocity
         vy = std::min(vy + g * dt, vmax);
-        float newY = pos->y + vy * dt;
+        float fallDist = vy * dt;
+        float newY = pos->y + fallDist;
 
-        // assume we already computed newY = pos->y + vy*dt
-
-// 1) figure out which tile‐row your feet would land in
+        // 3) Compute which tile‐row the feet would land in
         float feetY = newY + PLAYER_HEIGHT;
-        int tileRow = int(feetY) / TILE_SIZE;
+        int   tileRow = int(feetY) / TILE_SIZE;
 
-        // 2) sample two points *just inside* the dirt tile, not on the boundary
-        int leftX = int(pos->x + 1);                     // +1 so you’re > the left edge
-        int rightX = int(pos->x + PLAYER_WIDTH - 1);      // -1 so you’re < right edge
-        float sampleY = tileRow * TILE_SIZE + 1;          // +1 so you’re inside that row
+        // 4) Compute clamp position (exact contact Y)
+        float groundY = tileRow * TILE_SIZE;           // world‐Y of tile top
+        float maxY = groundY - PLAYER_HEIGHT;       // highest pos->y before overlap
 
-        bool hitLeft = map->isSolidWorldPos(leftX, sampleY);
-        bool hitRight = map->isSolidWorldPos(rightX, sampleY);
+        // 5) Sample left/right feet to see if that tile is solid
+        int   leftX = int(pos->x) + 1;
+        int   rightX = int(pos->x + PLAYER_WIDTH) - 1;
+        float sampleY = groundY + 1.0f;                // one pixel into that tile
 
-        if (vy > 0 && (hitLeft || hitRight)) {
-            // you’re falling into dirt
-            // snap your feet to sit on top of that tile
-            pos->y = tileRow * TILE_SIZE - PLAYER_HEIGHT;
+        auto* brm = engine->getModule<BlockRegistryModule>();
+        bool hitLeft = brm->isSolidAt(float(leftX), sampleY);
+        bool hitRight = brm->isSolidAt(float(rightX), sampleY);
+
+        std::cerr << "GravityComponent: feetY: " << feetY << ", tileRow: " << tileRow
+                  << ", groundY: " << groundY << ", maxY: " << maxY
+                  << ", leftX: " << leftX << ", rightX: " << rightX
+			<< ", hitLeft: " << hitLeft << ", hitRight: " << hitRight << std::endl;
+
+        // 6) Clamp or fall
+        if (vy > 0 && newY > maxY && (hitLeft || hitRight)) {
+            // collision this frame: land exactly on ground
+            pos->y = maxY;
             vy = 0;
             onGround = true;
         }
         else {
-            // no collision, commit the fall
+            // no collision: free‐fall
             pos->y = newY;
             onGround = false;
         }
-    }*/
+    }
 
-	void update(float dt) override
+	/*void update(float dt) override
     {
         auto* pos = owner->getComponent<PositionComponent>();
         if (!pos) {
@@ -87,7 +89,7 @@ public:
 
         // move the position
         pos->y += vy * dt;
-    }
+    }*/
 
     void setOwner(GameObject* gameObject) {
 		owner = gameObject;
@@ -105,4 +107,5 @@ private:
     float vmax;
     float vy = 0;
     bool onGround = false;
+	Engine* engine = nullptr;
 };

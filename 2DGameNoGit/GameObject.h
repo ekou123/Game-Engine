@@ -4,6 +4,7 @@
 #include <memory>
 #include <string>
 #include <typeindex>
+#include <iostream>
 #include "SDL3/SDL.h"
 #include "Engine.h"
 #include "Component.h"
@@ -39,8 +40,14 @@ public:
         // 3) put pointer in lookup
         lookup[typeid(T)] = ptr;
 
+        if (!engine)
+        {
+			std::cerr << "Error: Engine is not set for GameObject when adding component of type " << typeid(T).name() << std::endl;
+			return nullptr;
+        }
+
         // 4) initialize
-        ptr->init();
+        ptr->init(engine);
         return ptr;
     }
 
@@ -64,12 +71,16 @@ public:
 
     int getID() const { return id; }
 
+	void setIsSolid(bool isSolid) { isSolid_ = isSolid; }
+
 	void setEngine(Engine* engine) { this->engine = engine; }
 
     // Add srcRect member
     SDL_Rect srcRect;
+    std::string name = "deez";
 
 private:
+    
     std::vector<std::unique_ptr<Component>>          components;
     std::unordered_map<std::type_index, Component*>  lookup;
     int height, width;

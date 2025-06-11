@@ -15,7 +15,8 @@ bool PlayerModule::init(Engine* E) {
 		return false;
     }
 
-    player->setUp(5, 5, tileMap);
+    //player->setUp(100, -64, tileMap);
+    player->setUp(0, -128, tileMap);
     return true;
 }
 

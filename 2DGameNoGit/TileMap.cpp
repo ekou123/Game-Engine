@@ -7,10 +7,15 @@
 #include "Camera.h"
 #include "DirtBlock.h"
 #include "BlockType.h"
+#include "PositionComponent.h"
 
 TileMap::TileMap(Engine* engine, float spawnX, float spawnY)
 {
-    // 1) initialize the ID grid
+}
+
+bool TileMap::init(Engine* engine, float spawnX, float spawnY)
+{
+    /*// 1) initialize the ID grid
     map.assign(MAP_TILES_Y,
         std::vector<int>(MAP_TILES_X, TILE_EMPTY));
 
@@ -39,10 +44,18 @@ TileMap::TileMap(Engine* engine, float spawnX, float spawnY)
                 engine, int(wx), int(wy), TILE_DIRT
             );
             DirtBlock* raw = dirtBlock.get();
+            if (!raw->getComponent<PositionComponent>())
+            {
+                std::cerr << "DirtBlock has no PositionComponent";
+            }
+
+            std::cerr << "Adding block at: " << raw->getComponent<PositionComponent>()->x << ", " << raw->getComponent<PositionComponent>()->y;
             BlockRegistryModule::getInstance().addBlock(std::move(dirtBlock));
             //tileActors.push_back(raw);
         }
     }
+	*/
+    return true;
 }
 
 //void TileMap::render(SDL_Renderer* renderer,
@@ -117,36 +130,32 @@ TileMap::TileMap(Engine* engine, float spawnX, float spawnY)
 
 void TileMap::render(SDL_Renderer* renderer, const Camera& cam)
 {
-    for (auto& [id, ptr] : BlockRegistryModule::getInstance().getAll()) {
+    /*for (auto& [id, ptr] : BlockRegistryModule::getInstance().getAll()) {
 		ptr->render(renderer, cam);
-	}
+	}*/
 }
 
 void TileMap::update(float playerX, float playerY) {
 }
 
 bool TileMap::isSolidWorldPos(float worldX, float worldY) const {
-    int tileX = int(worldX) / TILE_SIZE;
+	
+    /*int tileX = int(worldX) / TILE_SIZE;
     int tileY = int(worldY) / TILE_SIZE;
 
     //std::cout << "TileMap::isSolidWorldPos: tileX: " << tileX << " tileY: " << tileY << std::endl;
 
-    // TRUE guard against *this* map’s dimensions:
-    if (tileY < 0 ||
-        tileY >= int(map.size()) ||      // no such row
-        tileX < 0 ||
-        tileX >= int(map[tileY].size()))  // no such column
-    {
-        return false;
-    }
+    
 
-    /*//int id = map[tileY][tileX];
+    //int id = map[tileY][tileX];
     if (std::move(BlockRegistryModule::getInstance().getAt(tileX, tileY))->isSolid())
     {
+        std::cerr << "Solid" << std::endl;
         return true;
     }
     else
     {
         return false;
     }*/
+    return true;
 }

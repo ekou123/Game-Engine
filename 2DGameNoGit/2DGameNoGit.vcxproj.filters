@@ -28,6 +28,9 @@
     <Filter Include="Source Files\Blocks">
       <UniqueIdentifier>{9ef7562c-1284-4d52-a54c-8f9cef173899}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Engine\Modules\Actions">
+      <UniqueIdentifier>{ee78f012-e111-45a8-a9bc-46ad36e1a5fa}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Camera.cpp">
@@ -89,6 +92,12 @@
     </ClCompile>
     <ClCompile Include="CameraModule.cpp">
       <Filter>Source Files\Engine\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="InputModule.cpp">
+      <Filter>Source Files\Engine\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="MoveLeftAction.cpp">
+      <Filter>Source Files\Engine\Modules\Actions</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -169,6 +178,15 @@
     </ClInclude>
     <ClInclude Include="DirtBlock.h">
       <Filter>Source Files\Blocks</Filter>
+    </ClInclude>
+    <ClInclude Include="InputModule.h">
+      <Filter>Source Files\Engine\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Action.h">
+      <Filter>Source Files\Engine\Modules\Actions</Filter>
+    </ClInclude>
+    <ClInclude Include="MoveLeftAction.h">
+      <Filter>Source Files\Engine\Modules\Actions</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

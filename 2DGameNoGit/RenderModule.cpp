@@ -21,15 +21,6 @@ void RenderModule::update(Engine&, float) {
     float playerX = posComp->x;
     float playerY = posComp->y;
 
-    std::cerr << "playerX:" << playerX << std::endl;
-    std::cerr << "playerY:" << playerY << std::endl;
-
-    if (!playerX || !playerY) {
-        /*std::cerr << "playerX:" << playerX << std::endl;
-		std::cerr << "playerY:" << playerY << std::endl;*/
-		return;
-	}
-
     worldMap->update(playerX, playerY);
 }
 
