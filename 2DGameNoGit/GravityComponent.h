@@ -91,8 +91,18 @@ public:
         pos->y += vy * dt;
     }*/
 
+    void applyForce(float impulse)
+    {
+        vy = -impulse;
+        onGround = false;
+    }
+
     void setOwner(GameObject* gameObject) {
 		owner = gameObject;
+	}
+
+    bool isOnGround() const {
+        return onGround;
 	}
 
     GameObject* getOwner() {

@@ -1,13 +1,16 @@
 #include <iostream>
 #include "InputModule.h"
 
+#include "JumpAction.h"
 #include "MoveAction.h"
 #include "PlayerModule.h"
 
 bool InputModule::init(Engine* engine) {
 	auto moveAction = std::make_shared<MoveAction>();
+	auto jumpAction = std::make_shared<JumpAction>();
 
 	bindKey(moveAction);
+	bindKey(jumpAction);
 	return true; // Initialization logic can be added here if needed
 }
 
