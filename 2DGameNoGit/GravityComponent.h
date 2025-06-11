@@ -56,10 +56,10 @@ public:
         bool hitLeft = brm->isSolidAt(float(leftX), sampleY);
         bool hitRight = brm->isSolidAt(float(rightX), sampleY);
 
-        std::cerr << "GravityComponent: feetY: " << feetY << ", tileRow: " << tileRow
+        /*std::cerr << "GravityComponent: feetY: " << feetY << ", tileRow: " << tileRow
                   << ", groundY: " << groundY << ", maxY: " << maxY
                   << ", leftX: " << leftX << ", rightX: " << rightX
-			<< ", hitLeft: " << hitLeft << ", hitRight: " << hitRight << std::endl;
+			<< ", hitLeft: " << hitLeft << ", hitRight: " << hitRight << std::endl;*/
 
         // 6) Clamp or fall
         if (vy > 0 && newY > maxY && (hitLeft || hitRight)) {

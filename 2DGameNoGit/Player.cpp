@@ -56,8 +56,6 @@ void Player::update(const bool* ks, float dt, const TileMap& map) {
 
     //stateMachine->handleInput(ks, dt);'
 
-	std::cerr << "Player X: " << pos->x << "Player Y: " << pos->y << std::endl;
-
     
 
     // 4) VERTICAL PASS

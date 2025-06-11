@@ -5,7 +5,7 @@ class Action {
 	public:
 	virtual ~Action() = default;
 	// Execute the action
-	virtual void execute(const bool* keyState, Player* player) = 0;
+	virtual void execute(Engine* engine, const bool* keyState, Player* player) = 0;
 
 	virtual bool isTriggering(const bool* keyState) = 0;
 
