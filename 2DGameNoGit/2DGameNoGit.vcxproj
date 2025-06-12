@@ -25,6 +25,7 @@
     <ClCompile Include="BlockRegistryModule.h" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CameraModule.cpp" />
+    <ClCompile Include="ChunkManagerModule.cpp" />
     <ClCompile Include="DirtBlock.cpp" />
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="GameObject.cpp" />
@@ -51,6 +52,9 @@
     <ClInclude Include="BlockType.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="CameraModule.h" />
+    <ClInclude Include="Chunk.h" />
+    <ClInclude Include="ChunkCoord.h" />
+    <ClInclude Include="ChunkManagerModule.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="Constants.h" />
     <ClInclude Include="DirtBlock.h" />

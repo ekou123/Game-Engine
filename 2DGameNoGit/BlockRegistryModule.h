@@ -60,11 +60,8 @@ public:
     void shutdown(Engine& engine) override;
 
 private:
-    
-
     int nextID = 0;;
     std::unordered_map<int, std::unique_ptr<GameObject>> gameObjects;
-    std::vector<std::vector<int>> map;
     std::unordered_map<std::pair<int, int>, std::unique_ptr<GameObject>, PairHash> worldObjects;
     std::vector<int> order;
     std::vector<int> worldOrder;

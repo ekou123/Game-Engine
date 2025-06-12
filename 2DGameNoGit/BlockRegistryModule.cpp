@@ -8,9 +8,6 @@ bool BlockRegistryModule::init(Engine* engine)
 {
 	int spawnX = 0;
 	int spawnY = 0;
-	// 1) initialize the ID grid
-	map.assign(MAP_TILES_Y,
-		std::vector<int>(MAP_TILES_X, TILE_EMPTY));
 
 	// 2) compute the spawn tile coordinates
 	int centerX = int(spawnX) / TILE_SIZE;
@@ -24,9 +21,6 @@ bool BlockRegistryModule::init(Engine* engine)
 			if (tx < 0 || tx >= MAP_TILES_X ||
 				ty < 0 || ty >= MAP_TILES_Y)
 				continue;
-
-			// set dirt in your map
-			map[ty][tx] = TILE_DIRT;
 
 			// convert tile coords back to world pos
 			float wx = tx * TILE_SIZE;
