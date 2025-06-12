@@ -122,13 +122,11 @@ bool BlockRegistryModule::isSolidAt(float worldX, float worldY)
 
 	GameObject* obj = getAt(tileX, tileY);
 	if (!obj) {
-		// No block here, so it’s not solid:
+		/*// No block here, so it’s not solid:
 		std::cerr << "No object at (" << tileX << ", " << tileY << ")\n";
-		std::cerr << "No Object at (" << worldX << ", " << worldY << " world | World Objects Size: " << worldObjects.size() << std::endl;
+		std::cerr << "No Object at (" << worldX << ", " << worldY << " world | World Objects Size: " << worldObjects.size() << std::endl;*/
 		return false;
 	}
-
-	std::cerr << "Object Name: " << obj->name << "\n";
 
 	// 3) If we found a block, ask if it’s solid:
 	if (obj->isSolid()) {
@@ -142,12 +140,10 @@ bool BlockRegistryModule::isSolidAt(float worldX, float worldY)
 
 GameObject* BlockRegistryModule::getAt(int tileX, int tileY)
 {
-	std::cerr << "World Objects Size: " << worldObjects.size() << std::endl;
 	auto key = std::make_pair(tileX, tileY);
 	auto it = worldObjects.find(key);
 	if (it == worldObjects.end()) {
 		// Not found:
-		std::cerr << "Object not found at (" << tileX << ", " << tileY << " | World Objects Size: " << worldObjects.size() << std::endl;
 		return nullptr;
 	}
 	// Return the raw pointer; do NOT move it out.

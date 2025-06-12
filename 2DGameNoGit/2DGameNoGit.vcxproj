@@ -29,9 +29,10 @@
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="InputModule.cpp" />
+    <ClCompile Include="JumpAction.cpp" />
     <ClCompile Include="JumpingState.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="MoveLeftAction.cpp" />
+    <ClCompile Include="MoveAction.cpp" />
     <ClCompile Include="NeutralState.cpp" />
     <ClCompile Include="NeutralState.h" />
     <ClCompile Include="Player.cpp" />
@@ -58,10 +59,11 @@
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GravityComponent.h" />
     <ClInclude Include="InputModule.h" />
+    <ClInclude Include="JumpAction.h" />
     <ClInclude Include="JumpingState.h" />
     <ClInclude Include="MapComponent.h" />
     <ClInclude Include="Module.h" />
-    <ClInclude Include="MoveLeftAction.h" />
+    <ClInclude Include="MoveAction.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayerModule.h" />
     <ClInclude Include="PositionComponent.h" />

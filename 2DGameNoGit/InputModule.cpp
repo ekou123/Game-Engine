@@ -1,13 +1,16 @@
 #include <iostream>
 #include "InputModule.h"
 
-#include "MoveLeftAction.h"
+#include "JumpAction.h"
+#include "MoveAction.h"
 #include "PlayerModule.h"
 
 bool InputModule::init(Engine* engine) {
-	auto moveLeft = std::make_shared<MoveLeftAction>();
+	auto moveAction = std::make_shared<MoveAction>();
+	auto jumpAction = std::make_shared<JumpAction>();
 
-	bindKey(moveLeft);
+	bindKey(moveAction);
+	bindKey(jumpAction);
 	return true; // Initialization logic can be added here if needed
 }
 
@@ -25,9 +28,8 @@ void InputModule::update(Engine& engine, float dt)
 
 	for (auto& action : keyBindings) {
 		if (action->isTriggering(keys)) {
-			std::cout << "Action triggered." << std::endl;
 			PlayerModule* pm = engine.getModule<PlayerModule>();
-			action->execute(keys, pm->getPlayer());
+			action->execute(&engine, keys, pm->getPlayer());
 		} else if (!action->isComplete()) {
 			action->reset();
 		}

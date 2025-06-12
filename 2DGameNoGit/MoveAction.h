@@ -2,13 +2,13 @@
 #include "Action.h"
 #include "GameObject.h"
 
-class MoveLeftAction : public Action
+class MoveAction : public Action
 {
 public:
-	MoveLeftAction() = default;
-	~MoveLeftAction() override = default;
+	MoveAction() = default;
+	~MoveAction() override = default;
 
-	void execute(const bool* keyState, Player* player) override;
+	void execute(Engine* engine, const bool* keyState, Player* player) override;
 
 	bool isTriggering(const bool* keyState) override;
 	// Check if the action is complete
