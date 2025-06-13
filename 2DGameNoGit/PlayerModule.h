@@ -17,7 +17,7 @@ struct PlayerModule : Module {
     // **Declare** but do *not* define these in the header:
     bool   init(Engine* E) override;
     void   update(Engine& E, float dt) override;
-    void   render(Engine& E) override;
+    void   render(Engine* E) override;
     void   shutdown(Engine& E) override;
 
     // Wiring

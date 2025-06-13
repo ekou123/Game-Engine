@@ -37,7 +37,7 @@ void Engine::run() {
         for (auto& m : modules) m->update(*this, dt);
         SDL_SetRenderDrawColor(renderer, 20, 20, 40, 255);
         SDL_RenderClear(renderer);
-        for (auto& m : modules) m->render(*this);
+        for (auto& m : modules) m->render(this);
 		/*for (auto& g : gameObjects) g->update(dt);
 		for (auto& g : gameObjects) g->render(*this);*/
 

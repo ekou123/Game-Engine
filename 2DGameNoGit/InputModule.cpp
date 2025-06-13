@@ -37,7 +37,7 @@ void InputModule::update(Engine& engine, float dt)
 		
 }
 
-void InputModule::render(Engine&)
+void InputModule::render(Engine*)
 {
 	
 }

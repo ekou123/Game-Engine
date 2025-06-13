@@ -17,7 +17,7 @@ bool WorldModule::init(Engine* engine)
     return true;
 }
 
-void WorldModule::render(Engine& E)
+void WorldModule::render(Engine* E)
 {
     // acquire camera from another module or global; for now assume it's at index 0
 
@@ -32,7 +32,7 @@ void WorldModule::render(Engine& E)
     }
 
 
-    tileSet->render(E.renderer, *camera);
+    tileSet->render(E->renderer, *camera);
 }
 
 void WorldModule::update(Engine& E, float dt)

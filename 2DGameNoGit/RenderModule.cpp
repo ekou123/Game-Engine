@@ -24,7 +24,7 @@ void RenderModule::update(Engine&, float) {
     worldMap->update(playerX, playerY);
 }
 
-void RenderModule::render(Engine& E) {
+void RenderModule::render(Engine* E) {
     if (!camera || !worldMap || !player) {
         std::cerr << "[RenderModule] Cannot render. Missing camera, world map, or player.\n";
         return;
@@ -35,8 +35,8 @@ void RenderModule::render(Engine& E) {
 		return;
 	}
 
-    worldMap->render(E.renderer, *camera);
-    player->render(E.renderer, *camera);
+    worldMap->render(E->renderer, *camera);
+    player->render(E->renderer, *camera);
 }
 
 void RenderModule::shutdown(Engine&) {

@@ -18,7 +18,7 @@ struct Module {
 	// Called each frame before render()
 	virtual void update(Engine& engine, float dt) {}
 	// Called each frame after update()
-	virtual void render(Engine& engine) {}
+	virtual void render(Engine* engine) {}
 	// Called on Shutdown
 	virtual void shutdown(Engine& engine) {}
 };

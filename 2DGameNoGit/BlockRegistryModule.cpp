@@ -6,7 +6,7 @@
 
 bool BlockRegistryModule::init(Engine* engine)
 {
-	int spawnX = 0;
+	/*int spawnX = 0;
 	int spawnY = 0;
 
 	// 2) compute the spawn tile coordinates
@@ -35,7 +35,7 @@ bool BlockRegistryModule::init(Engine* engine)
 			//tileActors.push_back(raw);
 
 		}
-	}
+	}*/
 
 	return true;
 }
@@ -53,8 +53,23 @@ void BlockRegistryModule::addBlock(std::unique_ptr<GameObject> blkPtr)
 	int tileY = int(pos->y / TILE_SIZE);
 	auto key = std::make_pair(tileX, tileY);
 
+	int cx = tileX / CHUNK_SIZE;
+	int cy = tileY / CHUNK_SIZE;
+	ChunkCoord cc{ cx, cy };
+
 	worldObjects.emplace(key, std::move(blkPtr));
+	chunkMap[cc].push_back(blk);
 	std::cerr << "[addBlock] now worldObjects.size() = " << worldObjects.size() << "\n";
+}
+
+const std::vector<GameObject*>&
+BlockRegistryModule::getBlocksInChunk(const ChunkCoord& cc) const
+{
+	static const std::vector<GameObject*> empty;
+
+	auto it = chunkMap.find(cc);
+	if (it == chunkMap.end()) return empty;
+	return it->second;
 }
 
 void BlockRegistryModule::registerBlock(std::unique_ptr<GameObject> gameObject)
@@ -79,16 +94,33 @@ void BlockRegistryModule::update(Engine& engine, float dt)
 {
 }
 
-void BlockRegistryModule::render(Engine& engine)
+void BlockRegistryModule::render(Engine* engine)
 {
-	if (worldObjects.empty()) {
-		std::cerr << "World Objects empty\n";
+	
+	auto* cmm = engine->getModule<ChunkManagerModule>();
+	if (!cmm)
+	{
+		std::cerr << "[BlockRegistryModule] No ChunkManagerModule found.\n";
 		return;
+	}
+
+	const auto& loaded = cmm->getLoadedChunks();
+
+	for (auto const& cc : loaded)
+	{
+		const auto& blocks = getBlocksInChunk(cc);
+		for (GameObject* blk : blocks)
+		{
+			if (blk)
+			{
+				blk->render(engine->renderer, *engine->getCamera());
+			}
+		}
 	}
 
 	// Each `objPtr` here is a non‐owning raw pointer from the unique_ptr,
 	// so we know it’s still valid.
-	for (auto& [coord, uptr] : worldObjects) {		
+	/*for (auto& [coord, uptr] : worldObjects) {		
 		if (uptr) {
 			uptr.get()->render(engine.renderer, *engine.getCamera());
 		}
@@ -98,8 +130,24 @@ void BlockRegistryModule::render(Engine& engine)
 			std::cerr << "[render] encountered null unique_ptr at tile ("
 				<< coord.first << "," << coord.second << ")\n";
 		}
-	}
+	}*/
 }
+
+void BlockRegistryModule::removeChunk(const ChunkCoord& cc)
+{
+	auto it = chunkMap.find(cc);
+	if (it == chunkMap.end()) return;
+	for (GameObject* blk  : it ->second)
+	{
+		auto pos = blk->getComponent<PositionComponent>();
+		int tx = int(pos->x / TILE_SIZE);
+		int ty = int(pos->y / TILE_SIZE);
+		worldObjects.erase({ tx, ty });
+	}
+
+	chunkMap.erase(it);
+}
+
 
 bool BlockRegistryModule::isSolidAt(float worldX, float worldY)
 {

@@ -96,8 +96,14 @@
     <ClCompile Include="InputModule.cpp">
       <Filter>Source Files\Engine\Modules</Filter>
     </ClCompile>
-    <ClCompile Include="MoveLeftAction.cpp">
-      <Filter>Source Files\Engine\Modules\Actions</Filter>
+    <ClCompile Include="JumpAction.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MoveAction.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ChunkManagerModule.cpp">
+      <Filter>Source Files\Engine\Modules</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -185,8 +191,20 @@
     <ClInclude Include="Action.h">
       <Filter>Source Files\Engine\Modules\Actions</Filter>
     </ClInclude>
-    <ClInclude Include="MoveLeftAction.h">
-      <Filter>Source Files\Engine\Modules\Actions</Filter>
+    <ClInclude Include="Chunk.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ChunkCoord.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ChunkManagerModule.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="JumpAction.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MoveAction.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
