@@ -11,6 +11,7 @@
 
 bool ChunkManagerModule::init(Engine* eng) {
     engine = eng;
+    loadRadius = 3;
     // Force the very first update() to load around (0,0):
     lastPlayerChunk = { INT_MAX, INT_MAX };
     return true;
@@ -33,8 +34,6 @@ void ChunkManagerModule::update(Engine& engine, float /*dt*/) {
     // 3) Only if the player has crossed into a new chunk, regenerate
     if (current.x != lastPlayerChunk.x || current.y != lastPlayerChunk.y) {
         lastPlayerChunk = current;
-        std::cerr << "[ChunkManager] Player entered chunk ("
-            << pcx << "," << pcy << ")\n";
         updateChunks(int(pos->x), int(pos->y));
     }
 }
@@ -51,11 +50,17 @@ void ChunkManagerModule::updateChunks(int playerX, int playerY) {
         }
     }
 
+	BlockRegistryModule* blockRegistry = engine->getModule<BlockRegistryModule>();
+    if (!blockRegistry) {
+		std::cerr << "[ChunkManager] BlockRegistryModule not found!\n";
+        return;
+    }
+
     // 2) Unload any chunks not in 'want'
     for (auto it = chunks.begin(); it != chunks.end(); ) {
         if (!want.count(it->first)) {
             // Remove all blocks in that chunk from the registry
-            BlockRegistryModule::getInstance().removeChunk(it->first);
+            blockRegistry->removeChunk(it->first);
             // Erase the chunk itself
             it = chunks.erase(it);
         }
@@ -77,10 +82,21 @@ void ChunkManagerModule::updateChunks(int playerX, int playerY) {
 
 void ChunkManagerModule::generateChunk(Chunk& c) {
     // Fill each tile with a DirtBlock as an example:
+	BlockRegistryModule* blockRegistry = engine->getModule<BlockRegistryModule>();
+    if (!blockRegistry) {
+        std::cerr << "[ChunkManager] BlockRegistryModule not found!\n";
+        return;
+	}
+
     for (int ty = 0; ty < CHUNK_SIZE; ++ty) {
         for (int tx = 0; tx < CHUNK_SIZE; ++tx) {
             float wx = (c.coord.x * CHUNK_SIZE + tx) * TILE_SIZE;
             float wy = (c.coord.y * CHUNK_SIZE + ty) * TILE_SIZE;
+
+            if (wy < 0) {
+                // Skip blocks below the ground level (e.g., y < 0)
+                continue;
+			}
 
             auto dirt = std::make_unique<DirtBlock>(
                 engine,
@@ -88,7 +104,7 @@ void ChunkManagerModule::generateChunk(Chunk& c) {
                 static_cast<int>(wy),
                 TILE_DIRT
             );
-            BlockRegistryModule::getInstance().addBlock(std::move(dirt));
+            blockRegistry->addBlock(std::move(dirt));
         }
     }
 }

@@ -73,6 +73,7 @@ private:
     int nextID = 0;;
     std::unordered_map<int, std::unique_ptr<GameObject>> gameObjects;
     std::unordered_map<std::pair<int, int>, std::unique_ptr<GameObject>, PairHash> worldObjects;
+    std::vector<GameObject*> visibleObjects;
     std::unordered_map<ChunkCoord, std::vector<GameObject*>, ChunkHash> chunkMap;
     std::vector<int> order;
     std::vector<int> worldOrder;

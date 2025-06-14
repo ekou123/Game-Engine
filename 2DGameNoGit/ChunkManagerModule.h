@@ -38,7 +38,7 @@ private:
     
 
     Engine* engine = nullptr;
-    int     loadRadius = 2;
+    int     loadRadius = 1;
 
     // Remember which chunk the player was in last frame:
     ChunkCoord lastPlayerChunk{ INT_MAX, INT_MAX };
