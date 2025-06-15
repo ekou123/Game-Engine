@@ -75,6 +75,7 @@
     <ClInclude Include="SpriteComponent.h" />
     <ClInclude Include="State.h" />
     <ClInclude Include="StateMachine.h" />
+    <ClInclude Include="StoneBlock.h" />
     <ClInclude Include="TileMap.h" />
     <ClInclude Include="TilesetLoader.h" />
     <ClInclude Include="WorldModule.h" />

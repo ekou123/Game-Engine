@@ -101,13 +101,17 @@ void ChunkManagerModule::generateChunk(Chunk& c) {
             int worldTileY = c.coord.y * CHUNK_SIZE + ty;
 
             // 2) Get the terrain height here, in *tiles*
-            float groundHTiles = getGroundHeight(worldTileX);
-
+            //float groundHTiles = getGroundHeight(worldTileX);
+			float groundHTiles = fBm(worldTileX) * maxTerrainHeight;
             // 3) If our tile‐Y is BELOW that height, spawn a block:
             if (worldTileY >= int(groundHTiles)) {
                 // now convert *tile*→*pixel* once:
                 int px = worldTileX * TILE_SIZE;
                 int py = worldTileY * TILE_SIZE;
+
+                float n = noise.GetNoise(worldTileX * 0.005f, worldTileY * 0.005f);
+
+                if (n < 0.01f) continue;
 
                 auto dirt = std::make_unique<DirtBlock>(
                     engine,
@@ -124,7 +128,7 @@ void ChunkManagerModule::generateChunk(Chunk& c) {
 
 float ChunkManagerModule::fBm(int x)
 {
-    float total = 0, freq = 100, amp = 100, maxA = 100;
+    float total = 0, freq = 1, amp = 1, maxA = 0;
     for (int o = 0; o < 4; ++o)
     {
         total += noise.GetNoise(x * freq, 0.f) * amp;
@@ -147,11 +151,16 @@ std::vector<ChunkCoord> ChunkManagerModule::getLoadedChunks() const {
 
 float ChunkManagerModule::getGroundHeight(int worldTileX)
 {
-    float n = noise.GetNoise(float(worldTileX), 0.0f);
+    float raw = noise.GetNoise(float(worldTileX), 0.0f);    // [-1..+1]
+    float n = (raw + 1.0f) * 0.5f;                   // [0..1]
 
-	n = (n + 1.0f) * 0.5f; // Normalize to [0, 1]
+    // 2) bias curve (optional)
+    n = pow(n, 1.2f);
 
-    return n * maxTerrainHeight;
+    // 3) scale to [minH..maxH] in tiles
+    constexpr float minH = 5;   // e.g. sea level at 5 tiles
+    float     maxH = float(maxTerrainHeight);
+    return n * (maxH - minH) + minH;
 }
 
 

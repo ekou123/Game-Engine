@@ -206,6 +206,9 @@
     <ClInclude Include="MoveAction.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="StoneBlock.h">
+      <Filter>Source Files\Blocks</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="tileset2.bmp">
