@@ -3,6 +3,7 @@
 #include "Chunk.h"
 #include "ChunkCoord.h"
 #include "Constants.h"
+#include "FastNoiseLite.h"
 #include "Module.h"
 #include "PlayerModule.h"
 
@@ -28,6 +29,9 @@ public:
     // Force an immediate load/unload around a world-pixel position
     void updateChunks(int playerX, int playerY);
 
+    float getGroundHeight(int worldTileX);
+    float fBm(int x);
+
     // Procedurally fill a brand-new chunk
     void generateChunk(Chunk& chunk);
 
@@ -35,14 +39,12 @@ public:
     std::vector<ChunkCoord> getLoadedChunks() const;
 
 private:
-    
-
     Engine* engine = nullptr;
+    FastNoiseLite noise;
+    float maxTerrainHeight = MAP_TILES_Y / 2;
     int     loadRadius = 1;
-
     // Remember which chunk the player was in last frame:
     ChunkCoord lastPlayerChunk{ INT_MAX, INT_MAX };
-
     // The set of live chunks:
     std::unordered_map<ChunkCoord, std::unique_ptr<Chunk>, ChunkHash> chunks;
 };

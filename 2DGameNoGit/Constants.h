@@ -4,7 +4,7 @@
 
 
 // Chunk size in pixels
-static constexpr int CHUNK_SIZE = 16; // 32
+static constexpr int CHUNK_SIZE = 8; // 32
 static constexpr int TILE_SIZE = 32; 
 static constexpr int PIXELS_PER_CHUNK = CHUNK_SIZE * TILE_SIZE;
 

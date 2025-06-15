@@ -12,7 +12,7 @@
 
 // main.cpp (Game)
 
-int main() {
+ int main() {
     
     Engine* engine = new Engine();
     TileMap* tileMap = new TileMap(engine, 0, 0);

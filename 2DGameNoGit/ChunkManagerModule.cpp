@@ -7,11 +7,17 @@
 #include "PositionComponent.h"
 #include "BlockRegistryModule.h"
 #include "DirtBlock.h"
+#include "FastNoiseLite.h"
 #include "Player.h"
 
 bool ChunkManagerModule::init(Engine* eng) {
+
+    noise.SetSeed(1337);
+    noise.SetNoiseType(FastNoiseLite::NoiseType_OpenSimplex2);
+    noise.SetFrequency(0.05f);
+
     engine = eng;
-    loadRadius = 3;
+    loadRadius = 2;
     // Force the very first update() to load around (0,0):
     lastPlayerChunk = { INT_MAX, INT_MAX };
     return true;
@@ -81,33 +87,54 @@ void ChunkManagerModule::updateChunks(int playerX, int playerY) {
 }
 
 void ChunkManagerModule::generateChunk(Chunk& c) {
-    // Fill each tile with a DirtBlock as an example:
-	BlockRegistryModule* blockRegistry = engine->getModule<BlockRegistryModule>();
+    auto* blockRegistry = engine->getModule<BlockRegistryModule>();
     if (!blockRegistry) {
         std::cerr << "[ChunkManager] BlockRegistryModule not found!\n";
         return;
-	}
+    }
 
+    // 1) Loop in *tile* coordinates
     for (int ty = 0; ty < CHUNK_SIZE; ++ty) {
         for (int tx = 0; tx < CHUNK_SIZE; ++tx) {
-            float wx = (c.coord.x * CHUNK_SIZE + tx) * TILE_SIZE;
-            float wy = (c.coord.y * CHUNK_SIZE + ty) * TILE_SIZE;
+            // world‐tile coords of this location:
+            int worldTileX = c.coord.x * CHUNK_SIZE + tx;
+            int worldTileY = c.coord.y * CHUNK_SIZE + ty;
 
-            if (wy < 0) {
-                // Skip blocks below the ground level (e.g., y < 0)
-                continue;
-			}
+            // 2) Get the terrain height here, in *tiles*
+            float groundHTiles = getGroundHeight(worldTileX);
 
-            auto dirt = std::make_unique<DirtBlock>(
-                engine,
-                static_cast<int>(wx),
-                static_cast<int>(wy),
-                TILE_DIRT
-            );
-            blockRegistry->addBlock(std::move(dirt));
+            // 3) If our tile‐Y is BELOW that height, spawn a block:
+            if (worldTileY >= int(groundHTiles)) {
+                // now convert *tile*→*pixel* once:
+                int px = worldTileX * TILE_SIZE;
+                int py = worldTileY * TILE_SIZE;
+
+                auto dirt = std::make_unique<DirtBlock>(
+                    engine,
+                    px,
+                    py,
+                    TILE_DIRT
+                );
+                blockRegistry->addBlock(std::move(dirt));
+            }
+            // else leave empty (air)
         }
     }
 }
+
+float ChunkManagerModule::fBm(int x)
+{
+    float total = 0, freq = 100, amp = 100, maxA = 100;
+    for (int o = 0; o < 4; ++o)
+    {
+        total += noise.GetNoise(x * freq, 0.f) * amp;
+		maxA += amp;
+		amp *= 0.5f; // Decrease amplitude
+		freq *= 2.0f; // Increase frequency
+    }
+    return total / maxA;
+}
+
 
 std::vector<ChunkCoord> ChunkManagerModule::getLoadedChunks() const {
     std::vector<ChunkCoord> out;
@@ -117,6 +144,16 @@ std::vector<ChunkCoord> ChunkManagerModule::getLoadedChunks() const {
     }
     return out;
 }
+
+float ChunkManagerModule::getGroundHeight(int worldTileX)
+{
+    float n = noise.GetNoise(float(worldTileX), 0.0f);
+
+	n = (n + 1.0f) * 0.5f; // Normalize to [0, 1]
+
+    return n * maxTerrainHeight;
+}
+
 
 void ChunkManagerModule::render(Engine*) {
     // no per‐chunk rendering here; blocks are drawn by BlockRegistryModule

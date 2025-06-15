@@ -43,7 +43,7 @@ bool BlockRegistryModule::init(Engine* engine)
 void BlockRegistryModule::addBlock(std::unique_ptr<GameObject> blkPtr)
 {
 	GameObject* blk = blkPtr.get();
-	std::cerr << "[addBlock] called with blk=" << blk << "\n";
+	//std::cerr << "[addBlock] called with blk=" << blk << "\n";
 	auto* pos = blk->getComponent<PositionComponent>();
 	if (!pos) {
 		std::cerr << "[addBlock] pos is null—no PositionComponent attached.\n";
@@ -61,7 +61,7 @@ void BlockRegistryModule::addBlock(std::unique_ptr<GameObject> blkPtr)
 	chunkMap[cc].push_back(blk);
 
 	visibleObjects.push_back(blk);
-	std::cerr << "[addBlock] now worldObjects.size() = " << worldObjects.size() << "\n";
+	//std::cerr << "[addBlock] now worldObjects.size() = " << worldObjects.size() << "\n";
 }
 
 const std::vector<GameObject*>&
@@ -111,9 +111,9 @@ void BlockRegistryModule::render(Engine* engine)
 	for (auto const& cc : loaded)
 	{
 		const auto& blocks = getBlocksInChunk(cc);
-		std::cerr << "[BlockRegistryModule] Rendering chunk at ("
+		/*std::cerr << "[BlockRegistryModule] Rendering chunk at ("
 			 << ") with "
-			<< blocks.size() << " blocks.\n";
+			<< blocks.size() << " blocks.\n";*/
 		for (GameObject* blk : blocks)
 		{
 			if (blk)
@@ -186,7 +186,7 @@ bool BlockRegistryModule::isSolidAt(float worldX, float worldY)
 
 	// 3) If we found a block, ask if it’s solid:
 	if (obj->isSolid()) {
-		std::cerr << "Solid at (0" << tileX << ", " << tileY << ")\n";
+		//9800std::cerr << "Solid at (" << tileX << ", " << tileY << ")\n";
 		return true;
 	}
 	else {
