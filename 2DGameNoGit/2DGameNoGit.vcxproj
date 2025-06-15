@@ -39,9 +39,12 @@
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PlayerModule.cpp" />
     <ClCompile Include="RenderModule.cpp" />
+    <ClCompile Include="SandBlock.cpp" />
     <ClCompile Include="StateMachine.cpp" />
+    <ClCompile Include="StoneBlock.cpp" />
     <ClCompile Include="TileMap.cpp" />
     <ClCompile Include="TilesetLoader.cpp" />
+    <ClCompile Include="WaterBlock.cpp" />
     <ClCompile Include="WorldModule.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -72,12 +75,14 @@
     <ClInclude Include="PlayerModule.h" />
     <ClInclude Include="PositionComponent.h" />
     <ClInclude Include="RenderModule.h" />
+    <ClInclude Include="SandBlock.h" />
     <ClInclude Include="SpriteComponent.h" />
     <ClInclude Include="State.h" />
     <ClInclude Include="StateMachine.h" />
     <ClInclude Include="StoneBlock.h" />
     <ClInclude Include="TileMap.h" />
     <ClInclude Include="TilesetLoader.h" />
+    <ClInclude Include="WaterBlock.h" />
     <ClInclude Include="WorldModule.h" />
   </ItemGroup>
   <ItemGroup>

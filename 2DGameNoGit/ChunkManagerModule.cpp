@@ -9,6 +9,9 @@
 #include "DirtBlock.h"
 #include "FastNoiseLite.h"
 #include "Player.h"
+#include "SandBlock.h"
+#include "StoneBlock.h"
+#include "WaterBlock.h"
 
 bool ChunkManagerModule::init(Engine* eng) {
 
@@ -111,15 +114,44 @@ void ChunkManagerModule::generateChunk(Chunk& c) {
 
                 float n = noise.GetNoise(worldTileX * 0.005f, worldTileY * 0.005f);
 
-                if (n < 0.01f) continue;
+				std::unique_ptr<Block> block = nullptr;
+                if (n < -0.3f)
+                {
+                    block = std::make_unique<WaterBlock>(
+                        engine,
+                        px,
+                        py,
+                        TILE_WATER
+					);
+	                
+                } else if (n < 0.0f)
+                {
+                    block = std::make_unique<SandBlock>(
+                        engine,
+                        px,
+                        py,
+                        TILE_SAND
+					);
+                } else if (n < 0.5f)
+                {
+                    block = std::make_unique<DirtBlock>(
+                        engine,
+                        px,
+                        py,
+                        TILE_DIRT
+                    );
+                } else
+                {
+                    block = std::make_unique<StoneBlock>(
+                        engine,
+                        px,
+                        py,
+                        TILE_STONE
+                    );
+                }
 
-                auto dirt = std::make_unique<DirtBlock>(
-                    engine,
-                    px,
-                    py,
-                    TILE_DIRT
-                );
-                blockRegistry->addBlock(std::move(dirt));
+                
+                blockRegistry->addBlock(std::move(block));
             }
             // else leave empty (air)
         }
