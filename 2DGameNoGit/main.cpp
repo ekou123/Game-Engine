@@ -7,11 +7,12 @@
 #include "CameraModule.h"
 #include "RenderModule.h"
 #include "BlockRegistryModule.h"
+#include "ChunkManagerModule.h"
 #include "InputModule.h"
 
 // main.cpp (Game)
 
-int main() {
+ int main() {
     
     Engine* engine = new Engine();
     TileMap* tileMap = new TileMap(engine, 0, 0);
@@ -23,6 +24,7 @@ int main() {
     auto renderMod = std::make_unique<RenderModule>();
 	auto blockRegistryMod = std::make_unique<BlockRegistryModule>();
 	auto inputMod = std::make_unique<InputModule>();
+	auto chunkManagerMod = std::make_unique<ChunkManagerModule>();
 
 
     if (!tileMap->init(engine, 0, 0))
@@ -74,6 +76,7 @@ int main() {
     engine->registerModule(std::move(cameraMod));
     engine->registerModule(std::move(renderMod));
 	engine->registerModule(std::move(inputMod));
+	engine->registerModule(std::move(chunkManagerMod));
     
 
     if (!engine->init("TerrariaEngine", WINDOW_W, WINDOW_H)) return 1;

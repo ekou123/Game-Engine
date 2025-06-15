@@ -55,7 +55,7 @@ void CameraModule::update(Engine&, float) {
     // clamp...
 }
 
-void CameraModule::render(Engine& E) {
+void CameraModule::render(Engine* E) {
 }
 
 void CameraModule::shutdown(Engine&)

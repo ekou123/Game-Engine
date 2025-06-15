@@ -10,8 +10,6 @@
 #include "JumpingState.h"
 #include "PositionComponent.h"
 
-const float PLAYER_SPEED = 300.0f; // Speed in pixels per second
-
 Player::Player(TileMap* initialTileMap) {
     currentMap = initialTileMap;
 }

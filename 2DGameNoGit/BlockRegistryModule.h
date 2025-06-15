@@ -5,6 +5,10 @@
 #include <unordered_map>  
 #include <vector>
 #include <memory>
+#include <unordered_set>
+
+#include "ChunkCoord.h"
+#include "ChunkManagerModule.h"
 #include "Module.h"
 #include "Constants.h" 
 #include "GameObject.h"
@@ -44,6 +48,12 @@ public:
 
     void addBlock(std::unique_ptr<GameObject> gameObject);
 
+    void removeChunk(const ChunkCoord& cc);
+
+    const std::vector<GameObject*>& getBlocksInChunk(const ChunkCoord& cc) const;
+
+
+
     GameObject* getAt(int tileX, int tileY);
 
     const auto& getAll() { return worldObjects; }
@@ -53,19 +63,18 @@ public:
     // Implementing pure virtual methods from Module  
     bool init(Engine* engine) override;
     void update(Engine& engine, float dt) override;
-    void render(Engine& engine) override;
+    void render(Engine* engine) override;
 
     bool isSolidAt(float worldX, float worldY);
 
     void shutdown(Engine& engine) override;
 
 private:
-    
-
     int nextID = 0;;
     std::unordered_map<int, std::unique_ptr<GameObject>> gameObjects;
-    std::vector<std::vector<int>> map;
     std::unordered_map<std::pair<int, int>, std::unique_ptr<GameObject>, PairHash> worldObjects;
+    std::vector<GameObject*> visibleObjects;
+    std::unordered_map<ChunkCoord, std::vector<GameObject*>, ChunkHash> chunkMap;
     std::vector<int> order;
     std::vector<int> worldOrder;
 };

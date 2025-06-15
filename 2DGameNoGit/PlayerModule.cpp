@@ -26,7 +26,7 @@ void PlayerModule::update(Engine& E, float dt) {
     player->update(ks, dt, *tileMap);
 }
 
-void PlayerModule::render(Engine& E) {
+void PlayerModule::render(Engine* E) {
     if (!camera) {
         std::cerr << "[PlayerModule] Cannot render: missing camera\n";
         return;
@@ -35,7 +35,7 @@ void PlayerModule::render(Engine& E) {
         std::cerr << "[PlayerModule] Cannot render: missing player\n";
         return;
     }
-    player->render(E.renderer, *camera);
+    player->render(E->renderer, *camera);
 }
 
 

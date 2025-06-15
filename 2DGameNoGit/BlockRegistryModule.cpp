@@ -6,11 +6,8 @@
 
 bool BlockRegistryModule::init(Engine* engine)
 {
-	int spawnX = 0;
+	/*int spawnX = 0;
 	int spawnY = 0;
-	// 1) initialize the ID grid
-	map.assign(MAP_TILES_Y,
-		std::vector<int>(MAP_TILES_X, TILE_EMPTY));
 
 	// 2) compute the spawn tile coordinates
 	int centerX = int(spawnX) / TILE_SIZE;
@@ -25,9 +22,6 @@ bool BlockRegistryModule::init(Engine* engine)
 				ty < 0 || ty >= MAP_TILES_Y)
 				continue;
 
-			// set dirt in your map
-			map[ty][tx] = TILE_DIRT;
-
 			// convert tile coords back to world pos
 			float wx = tx * TILE_SIZE;
 			float wy = ty * TILE_SIZE;
@@ -41,7 +35,7 @@ bool BlockRegistryModule::init(Engine* engine)
 			//tileActors.push_back(raw);
 
 		}
-	}
+	}*/
 
 	return true;
 }
@@ -49,7 +43,7 @@ bool BlockRegistryModule::init(Engine* engine)
 void BlockRegistryModule::addBlock(std::unique_ptr<GameObject> blkPtr)
 {
 	GameObject* blk = blkPtr.get();
-	std::cerr << "[addBlock] called with blk=" << blk << "\n";
+	//std::cerr << "[addBlock] called with blk=" << blk << "\n";
 	auto* pos = blk->getComponent<PositionComponent>();
 	if (!pos) {
 		std::cerr << "[addBlock] pos is null—no PositionComponent attached.\n";
@@ -59,8 +53,25 @@ void BlockRegistryModule::addBlock(std::unique_ptr<GameObject> blkPtr)
 	int tileY = int(pos->y / TILE_SIZE);
 	auto key = std::make_pair(tileX, tileY);
 
+	int cx = tileX / CHUNK_SIZE;
+	int cy = tileY / CHUNK_SIZE;
+	ChunkCoord cc{ cx, cy };
+
 	worldObjects.emplace(key, std::move(blkPtr));
-	std::cerr << "[addBlock] now worldObjects.size() = " << worldObjects.size() << "\n";
+	chunkMap[cc].push_back(blk);
+
+	visibleObjects.push_back(blk);
+	//std::cerr << "[addBlock] now worldObjects.size() = " << worldObjects.size() << "\n";
+}
+
+const std::vector<GameObject*>&
+BlockRegistryModule::getBlocksInChunk(const ChunkCoord& cc) const
+{
+	static const std::vector<GameObject*> empty;
+
+	auto it = chunkMap.find(cc);
+	if (it == chunkMap.end()) return empty;
+	return it->second;
 }
 
 void BlockRegistryModule::registerBlock(std::unique_ptr<GameObject> gameObject)
@@ -85,16 +96,36 @@ void BlockRegistryModule::update(Engine& engine, float dt)
 {
 }
 
-void BlockRegistryModule::render(Engine& engine)
+void BlockRegistryModule::render(Engine* engine)
 {
-	if (worldObjects.empty()) {
-		std::cerr << "World Objects empty\n";
+	
+	auto* cmm = engine->getModule<ChunkManagerModule>();
+	if (!cmm)
+	{
+		std::cerr << "[BlockRegistryModule] No ChunkManagerModule found.\n";
 		return;
+	}
+
+	const auto& loaded = cmm->getLoadedChunks();
+
+	for (auto const& cc : loaded)
+	{
+		const auto& blocks = getBlocksInChunk(cc);
+		/*std::cerr << "[BlockRegistryModule] Rendering chunk at ("
+			 << ") with "
+			<< blocks.size() << " blocks.\n";*/
+		for (GameObject* blk : blocks)
+		{
+			if (blk)
+			{
+				blk->render(engine->renderer, *engine->getCamera());
+			}
+		}
 	}
 
 	// Each `objPtr` here is a non‐owning raw pointer from the unique_ptr,
 	// so we know it’s still valid.
-	for (auto& [coord, uptr] : worldObjects) {		
+	/*for (auto& [coord, uptr] : worldObjects) {		
 		if (uptr) {
 			uptr.get()->render(engine.renderer, *engine.getCamera());
 		}
@@ -104,8 +135,33 @@ void BlockRegistryModule::render(Engine& engine)
 			std::cerr << "[render] encountered null unique_ptr at tile ("
 				<< coord.first << "," << coord.second << ")\n";
 		}
-	}
+	}*/
 }
+
+void BlockRegistryModule::removeChunk(const ChunkCoord& cc)
+{
+	auto it = chunkMap.find(cc);
+	if (it == chunkMap.end()) return;
+
+	for (GameObject* blk  : it ->second)
+	{
+		auto vit = std::find(visibleObjects.begin(), visibleObjects.end(), blk);
+		if (vit != visibleObjects.end()) {
+			visibleObjects.erase(vit);
+		}
+		else {
+			std::cerr << "[BlockRegistryModule] removeChunk: Block not found in visibleObjects.\n";
+		}
+
+		auto pos = blk->getComponent<PositionComponent>();
+		int tx = int(pos->x / TILE_SIZE);
+		int ty = int(pos->y / TILE_SIZE);
+		worldObjects.erase({ tx, ty });
+	}
+
+	chunkMap.erase(it);
+}
+
 
 bool BlockRegistryModule::isSolidAt(float worldX, float worldY)
 {
@@ -130,7 +186,7 @@ bool BlockRegistryModule::isSolidAt(float worldX, float worldY)
 
 	// 3) If we found a block, ask if it’s solid:
 	if (obj->isSolid()) {
-		std::cerr << "Solid at (" << tileX << ", " << tileY << ")\n";
+		//9800std::cerr << "Solid at (" << tileX << ", " << tileY << ")\n";
 		return true;
 	}
 	else {

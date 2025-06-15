@@ -21,7 +21,7 @@ public:
 
     void update(Engine&, float);
 
-    void render(Engine&) override;
+    void render(Engine*) override;
     void shutdown(Engine&) override;
 
     void bindKey(std::shared_ptr<Action> action);

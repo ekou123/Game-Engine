@@ -21,7 +21,7 @@ struct WorldModule : Module {
     bool init(Engine*) override;
     void update(Engine&, float) override;
 
-    void render(Engine& E) override;
+    void render(Engine* E) override;
         
     
     void shutdown(Engine&) override;
