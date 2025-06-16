@@ -8,6 +8,7 @@
 #include "PlayerModule.h"
 
 
+
 struct ChunkManagerModule : Module {
 public:
     ChunkManagerModule() = default;
@@ -31,6 +32,7 @@ public:
 
     float getGroundHeight(int worldTileX);
     float fBm(int x);
+    BiomeType pickBiomeForChunk(const ChunkCoord& coord);
 
     // Procedurally fill a brand-new chunk
     void generateChunk(Chunk& chunk);
@@ -41,6 +43,7 @@ public:
 private:
     Engine* engine = nullptr;
     FastNoiseLite noise;
+    FastNoiseLite biomeNoise;
     float maxTerrainHeight = MAP_TILES_Y / 2;
     int     loadRadius = 1;
     // Remember which chunk the player was in last frame:

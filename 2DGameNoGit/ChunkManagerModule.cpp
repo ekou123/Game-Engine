@@ -14,6 +14,9 @@
 #include "WaterBlock.h"
 
 bool ChunkManagerModule::init(Engine* eng) {
+    biomeNoise.SetSeed(424242);
+    biomeNoise.SetNoiseType(FastNoiseLite::NoiseType_OpenSimplex2);
+    biomeNoise.SetFrequency(0.002f);    // lower frequency → large biome blobs
 
     noise.SetSeed(1337);
     noise.SetNoiseType(FastNoiseLite::NoiseType_OpenSimplex2);
@@ -83,6 +86,7 @@ void ChunkManagerModule::updateChunks(int playerX, int playerY) {
         if (!chunks.count(cc)) {
             auto ptr = std::make_unique<Chunk>();
             ptr->coord = cc;
+            ptr->setBiome(pickBiomeForChunk(cc));
             generateChunk(*ptr);
             chunks.emplace(cc, std::move(ptr));
         }
@@ -113,9 +117,48 @@ void ChunkManagerModule::generateChunk(Chunk& c) {
                 int py = worldTileY * TILE_SIZE;
 
                 float n = noise.GetNoise(worldTileX * 0.005f, worldTileY * 0.005f);
+                std::unique_ptr<Block> block = nullptr;
 
-				std::unique_ptr<Block> block = nullptr;
-                if (n < -0.3f)
+                switch (c.biomeType)
+                {
+                case BiomeType::Plains:
+                    block = std::make_unique<DirtBlock>(
+                        engine,
+                        px,
+                        py,
+                        TILE_DIRT);
+					break;
+                case BiomeType::Desert:
+                    block = std::make_unique<SandBlock>(
+                        engine,
+                        px,
+                        py,
+                        TILE_SAND);
+                    break;
+				case BiomeType::Forest:
+                    block = std::make_unique<DirtBlock>(
+                        engine,
+                        px,
+                        py,
+                        TILE_DIRT);
+                    break;
+                case BiomeType::Tundra:
+                    block = std::make_unique<SandBlock>(
+                        engine,
+                        px,
+                        py,
+						TILE_SAND);
+                    break;
+                default:
+                    block = std::make_unique<StoneBlock>(
+                        engine,
+                        px,
+                        py,
+						TILE_STONE);
+					break;
+                }
+            	
+                /*if (n < -0.3f)
                 {
                     block = std::make_unique<WaterBlock>(
                         engine,
@@ -148,7 +191,7 @@ void ChunkManagerModule::generateChunk(Chunk& c) {
                         py,
                         TILE_STONE
                     );
-                }
+                }*/
 
                 
                 blockRegistry->addBlock(std::move(block));
@@ -156,6 +199,24 @@ void ChunkManagerModule::generateChunk(Chunk& c) {
             // else leave empty (air)
         }
     }
+}
+
+BiomeType ChunkManagerModule::pickBiomeForChunk(const ChunkCoord& cc) {
+    // center of the chunk in *tiles*
+    float worldX = float(cc.x * CHUNK_SIZE + CHUNK_SIZE / 2);
+    float worldY = float(cc.y * CHUNK_SIZE + CHUNK_SIZE / 2);
+
+    // FastNoiseLite will internally multiply by the 0.002 frequency you set
+    float v = biomeNoise.GetNoise(worldX, worldY); // in [-1..+1]
+
+    // normalize to [0..1]
+    v = (v + 1.0f) * 0.5f;
+
+    // map into [0 .. Count-1]
+    int idx = int(v * float(int(BiomeType::Count)));
+    if (idx >= int(BiomeType::Count)) idx = int(BiomeType::Count) - 1;
+
+    return BiomeType(idx);
 }
 
 float ChunkManagerModule::fBm(int x)
