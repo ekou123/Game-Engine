@@ -8,7 +8,7 @@ StoneBlock::StoneBlock(Engine* engine, int worldX, int worldY, int blockID)
 	: Block(engine, worldX, worldY, blockID)
 {
 	name = "DirtBlock";
-	setIsSolid(true); // Dirt blocks are solid
+	setIsSolid(false); // Dirt blocks are solid
 
 	init(engine, worldX, worldY, blockID);
 

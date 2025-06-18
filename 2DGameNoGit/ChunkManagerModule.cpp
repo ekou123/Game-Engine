@@ -4,6 +4,9 @@
 #include "Chunk.h"
 #include "ChunkCoord.h"
 #include "ChunkManagerModule.h"
+
+#include "Biome.h"
+#include "BiomeManager.h"
 #include "PositionComponent.h"
 #include "BlockRegistryModule.h"
 #include "DirtBlock.h"
@@ -100,105 +103,11 @@ void ChunkManagerModule::generateChunk(Chunk& c) {
         return;
     }
 
-    // 1) Loop in *tile* coordinates
-    for (int ty = 0; ty < CHUNK_SIZE; ++ty) {
-        for (int tx = 0; tx < CHUNK_SIZE; ++tx) {
-            // world‐tile coords of this location:
-            int worldTileX = c.coord.x * CHUNK_SIZE + tx;
-            int worldTileY = c.coord.y * CHUNK_SIZE + ty;
+    BiomeType biomeType = pickBiomeForChunk(c.coord);
+    const Biome& biome = biomeManager->getBiome(c.biomeType);
+    biome.generateTerrain(c);
 
-            // 2) Get the terrain height here, in *tiles*
-            //float groundHTiles = getGroundHeight(worldTileX);
-			float groundHTiles = fBm(worldTileX) * maxTerrainHeight;
-            // 3) If our tile‐Y is BELOW that height, spawn a block:
-            if (worldTileY >= int(groundHTiles)) {
-                // now convert *tile*→*pixel* once:
-                int px = worldTileX * TILE_SIZE;
-                int py = worldTileY * TILE_SIZE;
-
-                float n = noise.GetNoise(worldTileX * 0.005f, worldTileY * 0.005f);
-                std::unique_ptr<Block> block = nullptr;
-
-                switch (c.biomeType)
-                {
-                case BiomeType::Plains:
-                    block = std::make_unique<DirtBlock>(
-                        engine,
-                        px,
-                        py,
-                        TILE_DIRT);
-					break;
-                case BiomeType::Desert:
-                    block = std::make_unique<SandBlock>(
-                        engine,
-                        px,
-                        py,
-                        TILE_SAND);
-                    break;
-				case BiomeType::Forest:
-                    block = std::make_unique<DirtBlock>(
-                        engine,
-                        px,
-                        py,
-                        TILE_DIRT);
-                    break;
-                case BiomeType::Tundra:
-                    block = std::make_unique<SandBlock>(
-                        engine,
-                        px,
-                        py,
-						TILE_SAND);
-                    break;
-                default:
-                    block = std::make_unique<StoneBlock>(
-                        engine,
-                        px,
-                        py,
-						TILE_STONE);
-					break;
-                }
-            	
-                /*if (n < -0.3f)
-                {
-                    block = std::make_unique<WaterBlock>(
-                        engine,
-                        px,
-                        py,
-                        TILE_WATER
-					);
-	                
-                } else if (n < 0.0f)
-                {
-                    block = std::make_unique<SandBlock>(
-                        engine,
-                        px,
-                        py,
-                        TILE_SAND
-					);
-                } else if (n < 0.5f)
-                {
-                    block = std::make_unique<DirtBlock>(
-                        engine,
-                        px,
-                        py,
-                        TILE_DIRT
-                    );
-                } else
-                {
-                    block = std::make_unique<StoneBlock>(
-                        engine,
-                        px,
-                        py,
-                        TILE_STONE
-                    );
-                }*/
-
-                
-                blockRegistry->addBlock(std::move(block));
-            }
-            // else leave empty (air)
-        }
-    }
+    
 }
 
 BiomeType ChunkManagerModule::pickBiomeForChunk(const ChunkCoord& cc) {
@@ -219,18 +128,6 @@ BiomeType ChunkManagerModule::pickBiomeForChunk(const ChunkCoord& cc) {
     return BiomeType(idx);
 }
 
-float ChunkManagerModule::fBm(int x)
-{
-    float total = 0, freq = 1, amp = 1, maxA = 0;
-    for (int o = 0; o < 4; ++o)
-    {
-        total += noise.GetNoise(x * freq, 0.f) * amp;
-		maxA += amp;
-		amp *= 0.5f; // Decrease amplitude
-		freq *= 2.0f; // Increase frequency
-    }
-    return total / maxA;
-}
 
 
 std::vector<ChunkCoord> ChunkManagerModule::getLoadedChunks() const {

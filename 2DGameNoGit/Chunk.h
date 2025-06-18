@@ -23,3 +23,18 @@ struct Chunk
     }
 
 };
+
+inline const char* toString(BiomeType b) {
+    switch (b) {
+    case BiomeType::Plains: return "Plains";
+    case BiomeType::Desert: return "Desert";
+    case BiomeType::Forest: return "Forest";
+    case BiomeType::Tundra: return "Tundra";
+    default:                return "Unknown";
+    }
+}
+
+// 2) (Optional) overload operator<< so you can stream it directly:
+inline std::ostream& operator<<(std::ostream& os, BiomeType b) {
+    return os << toString(b);
+}

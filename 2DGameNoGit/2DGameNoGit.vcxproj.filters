@@ -31,6 +31,9 @@
     <Filter Include="Source Files\Engine\Modules\Actions">
       <UniqueIdentifier>{ee78f012-e111-45a8-a9bc-46ad36e1a5fa}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Blocks\Biomes">
+      <UniqueIdentifier>{c47a83db-95c3-4195-b538-8ab76003c106}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Camera.cpp">
@@ -104,6 +107,15 @@
     </ClCompile>
     <ClCompile Include="ChunkManagerModule.cpp">
       <Filter>Source Files\Engine\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="WaterBlock.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="StoneBlock.cpp">
+      <Filter>Source Files\Blocks</Filter>
+    </ClCompile>
+    <ClCompile Include="SandBlock.cpp">
+      <Filter>Source Files\Blocks</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -208,6 +220,30 @@
     </ClInclude>
     <ClInclude Include="StoneBlock.h">
       <Filter>Source Files\Blocks</Filter>
+    </ClInclude>
+    <ClInclude Include="WaterBlock.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SandBlock.h">
+      <Filter>Source Files\Blocks</Filter>
+    </ClInclude>
+    <ClInclude Include="Biome.h">
+      <Filter>Source Files\Blocks\Biomes</Filter>
+    </ClInclude>
+    <ClInclude Include="PlainsBiome.h">
+      <Filter>Source Files\Blocks\Biomes</Filter>
+    </ClInclude>
+    <ClInclude Include="TundraBiome.h">
+      <Filter>Source Files\Blocks\Biomes</Filter>
+    </ClInclude>
+    <ClInclude Include="DesertBiome.h">
+      <Filter>Source Files\Blocks\Biomes</Filter>
+    </ClInclude>
+    <ClInclude Include="ForestBiome.h">
+      <Filter>Source Files\Blocks\Biomes</Filter>
+    </ClInclude>
+    <ClInclude Include="BiomeManager.h">
+      <Filter>Source Files\Blocks\Biomes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -1,4 +1,5 @@
 #pragma once
+#include "BiomeManager.h"
 #include "Camera.h"
 #include "Chunk.h"
 #include "ChunkCoord.h"
@@ -42,6 +43,7 @@ public:
 
 private:
     Engine* engine = nullptr;
+	BiomeManager* biomeManager = new BiomeManager();
     FastNoiseLite noise;
     FastNoiseLite biomeNoise;
     float maxTerrainHeight = MAP_TILES_Y / 2;

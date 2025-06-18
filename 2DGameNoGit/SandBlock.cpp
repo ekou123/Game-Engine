@@ -8,7 +8,7 @@ SandBlock::SandBlock(Engine* engine, int worldX, int worldY, int blockID)
 	: Block(engine, worldX, worldY, blockID)
 {
 	name = "SandBlock";
-	setIsSolid(true); // Sand blocks are solid
+	setIsSolid(false); // Sand blocks are solid
 
 	init(engine, worldX, worldY, blockID);
 

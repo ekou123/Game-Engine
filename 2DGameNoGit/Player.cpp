@@ -12,6 +12,7 @@
 
 Player::Player(TileMap* initialTileMap) {
     currentMap = initialTileMap;
+    speed = 0.6f;
 }
 
 void Player::setUp(float startX, float startY, TileMap* tileMap)
@@ -31,9 +32,9 @@ void Player::setUp(float startX, float startY, TileMap* tileMap)
     addComponent <PositionComponent>();
     getComponent<PositionComponent>()->setOwner(this);
 	getComponent<PositionComponent>()->setPosition(startX, startY);
-    addComponent<GravityComponent>(9.8f, 500.0f);
+    //addComponent<GravityComponent>(9.8f, 500.0f);
     addComponent<MapComponent>(getCurrentMap());
-    getComponent<GravityComponent>()->setOwner(this);
+    //getComponent<GravityComponent>()->setOwner(this);
 
     /*stateMachine = new StateMachine();
 
