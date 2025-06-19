@@ -117,6 +117,21 @@
     <ClCompile Include="SandBlock.cpp">
       <Filter>Source Files\Blocks</Filter>
     </ClCompile>
+    <ClCompile Include="DesertBiome.cpp">
+      <Filter>Source Files\Blocks\Biomes</Filter>
+    </ClCompile>
+    <ClCompile Include="TundraBiome.cpp">
+      <Filter>Source Files\Blocks\Biomes</Filter>
+    </ClCompile>
+    <ClCompile Include="ForestBiome.cpp">
+      <Filter>Source Files\Blocks\Biomes</Filter>
+    </ClCompile>
+    <ClCompile Include="PlainsBiome.cpp">
+      <Filter>Source Files\Blocks\Biomes</Filter>
+    </ClCompile>
+    <ClCompile Include="BiomeManager.cpp">
+      <Filter>Source Files\Blocks\Biomes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BlockType.h">

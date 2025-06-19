@@ -12,6 +12,7 @@
 #include "DirtBlock.h"
 #include "FastNoiseLite.h"
 #include "Player.h"
+#include "PlayerModule.h"
 #include "SandBlock.h"
 #include "StoneBlock.h"
 #include "WaterBlock.h"
@@ -25,6 +26,7 @@ bool ChunkManagerModule::init(Engine* eng) {
     noise.SetNoiseType(FastNoiseLite::NoiseType_OpenSimplex2);
     noise.SetFrequency(0.05f);
 
+	biomeManager = new BiomeManager();
     engine = eng;
     loadRadius = 2;
     // Force the very first update() to load around (0,0):
@@ -105,7 +107,7 @@ void ChunkManagerModule::generateChunk(Chunk& c) {
 
     BiomeType biomeType = pickBiomeForChunk(c.coord);
     const Biome& biome = biomeManager->getBiome(c.biomeType);
-    biome.generateTerrain(c);
+    biome.generateTerrain(c, engine);
 
     
 }

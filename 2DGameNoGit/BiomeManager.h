@@ -2,19 +2,17 @@
 #include <unordered_map>
 #include "Biome.h"
 #include "DesertBiome.h"
+#include "ForestBiome.h"
 #include "PlainsBiome.h"
+#include "TundraBiome.h"
 
 class BiomeManager {
 public:
-    BiomeManager() {
-        registry[BiomeType::Plains] = std::make_unique<PlainsBiome>();
-        registry[BiomeType::Desert] = std::make_unique<DesertBiome>();
-        // …etc…
-    }
+    BiomeManager();
+    ~BiomeManager();
 
-    const Biome& getBiome(BiomeType b) const {
-        return *registry.at(b);
-    }
+
+    const Biome& getBiome(BiomeType b) const;
 
 private:
     std::unordered_map<BiomeType, std::unique_ptr<Biome>> registry;

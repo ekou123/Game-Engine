@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include "Biome.h"
 #include "Constants.h"
+#include "DirtBlock.h"
 #include "FastNoiseLite.h"
 
 class PlainsBiome : public Biome {
@@ -15,13 +16,11 @@ public:
         noise.SetSeed(1337);
         noise.SetNoiseType(FastNoiseLite::NoiseType_OpenSimplex2);
         noise.SetFrequency(0.05f);
+
+        maxTerrainHeight = 0;
     }
 
-    void generateTerrain(Chunk& c, Engine* engine) const override {
-        // use your height‐map code, then maybe add grass decals
-        // exactly like your old generateChunk, but with grass instead of dirt
-    }
-
+    void generateTerrain(Chunk& c, Engine* engine) const override;
     /*std::vector<EnemyType> spawnEnemies(std::mt19937& rng) const override {
         std::vector<EnemyType> out;
         std::uniform_int_distribution<int> dist(1, 100);

@@ -16,11 +16,15 @@ struct Chunk
 {
 	ChunkCoord coord;
     BiomeType biomeType;
-	std::vector<GameObject*> blocks;
+	std::vector<std::unique_ptr<GameObject>> blocks;
 
     void setBiome(BiomeType biome) {
 		biomeType = biome;
     }
+
+    void addBlock(std::unique_ptr<GameObject> block) {
+        blocks.push_back(std::move(block)); // Transfer ownership to the chunk
+	}
 
 };
 

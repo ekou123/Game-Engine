@@ -1,20 +1,25 @@
 #pragma once
-#include "BiomeManager.h"
 #include "Camera.h"
 #include "Chunk.h"
 #include "ChunkCoord.h"
 #include "Constants.h"
 #include "FastNoiseLite.h"
 #include "Module.h"
-#include "PlayerModule.h"
+#include "Engine.h"
+#include <unordered_map>
+#include <memory>
+#include <vector>
+#include <limits.h> // for INT_MAX
 
 
+class BiomeManager;
 
 struct ChunkManagerModule : Module {
 public:
     ChunkManagerModule() = default;
     ~ChunkManagerModule() override = default;
     ChunkManagerModule(const ChunkManagerModule&) = delete;
+
     ChunkManagerModule& operator=(const ChunkManagerModule&) = delete;
 
     static ChunkManagerModule& getInstance() {
@@ -43,7 +48,7 @@ public:
 
 private:
     Engine* engine = nullptr;
-	BiomeManager* biomeManager = new BiomeManager();
+    BiomeManager* biomeManager = nullptr;
     FastNoiseLite noise;
     FastNoiseLite biomeNoise;
     float maxTerrainHeight = MAP_TILES_Y / 2;

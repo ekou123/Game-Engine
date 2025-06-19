@@ -20,14 +20,17 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Actor.cpp" />
+    <ClCompile Include="BiomeManager.cpp" />
     <ClCompile Include="Block.cpp" />
     <ClCompile Include="BlockRegistryModule.cpp" />
     <ClCompile Include="BlockRegistryModule.h" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CameraModule.cpp" />
     <ClCompile Include="ChunkManagerModule.cpp" />
+    <ClCompile Include="DesertBiome.cpp" />
     <ClCompile Include="DirtBlock.cpp" />
     <ClCompile Include="Engine.cpp" />
+    <ClCompile Include="ForestBiome.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="InputModule.cpp" />
     <ClCompile Include="JumpAction.cpp" />
@@ -36,6 +39,7 @@
     <ClCompile Include="MoveAction.cpp" />
     <ClCompile Include="NeutralState.cpp" />
     <ClCompile Include="NeutralState.h" />
+    <ClCompile Include="PlainsBiome.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PlayerModule.cpp" />
     <ClCompile Include="RenderModule.cpp" />
@@ -44,6 +48,7 @@
     <ClCompile Include="StoneBlock.cpp" />
     <ClCompile Include="TileMap.cpp" />
     <ClCompile Include="TilesetLoader.cpp" />
+    <ClCompile Include="TundraBiome.cpp" />
     <ClCompile Include="WaterBlock.cpp" />
     <ClCompile Include="WorldModule.cpp" />
   </ItemGroup>
