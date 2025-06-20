@@ -17,8 +17,8 @@ void ForestBiome::generateTerrain(Chunk& c, Engine* engine) const
             int worldTileY = c.coord.y * CHUNK_SIZE + ty;
 
             // 2) Get the terrain height here, in *tiles*
-            //float groundHTiles = getGroundHeight(worldTileX);
-            float groundHTiles = fBm(worldTileX) * maxTerrainHeight;
+            float groundHTiles = getGroundHeight(worldTileX);
+            //float groundHTiles = fBm(worldTileX) * maxTerrainHeight;
             // 3) If our tile‐Y is BELOW that height, spawn a block:
             if (worldTileY >= int(groundHTiles)) {
                 // now convert *tile*→*pixel* once:

@@ -32,6 +32,23 @@ public:
 		return total / maxA;
 	}
 
+	float getGroundHeight(int worldTileX) const
+	{
+		// raw noise in [-1..+1]
+		float raw = noise.GetNoise(float(worldTileX) * 0.2f, 0.0f);
+
+		// normalize to [0..1]
+		float n = (raw + 1.0f) * 0.5f;
+
+		// optional bias: e.g. flatten plains, sharpen peaks
+		n = powf(n, 1.2f);
+
+		// scale into [minH..maxH] in *tiles*
+		constexpr float minH = 2.0f;                             // at least 2 tiles high
+		float maxH = float(maxTerrainHeight);
+		return n * (maxH - minH) + minH;
+	}
+
 private:
 	
 	

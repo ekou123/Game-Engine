@@ -15,19 +15,19 @@ void DesertBiome::generateTerrain(Chunk& c, Engine* engine) const
             int worldTileY = c.coord.y * CHUNK_SIZE + ty;
 
             // 2) Get the terrain height here, in *tiles*
-            //float groundHTiles = getGroundHeight(worldTileX);
-            float groundHTiles = fBm(worldTileX) * maxTerrainHeight;
+            float groundHTiles = getGroundHeight(worldTileX);
+            std::cerr << "Ground: " << groundHTiles << std::endl;
+            //float groundHTiles = fBm(worldTileX, noise.GetNoise(float(worldTileX) * 0.005f, 0.0f)) * maxTerrainHeight;
             // 3) If our tile‐Y is BELOW that height, spawn a block:
             if (worldTileY >= int(groundHTiles)) {
                 // now convert *tile*→*pixel* once:
                 int px = worldTileX * TILE_SIZE;
                 int py = worldTileY * TILE_SIZE;
 
-                float n = noise.GetNoise(worldTileX * 0.005f, worldTileY * 0.005f);
 
-
-
-                std::cerr << "Biome Type: " << c.biomeType << std::endl;
+                float n = noise.GetNoise(worldTileX * 0.005f,
+                    worldTileY * 0.005f);
+                //std::cerr << "Biome Type: " << c.biomeType << std::endl;
 
                 std::unique_ptr<Block> block = nullptr;
                 if (n < 0.5f)
@@ -36,7 +36,7 @@ void DesertBiome::generateTerrain(Chunk& c, Engine* engine) const
                         engine,
                         px,
                         py,
-                        TILE_DIRT
+                        TILE_SAND
                     );
                 }
                 else

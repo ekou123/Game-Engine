@@ -111,9 +111,9 @@ void BlockRegistryModule::render(Engine* engine)
 	for (auto const& cc : loaded)
 	{
 		const auto& blocks = getBlocksInChunk(cc);
-		std::cerr << "[BlockRegistryModule] Rendering chunk at ("
+		/*std::cerr << "[BlockRegistryModule] Rendering chunk at ("
 			 << ") with "
-			<< blocks.size() << " blocks.\n";
+			<< blocks.size() << " blocks.\n";*/
 		for (GameObject* blk : blocks)
 		{
 			if (blk)

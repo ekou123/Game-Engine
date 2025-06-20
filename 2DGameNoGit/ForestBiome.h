@@ -14,11 +14,13 @@ public:
           { EnemyType::Wolf,   30 }
         };*/
 
-        maxTerrainHeight = 0;
+        
 
         noise.SetSeed(1337);
         noise.SetNoiseType(FastNoiseLite::NoiseType_OpenSimplex2);
-        noise.SetFrequency(0.05f);
+        noise.SetFrequency(0.03f);
+        noise.SetFractalOctaves(2);   // instead of 4 or 5
+        maxTerrainHeight = -20;
     }
 
     void generateTerrain(Chunk& c, Engine* engine) const override;
