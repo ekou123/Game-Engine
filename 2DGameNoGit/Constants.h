@@ -32,4 +32,7 @@ static constexpr float TERMINAL_VEL = 1200.0f;   // px/sec
 enum TileType {
 	TILE_EMPTY = 0,
 	TILE_DIRT = 1,
+	TILE_STONE = 2,
+	TILE_SAND = 3,
+	TILE_WATER = 4,
 };

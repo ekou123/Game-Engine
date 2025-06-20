@@ -20,14 +20,17 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Actor.cpp" />
+    <ClCompile Include="BiomeManager.cpp" />
     <ClCompile Include="Block.cpp" />
     <ClCompile Include="BlockRegistryModule.cpp" />
     <ClCompile Include="BlockRegistryModule.h" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CameraModule.cpp" />
     <ClCompile Include="ChunkManagerModule.cpp" />
+    <ClCompile Include="DesertBiome.cpp" />
     <ClCompile Include="DirtBlock.cpp" />
     <ClCompile Include="Engine.cpp" />
+    <ClCompile Include="ForestBiome.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="InputModule.cpp" />
     <ClCompile Include="JumpAction.cpp" />
@@ -36,17 +39,24 @@
     <ClCompile Include="MoveAction.cpp" />
     <ClCompile Include="NeutralState.cpp" />
     <ClCompile Include="NeutralState.h" />
+    <ClCompile Include="PlainsBiome.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PlayerModule.cpp" />
     <ClCompile Include="RenderModule.cpp" />
+    <ClCompile Include="SandBlock.cpp" />
     <ClCompile Include="StateMachine.cpp" />
+    <ClCompile Include="StoneBlock.cpp" />
     <ClCompile Include="TileMap.cpp" />
     <ClCompile Include="TilesetLoader.cpp" />
+    <ClCompile Include="TundraBiome.cpp" />
+    <ClCompile Include="WaterBlock.cpp" />
     <ClCompile Include="WorldModule.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Action.h" />
     <ClInclude Include="Actor.h" />
+    <ClInclude Include="Biome.h" />
+    <ClInclude Include="BiomeManager.h" />
     <ClInclude Include="Block.h" />
     <ClInclude Include="BlockComponent.h" />
     <ClInclude Include="BlockType.h" />
@@ -57,9 +67,11 @@
     <ClInclude Include="ChunkManagerModule.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="Constants.h" />
+    <ClInclude Include="DesertBiome.h" />
     <ClInclude Include="DirtBlock.h" />
     <ClInclude Include="Engine.h" />
     <ClInclude Include="FastNoiseLite.h" />
+    <ClInclude Include="ForestBiome.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GravityComponent.h" />
     <ClInclude Include="InputModule.h" />
@@ -68,16 +80,20 @@
     <ClInclude Include="MapComponent.h" />
     <ClInclude Include="Module.h" />
     <ClInclude Include="MoveAction.h" />
+    <ClInclude Include="PlainsBiome.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayerModule.h" />
     <ClInclude Include="PositionComponent.h" />
     <ClInclude Include="RenderModule.h" />
+    <ClInclude Include="SandBlock.h" />
     <ClInclude Include="SpriteComponent.h" />
     <ClInclude Include="State.h" />
     <ClInclude Include="StateMachine.h" />
     <ClInclude Include="StoneBlock.h" />
     <ClInclude Include="TileMap.h" />
     <ClInclude Include="TilesetLoader.h" />
+    <ClInclude Include="TundraBiome.h" />
+    <ClInclude Include="WaterBlock.h" />
     <ClInclude Include="WorldModule.h" />
   </ItemGroup>
   <ItemGroup>

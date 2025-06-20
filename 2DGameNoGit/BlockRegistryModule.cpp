@@ -40,7 +40,7 @@ bool BlockRegistryModule::init(Engine* engine)
 	return true;
 }
 
-void BlockRegistryModule::addBlock(std::unique_ptr<GameObject> blkPtr)
+void BlockRegistryModule::addBlock(std::unique_ptr<GameObject> blkPtr, Chunk& chunk)
 {
 	GameObject* blk = blkPtr.get();
 	//std::cerr << "[addBlock] called with blk=" << blk << "\n";

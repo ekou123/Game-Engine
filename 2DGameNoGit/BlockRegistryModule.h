@@ -46,7 +46,7 @@ public:
 
     void registerBlock(std::unique_ptr<GameObject> gameObject);
 
-    void addBlock(std::unique_ptr<GameObject> gameObject);
+    void addBlock(std::unique_ptr<GameObject> gameObject, Chunk& chunk);
 
     void removeChunk(const ChunkCoord& cc);
 

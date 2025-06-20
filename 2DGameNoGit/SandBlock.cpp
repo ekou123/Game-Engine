@@ -1,17 +1,19 @@
-#include "DirtBlock.h"
+
+
+#include "SandBlock.h"
 
 #include "SpriteComponent.h"
 
-DirtBlock::DirtBlock(Engine* engine, int worldX, int worldY, int blockID)
+SandBlock::SandBlock(Engine* engine, int worldX, int worldY, int blockID)
 	: Block(engine, worldX, worldY, blockID)
 {
-	name = "DirtBlock";
-	setIsSolid(false); // Dirt blocks are solid
+	name = "SandBlock";
+	setIsSolid(false); // Sand blocks are solid
 
 	init(engine, worldX, worldY, blockID);
 
 	SDL_FRect srcRect{ 0.0f, 0.0f, 32.0f, 32.0f }; // Assuming the blockID corresponds to a texture in the registry
 
 	//auto& type = BlockRegistryModule::getInstance().get(blockID);
-	addComponent<SpriteComponent>(engine->renderer, srcRect, "dirt_block.bmp");
+	addComponent<SpriteComponent>(engine->renderer, srcRect, "sand_block.bmp");
 }

@@ -4,18 +4,29 @@
 #include "Chunk.h"
 #include "ChunkCoord.h"
 #include "ChunkManagerModule.h"
+
+#include "Biome.h"
+#include "BiomeManager.h"
 #include "PositionComponent.h"
 #include "BlockRegistryModule.h"
 #include "DirtBlock.h"
 #include "FastNoiseLite.h"
 #include "Player.h"
+#include "PlayerModule.h"
+#include "SandBlock.h"
+#include "StoneBlock.h"
+#include "WaterBlock.h"
 
 bool ChunkManagerModule::init(Engine* eng) {
+    biomeNoise.SetSeed(424242);
+    biomeNoise.SetNoiseType(FastNoiseLite::NoiseType_OpenSimplex2);
+    biomeNoise.SetFrequency(0.002f);    // lower frequency → large biome blobs
 
     noise.SetSeed(1337);
     noise.SetNoiseType(FastNoiseLite::NoiseType_OpenSimplex2);
     noise.SetFrequency(0.05f);
 
+	biomeManager = new BiomeManager();
     engine = eng;
     loadRadius = 2;
     // Force the very first update() to load around (0,0):
@@ -80,6 +91,7 @@ void ChunkManagerModule::updateChunks(int playerX, int playerY) {
         if (!chunks.count(cc)) {
             auto ptr = std::make_unique<Chunk>();
             ptr->coord = cc;
+            ptr->setBiome(pickBiomeForChunk(cc));
             generateChunk(*ptr);
             chunks.emplace(cc, std::move(ptr));
         }
@@ -93,51 +105,31 @@ void ChunkManagerModule::generateChunk(Chunk& c) {
         return;
     }
 
-    // 1) Loop in *tile* coordinates
-    for (int ty = 0; ty < CHUNK_SIZE; ++ty) {
-        for (int tx = 0; tx < CHUNK_SIZE; ++tx) {
-            // world‐tile coords of this location:
-            int worldTileX = c.coord.x * CHUNK_SIZE + tx;
-            int worldTileY = c.coord.y * CHUNK_SIZE + ty;
+    BiomeType biomeType = pickBiomeForChunk(c.coord);
+    const Biome& biome = biomeManager->getBiome(c.biomeType);
+    biome.generateTerrain(c, engine);
 
-            // 2) Get the terrain height here, in *tiles*
-            //float groundHTiles = getGroundHeight(worldTileX);
-			float groundHTiles = fBm(worldTileX) * maxTerrainHeight;
-            // 3) If our tile‐Y is BELOW that height, spawn a block:
-            if (worldTileY >= int(groundHTiles)) {
-                // now convert *tile*→*pixel* once:
-                int px = worldTileX * TILE_SIZE;
-                int py = worldTileY * TILE_SIZE;
-
-                float n = noise.GetNoise(worldTileX * 0.005f, worldTileY * 0.005f);
-
-                if (n < 0.01f) continue;
-
-                auto dirt = std::make_unique<DirtBlock>(
-                    engine,
-                    px,
-                    py,
-                    TILE_DIRT
-                );
-                blockRegistry->addBlock(std::move(dirt));
-            }
-            // else leave empty (air)
-        }
-    }
+    
 }
 
-float ChunkManagerModule::fBm(int x)
-{
-    float total = 0, freq = 1, amp = 1, maxA = 0;
-    for (int o = 0; o < 4; ++o)
-    {
-        total += noise.GetNoise(x * freq, 0.f) * amp;
-		maxA += amp;
-		amp *= 0.5f; // Decrease amplitude
-		freq *= 2.0f; // Increase frequency
-    }
-    return total / maxA;
+BiomeType ChunkManagerModule::pickBiomeForChunk(const ChunkCoord& cc) {
+    // center of the chunk in *tiles*
+    float worldX = float(cc.x * CHUNK_SIZE + CHUNK_SIZE / 2);
+    float worldY = float(cc.y * CHUNK_SIZE + CHUNK_SIZE / 2);
+
+    // FastNoiseLite will internally multiply by the 0.002 frequency you set
+    float v = biomeNoise.GetNoise(worldX, worldY); // in [-1..+1]
+
+    // normalize to [0..1]
+    v = (v + 1.0f) * 0.5f;
+
+    // map into [0 .. Count-1]
+    int idx = int(v * float(int(BiomeType::Count)));
+    if (idx >= int(BiomeType::Count)) idx = int(BiomeType::Count) - 1;
+
+    return BiomeType(idx);
 }
+
 
 
 std::vector<ChunkCoord> ChunkManagerModule::getLoadedChunks() const {

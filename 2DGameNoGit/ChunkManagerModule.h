@@ -5,14 +5,21 @@
 #include "Constants.h"
 #include "FastNoiseLite.h"
 #include "Module.h"
-#include "PlayerModule.h"
+#include "Engine.h"
+#include <unordered_map>
+#include <memory>
+#include <vector>
+#include <limits.h> // for INT_MAX
 
+
+class BiomeManager;
 
 struct ChunkManagerModule : Module {
 public:
     ChunkManagerModule() = default;
     ~ChunkManagerModule() override = default;
     ChunkManagerModule(const ChunkManagerModule&) = delete;
+
     ChunkManagerModule& operator=(const ChunkManagerModule&) = delete;
 
     static ChunkManagerModule& getInstance() {
@@ -31,6 +38,7 @@ public:
 
     float getGroundHeight(int worldTileX);
     float fBm(int x);
+    BiomeType pickBiomeForChunk(const ChunkCoord& coord);
 
     // Procedurally fill a brand-new chunk
     void generateChunk(Chunk& chunk);
@@ -40,7 +48,9 @@ public:
 
 private:
     Engine* engine = nullptr;
+    BiomeManager* biomeManager = nullptr;
     FastNoiseLite noise;
+    FastNoiseLite biomeNoise;
     float maxTerrainHeight = MAP_TILES_Y / 2;
     int     loadRadius = 1;
     // Remember which chunk the player was in last frame:

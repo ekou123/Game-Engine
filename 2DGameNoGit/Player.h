@@ -10,7 +10,7 @@ class TileMap;
 
 class Player : public Actor {
 public:
-	float speed = 0.2f; // Speed in pixels per second
+	float speed = 0.6f; // Speed in pixels per second
 	Player(TileMap* tileMap);
 	void setUp(float startX, float startY, TileMap* currentTileMap);
 	void update(const bool* keystate, float deltaTime, const TileMap& map);
