@@ -1,6 +1,7 @@
 ﻿#include "PlainsBiome.h"
 #include "BlockRegistryModule.h"
 #include "StoneBlock.h"
+#include "Enemy.h"
 
 void PlainsBiome::generateTerrain(Chunk& c, Engine* engine) const
 {

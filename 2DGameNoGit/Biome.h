@@ -3,6 +3,7 @@
 #include <vector>
 
 #include "Chunk.h"
+#include "Enemy.h"
 #include "FastNoiseLite.h"
 
 class Biome
@@ -10,6 +11,7 @@ class Biome
 public:
 	FastNoiseLite noise;
 	int maxTerrainHeight;
+	std::vector<Enemy> enemies;
 
 	virtual ~Biome() = default;
 
@@ -18,6 +20,9 @@ public:
 
 	// Pick a random set of enemies to spawn in this chunk:
 	//virtual std::vector<EnemyType> spawnEnemies(std::mt19937& rng) const = 0;
+
+	virtual std::vector<Enemy> spawnTable() const = 0;
+
 
 	const float fBm(int x) const
 	{

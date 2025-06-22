@@ -69,6 +69,7 @@
     <ClInclude Include="Constants.h" />
     <ClInclude Include="DesertBiome.h" />
     <ClInclude Include="DirtBlock.h" />
+    <ClInclude Include="Enemy.h" />
     <ClInclude Include="Engine.h" />
     <ClInclude Include="FastNoiseLite.h" />
     <ClInclude Include="ForestBiome.h" />
@@ -86,6 +87,7 @@
     <ClInclude Include="PositionComponent.h" />
     <ClInclude Include="RenderModule.h" />
     <ClInclude Include="SandBlock.h" />
+    <ClInclude Include="Slime.h" />
     <ClInclude Include="SpriteComponent.h" />
     <ClInclude Include="State.h" />
     <ClInclude Include="StateMachine.h" />

@@ -3,6 +3,7 @@
 #include "Constants.h"
 #include "DirtBlock.h"
 #include "FastNoiseLite.h"
+#include "Slime.h"
 
 class PlainsBiome : public Biome {
 public:
@@ -12,6 +13,10 @@ public:
           { EnemyType::Rabbit, 70 },
           { EnemyType::Wolf,   30 }
         };*/
+
+        // Add Enemies here
+        spawnTable.push_back(std::make_unique<Slime>());
+            
 
         noise.SetSeed(1337);
         noise.SetNoiseType(FastNoiseLite::NoiseType_OpenSimplex2);
@@ -37,6 +42,8 @@ public:
         }
         return out;
     }*/
+
+    std::vector<std::unique_ptr<Enemy>> spawnTable;
 
 private:
     // std::vector<std::pair<EnemyType, int>> spawnTable;
