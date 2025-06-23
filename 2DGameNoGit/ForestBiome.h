@@ -3,6 +3,7 @@
 #include "Constants.h"
 #include "DirtBlock.h"
 #include "FastNoiseLite.h"
+#include "Slime.h"
 #include "StoneBlock.h"
 
 class ForestBiome : public Biome {
@@ -14,7 +15,7 @@ public:
           { EnemyType::Wolf,   30 }
         };*/
 
-        
+        enemySpawns.emplace(std::make_unique<Slime>(), 70); // 70% chance to spawn Slime
 
         noise.SetSeed(1337);
         noise.SetNoiseType(FastNoiseLite::NoiseType_OpenSimplex2);

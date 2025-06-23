@@ -15,7 +15,7 @@ public:
         };*/
 
         // Add Enemies here
-        spawnTable.push_back(std::make_unique<Slime>());
+		enemySpawns.emplace(std::make_unique<Slime>(), 70); // 70% chance to spawn Slime
             
 
         noise.SetSeed(1337);
@@ -42,8 +42,6 @@ public:
         }
         return out;
     }*/
-
-    std::vector<std::unique_ptr<Enemy>> spawnTable;
 
 private:
     // std::vector<std::pair<EnemyType, int>> spawnTable;

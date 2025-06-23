@@ -1,10 +1,8 @@
 ﻿#pragma once
 #include "Biome.h"
-#include "Constants.h"
 #include "FastNoiseLite.h"
-#include "StoneBlock.h"
-#include "SandBlock.h"
 #include "BlockRegistryModule.h"
+#include "Slime.h"
 
 class BlockRegistryModule; // Forward declaration
 
@@ -16,6 +14,9 @@ public:
           { EnemyType::Rabbit, 70 },
           { EnemyType::Wolf,   30 }
         };*/
+
+        enemySpawns.emplace(std::make_unique<Slime>(), 70); // 70% chance to spawn Slime
+
         noise.SetSeed(1337);
         noise.SetNoiseType(FastNoiseLite::NoiseType_OpenSimplex2);
         noise.SetFrequency(0.03f);

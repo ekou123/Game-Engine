@@ -1,5 +1,6 @@
 #pragma once
 #include "Enemy.h"
+#include "GravityComponent.h"
 #include "Player.h"
 #include "PositionComponent.h"
 
@@ -11,6 +12,9 @@ class Slime : public Enemy {
 		weight = 5;
 		minCount = 2;
 		maxCount = 5;
+
+		addComponent<PositionComponent>();
+		addComponent<GravityComponent>(9.8f);
 	}
 
 	void render(Engine* engine)

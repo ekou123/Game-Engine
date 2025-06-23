@@ -12,6 +12,7 @@ public:
 	FastNoiseLite noise;
 	int maxTerrainHeight;
 	std::vector<Enemy> enemies;
+	std::unordered_map<std::unique_ptr<Enemy>, int> enemySpawns;
 
 	virtual ~Biome() = default;
 
